@@ -7,6 +7,7 @@
         </div>
         <div class="card-body">
           <form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
+
             <div class="mb-3">
               <label for="title" class="form-label">Title</label>
               <input type="text" id="title" class="form-control" formControlName="title" required>

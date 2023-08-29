@@ -33,6 +33,7 @@ export class WriteBlogComponent {
     });
    
   }  
+ 
   onSubmit(): void {
     if (this.blogForm.valid) {
       const blog: Blog = {
@@ -50,6 +51,7 @@ export class WriteBlogComponent {
       localStorage.setItem(this.blogForm.value.author, JSON.stringify(storedBlogs));
 
       this.router.navigate(['/blog', blog.title]);
+     
     }
   }
 }

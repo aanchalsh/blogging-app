@@ -1,9 +1,9 @@
+// app/login/login.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import * as $ from 'jquery';
-
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private AuthService: AuthService,
+    private authService: AuthService, // Use lowercase for variable names
     private router: Router
   ) { }
 
@@ -39,32 +39,22 @@ export class LoginComponent implements OnInit {
   onAuthenticate(): void {
     if (this.isSignup && this.signupForm.valid) {
       const { author, username, password } = this.signupForm.value;
-      this.onSignup(author, username, password);
-    } else if (!this.isSignup && this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      const isLoginSuccessful = this.AuthService.login(username, password);
-
-      if (isLoginSuccessful) {
-        this.router.navigate(['/write-blog']);
-      } else {
-        this.errorMessage = 'Invalid username or password';
-      }
-    }
-  }
-
-  onSignup(author: string, username: string, password: string): void {
-    if (this.AuthService.isUsernameAvailable(username)) {
-      localStorage.setItem('signupUsername', username);
-      localStorage.setItem('signupPassword', password);
-      localStorage.setItem('signupAuthorName', author);
+      this.authService.signup(author, username, password); // Call signup method
       this.signupForm.reset();
       this.signupSuccess = true;
       setTimeout(() => {
         this.signupSuccess = false;
         this.router.navigate(['/login']);
       }, 3000);
-    } else {
-      this.errorMessage = 'Username is already taken. Please choose a different username.';
+    } else if (!this.isSignup && this.loginForm.valid) {
+      const { username, password } = this.loginForm.value;
+      const isLoginSuccessful = this.authService.login(username, password);
+
+      if (isLoginSuccessful) {
+        this.router.navigate(['/write-blog']);
+      } else {
+        this.errorMessage = 'Invalid username or password';
+      }
     }
   }
 

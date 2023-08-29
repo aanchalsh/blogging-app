@@ -7,6 +7,7 @@ import { Blog, Comment } from './blog';
 })
 export class BlogService {
   private localStorageKey = 'blogs';
+  private recentPhotos: string[] = [];
 
   constructor() { }
 
@@ -40,6 +41,9 @@ export class BlogService {
       );
     });
     return filteredBlogs;
+  }
+  getRecentPhotos(): string[] {
+    return this.recentPhotos;
   }
 
   deleteBlog(title: string): void {

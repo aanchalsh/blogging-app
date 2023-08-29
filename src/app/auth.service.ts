@@ -64,6 +64,7 @@ export class AuthService {
       .filter(blog => blog !== null); // Remove any null entries
     return userBlogs;
   }
+  
 
   logout(): void {
     this.isLoggedIn = false;
@@ -73,13 +74,14 @@ export class AuthService {
   }
 
 
+  
   signup(username: string, password: string, author: string): boolean {
     if (this.isUsernameAvailable(username)) {
       const userData = {
         password,
         author
       };
-      localStorage.setItem(`user_${username}`, JSON.stringify(userData));
+      localStorage.setItem(`user_${username}`, JSON.stringify(userData)); // Store user data in local storage
       this.isLoggedIn = true;
       return true;
     }

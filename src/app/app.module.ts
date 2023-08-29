@@ -11,6 +11,7 @@ import { BlogListComponent } from './blog-list/blog-list.component';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,8 @@ import { FooterComponent } from './footer/footer.component';
     BlogDetailComponent,
     BlogListComponent,
     LoginComponent,
-    FooterComponent
+    FooterComponent,
+  
   ],
   imports: [
     BrowserModule,
