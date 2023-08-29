@@ -1,0 +1,23 @@
+
+  <div class="container mt-4">
+    <h2 class="text-center">Search Results</h2>
+    <div class="row">
+      <ng-container *ngIf="filteredBlogs.length > 0; else noBlogsFound">
+        <div class="col-md-4 mb-4" *ngFor="let blog of filteredBlogs">
+          <div class="card">
+            <img [src]="blog.imageUrl" class="card-img-top blog-image" alt="{{ blog.title }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ blog.title }}</h5>
+              <p class="card-text">{{ blog.content.substring(0, 100) }}...</p>
+              <a [routerLink]="['/blog', blog.title]" class="btn btn-primary bg-black text-white">Read More</a>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noBlogsFound>
+        <div class="col text-center">
+          <p>No blogs found for the selected tag.We are sorry for the inconvenience. </p>
+        </div>
+      </ng-template>
+    </div>
+  </div>

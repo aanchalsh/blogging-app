@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card mt-5">
+        <div class="card-header bg-black text-white">
+          <h2>Write Blog</h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" id="title" class="form-control" formControlName="title" required>
+            </div>
+            <div class="mb-3">
+              <label for="author" class="form-label">Author</label>
+              <input type="text" id="author" class="form-control" formControlName="author" readonly>
+            </div>
+            <div class="mb-3">
+              <label for="tags" class="form-label">Tags (comma separated)</label>
+              <input type="text" id="tags" class="form-control" formControlName="tags">
+            </div>
+            <div class="mb-3">
+              <label for="content" class="form-label">Content</label>
+              <textarea id="content" class="form-control" formControlName="content" rows="6" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">Image URL</label>
+              <input type="text" id="imageUrl" class="form-control" formControlName="imageUrl">
+            </div>
+            <button type="submit" class="btn btn-primary bg-black">Submit</button>
+          </form>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
