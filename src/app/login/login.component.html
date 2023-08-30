@@ -8,14 +8,14 @@
         <div class="card-body">
           <form *ngIf="!isSignup" [formGroup]="loginForm" (ngSubmit)="onAuthenticate()">
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
+              <label for="content" class="form-label">Username <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                 <input type="text" id="username" class="form-control rounded-pill" formControlName="username">
               </div>
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
+              <label for="content" class="form-label">password <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
                 <input type="password" id="password" class="form-control rounded-pill" formControlName="password">
@@ -28,21 +28,22 @@
 
           <form *ngIf="isSignup" [formGroup]="signupForm" (ngSubmit)="onAuthenticate()">
             <div class="mb-3">
-              <label for="signupAuthorName" class="form-label">Author</label>
+                    <label for="content" class="form-label">Author <span class="text-danger">*</span></label>
+
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                 <input type="text" id="signupAuthorName" class="form-control rounded-pill" formControlName="author">
               </div>
             </div>
             <div class="mb-3">
-              <label for="signupUsername" class="form-label">Username</label>
+              <label for="content" class="form-label">Username <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                 <input type="text" id="signupUsername" class="form-control rounded-pill" formControlName="username">
               </div>
             </div>
             <div class="mb-3">
-              <label for="signupPassword" class="form-label">Password</label>
+              <label for="content" class="form-label">password <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
                 <input type="password" id="signupPassword" class="form-control rounded-pill" formControlName="password">

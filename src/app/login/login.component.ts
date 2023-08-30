@@ -100,6 +100,8 @@ export class LoginComponent implements OnInit {
       } else {
         this.errorMessage = 'Invalid username or password';
       }
+    } else {
+      this.errorMessage = 'Please fill in all required fields'; // Display the general error message
     }
   }
   
