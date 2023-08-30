@@ -51,7 +51,6 @@ export class AuthService {
 
 
   getUserBlogs(username: string): any[] {
-    // Assuming your blog data is stored in localStorage
     const userBlogs = Object.keys(localStorage)
       .filter(key => key.startsWith(`user_${username}_blog_`))
       .map(key => {
@@ -61,7 +60,7 @@ export class AuthService {
         }
         return null;
       })
-      .filter(blog => blog !== null); // Remove any null entries
+      .filter(blog => blog !== null); 
     return userBlogs;
   }
   
@@ -81,10 +80,13 @@ export class AuthService {
         password,
         author
       };
-      localStorage.setItem(`user_${username}`, JSON.stringify(userData)); // Store user data in local storage
+      localStorage.setItem(`user_${username}`, JSON.stringify(userData)); 
       this.isLoggedIn = true;
       return true;
     }
+   
     return false;
   }
+  
+  
 }

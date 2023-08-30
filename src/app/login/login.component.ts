@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService, // Use lowercase for variable names
+    private authService: AuthService, 
     private router: Router
   ) { }
 
@@ -38,8 +38,8 @@ export class LoginComponent implements OnInit {
 
   onAuthenticate(): void {
     if (this.isSignup && this.signupForm.valid) {
-      const { author, username, password } = this.signupForm.value;
-      this.authService.signup(author, username, password); // Call signup method
+      const { username, password, author } = this.signupForm.value;
+      this.authService.signup(username, password, author); 
       this.signupForm.reset();
       this.signupSuccess = true;
       setTimeout(() => {
