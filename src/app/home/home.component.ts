@@ -67,6 +67,20 @@ export class HomeComponent {
   filterByTag(tag: string): void {
     this.router.navigate(['/tag', tag]);
   }
+  
 
+  getAllTags(): string[] {
+    const allTags: string[] = [];
+    this.blogs.forEach(post => {
+      post.tags.forEach((tag: string) => {
+        if (!allTags.includes(tag)) {
+          allTags.push(tag);
+        }
+      });
+    });
+    return allTags;
+  }
+
+  
 
 }

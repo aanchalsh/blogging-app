@@ -3,48 +3,48 @@
     <span class="h5 mb-0 p-2 beyond-books rounded bg-light text-dark">B</span>
     <span class="h5 mb-0 p-2 beyond-books rounded text-white">Beyond Books</span>
   </a>
-  
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  
+
   <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
     <div class="input-group ml-lg-4 mt-2 mt-lg-0 justify-content-end">
-      <input type="text" class="form-control search-bar" [(ngModel)]="searchTag" placeholder="Search by Tag">
-     
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search by tag" [(ngModel)]="searchTag" (keyup.enter)="searchButton.click()" >
-       
-          <button class="btn btn-black text-white border-white" #searchButton
-                  [routerLink]="['/blogs/tag', searchTag]" style="display: none;" (keyup.enter)="searchButton.click()" >
-            Search
-          </button>
-        
+
+
+
+      <input type="text" class="form-control" placeholder="Search by tag" [(ngModel)]="searchTag"
+        (keyup.enter)="searchButton.click()">
+      <div class="input-group-append">
+        <button class="btn btn-black text-white border-white" #searchButton
+          [routerLink]="['/blogs/tag', searchTag]">Search</button>
       </div>
-      
-      
-      
-      
-    </div>
-    <ul class="navbar-nav ml-lg-2">
-      <li class="nav-item" *ngIf="authService.isAuthenticated()">
-      
-        <div class="dropdown-menu" *ngIf="loggedInUser">
-          <a class="dropdown-item" *ngFor="let blog of userBlogs" [routerLink]="['/blog', blog.title]">
-            {{ blog.title }}
-          </a>
-        </div>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link text-white border-white" href="/write-blog">Write Blog</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link text-white border-white" (click)="logout()">Logout</a>
-      </li>
-      <li class="nav-item" *ngIf="!isLoggedIn">
-        <a class="nav-link text-white border-white" href="/login">Login</a>
-      </li>
-    </ul>
+    
+
+
+
+
+
+  </div>
+  <ul class="navbar-nav ml-lg-2">
+    <li class="nav-item" *ngIf="authService.isAuthenticated()">
+
+      <div class="dropdown-menu" *ngIf="loggedInUser">
+        <a class="dropdown-item" *ngFor="let blog of userBlogs" [routerLink]="['/blog', blog.title]">
+          {{ blog.title }}
+        </a>
+      </div>
+    </li>
+    <li class="nav-item" *ngIf="isLoggedIn">
+      <a class="nav-link text-white border-white" href="/write-blog">Write Blog</a>
+    </li>
+    <li class="nav-item" *ngIf="isLoggedIn">
+      <a class="nav-link text-white border-white" (click)="logout()">Logout</a>
+    </li>
+    <li class="nav-item" *ngIf="!isLoggedIn">
+      <a class="nav-link text-white border-white" href="/login">Login</a>
+    </li>
+  </ul>
   </div>
 </nav>

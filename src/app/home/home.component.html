@@ -49,11 +49,14 @@
   </div>
 </div>
 
-    <div class="tags">
-      <button *ngFor="let blog of blogs" class="btn btn-outline-primary rounded-pill m-1"
-              [ngClass]="{ 'btn-primary': isSelectedTag(blog.tags) }"
-              (click)="filterByTag(blog.tags)">
-        {{ blog.tags }}
+<div class="row">
+  <div class="col-md-12" >
+    <div class="d-flex flex-wrap">
+      <button *ngFor="let tag of getAllTags()" class="btn btn-outline-dark rounded-pill m-1"
+              [ngClass]="{ 'btn-primary': isSelectedTag(tag) }"
+              (click)="filterByTag(tag)">
+        {{ tag }}
       </button>
     </div>
-    
+  </div>
+</div>

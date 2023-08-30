@@ -47,3 +47,15 @@
   font-size: 1.5rem; 
  
 }
+.tag-button {
+  margin: 1px; /* Adjust this value to control the space between the tags */
+}
+.custom-tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -5px; /* Adjust this value to control the space between the tags */
+}
+
+.custom-tags button {
+  margin: 5px; /* Adjust this value to control the space between the buttons */
+}
