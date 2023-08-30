@@ -14,6 +14,7 @@ import { AuthService } from '../auth.service';
 export class WriteBlogComponent {
 
   blogForm!: FormGroup;
+  errorMessage: string = '';
   userBlogs: any[] = [];
   constructor(
     private formBuilder: FormBuilder, 
@@ -22,7 +23,7 @@ export class WriteBlogComponent {
     private authService: AuthService,
     private route:ActivatedRoute
   ) {
-    const savedAuthorName = localStorage.getItem('signupAuthorName');
+    const savedAuthorName = localStorage.getItem('loggedInAuthorName');
    
     this.blogForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -34,6 +35,26 @@ export class WriteBlogComponent {
    
   }  
  
+  // onSubmit(): void {
+  //   if (this.blogForm.valid) {
+  //     const blog: Blog = {
+  //       title: this.blogForm.value.title,
+  //       author: this.blogForm.value.author,
+  //       tags: this.blogForm.value.tags.split(',').map((tag: string) => tag.trim()),
+  //       content: this.blogForm.value.content,
+  //       date: new Date().toISOString(),
+  //       imageUrl: this.blogForm.value.imageUrl 
+  //     };
+
+  //     this.blogService.addBlog(blog);
+  //     const storedBlogs = JSON.parse(localStorage.getItem(this.blogForm.value.author) || '[]');
+  //     storedBlogs.push(blog);
+  //     localStorage.setItem(this.blogForm.value.author, JSON.stringify(storedBlogs));
+
+  //     this.router.navigate(['/blog', blog.title]);
+     
+  //   }
+  
   onSubmit(): void {
     if (this.blogForm.valid) {
       const blog: Blog = {
@@ -44,14 +65,16 @@ export class WriteBlogComponent {
         date: new Date().toISOString(),
         imageUrl: this.blogForm.value.imageUrl 
       };
-
+  
       this.blogService.addBlog(blog);
       const storedBlogs = JSON.parse(localStorage.getItem(this.blogForm.value.author) || '[]');
       storedBlogs.push(blog);
       localStorage.setItem(this.blogForm.value.author, JSON.stringify(storedBlogs));
-
+  
       this.router.navigate(['/blog', blog.title]);
-     
+    } else {
+      this.errorMessage = 'Please fill in all required fields.'; // Display error message
     }
   }
+  
 }

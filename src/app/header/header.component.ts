@@ -13,6 +13,8 @@ import { BlogService } from '../blog.service';
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   searchTag: string = ''; 
+  showInput: boolean = false;
+
   loggedInUser: any | null = null;
   userBlogs: any[] = [];
   constructor(private router: Router, private blogService: BlogService , public authService: AuthService) {}
@@ -30,9 +32,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  // logout(): void {
-  //   this.authService.logout();
-  // }
+ 
  
   logout(): void {
     this.authService.logout();

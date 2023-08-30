@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
+import { Blog } from '../blog';
+import { BlogService } from '../blog.service';
 
 @Component({
   selector: 'app-home',
@@ -9,11 +12,18 @@ import { AuthService } from '../auth.service';
 export class HomeComponent {
   showLoginPopup: boolean = true; 
   blogs: any[] = [];
+ // blogPosts: any[] = [];
+  selectedTags: string[] = [];
+  searchQuery: string = '';
+  filteredBlogPosts: any[] = [];
+  blog: Blog | null = null;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,private router:Router) {
    
     const allBlogs = JSON.parse(localStorage.getItem('blogs') || '[]');
     this.blogs = allBlogs.reverse(); 
+   
+    
     const dummyBlogs: any[] = [ 
     {
       "title": "Favourite Coffee Place in London",
@@ -47,4 +57,16 @@ export class HomeComponent {
     this.showLoginPopup = !this.authService.isAuthenticated();
     this.blogs = [...this.blogs, ...savedFeaturedBlogs];
   }
+  navigateToBlogDetail(blogTitle: string) {
+    this.router.navigate(['/blog', blogTitle]);
+  }
+  isSelectedTag(tag: string): boolean {
+    return this.selectedTags.some(selectedTag => selectedTag === tag);
+  }
+ 
+  filterByTag(tag: string): void {
+    this.router.navigate(['/tag', tag]);
+  }
+
+
 }

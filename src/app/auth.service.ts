@@ -74,19 +74,22 @@ export class AuthService {
 
 
   
-  signup(username: string, password: string, author: string): boolean {
-    if (this.isUsernameAvailable(username)) {
-      const userData = {
-        password,
-        author
-      };
-      localStorage.setItem(`user_${username}`, JSON.stringify(userData)); 
-      this.isLoggedIn = true;
-      return true;
-    }
-   
-    return false;
+  // In AuthService
+
+signup(username: string, password: string, author: string): boolean {
+  if (this.isUsernameAvailable(username)) {
+    const userData = {
+      password,
+      author
+    };
+    localStorage.setItem(`user_${username}`, JSON.stringify(userData)); // Store user data in local storage
+    this.isLoggedIn = true;
+    return true; // Signup successful
+  } else {
+    return false; // Username already exists, signup failed
   }
+}
+
   
   
 }

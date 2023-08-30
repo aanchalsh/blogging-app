@@ -12,6 +12,7 @@
               <label for="title" class="form-label">Title</label>
               <input type="text" id="title" class="form-control" formControlName="title" required>
             </div>
+
             <div class="mb-3">
               <label for="author" class="form-label">Author</label>
               <input type="text" id="author" class="form-control" formControlName="author" readonly>
@@ -30,6 +31,10 @@
             </div>
             <button type="submit" class="btn btn-primary bg-black">Submit</button>
           </form>
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+          
         
         </div>
       </div>
