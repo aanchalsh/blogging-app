@@ -22,6 +22,7 @@ import { FooterComponent } from './footer/footer.component';
     BlogListComponent,
     LoginComponent,
     FooterComponent,
+    
   
   ],
   imports: [

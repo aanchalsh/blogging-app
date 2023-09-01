@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private isLoggedIn: boolean = false;
   private currentUser: any = null;
+  private readonly tokenKey = 'authToken';
   constructor() { }
 
   getLoggedInUser(): any {
@@ -22,7 +23,7 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return this.isLoggedIn;
+    return !!localStorage.getItem(this.tokenKey);
   }
 
   isUsernameAvailable(username: string): boolean {
@@ -43,13 +44,17 @@ export class AuthService {
         this.currentUser = { username, author: storedUser.author };
         localStorage.setItem('loggedInUsername', username);
         localStorage.setItem('loggedInAuthorName', storedUser.author);
+        const token = 'your_auth_token_here'; // Replace with your actual token
+        localStorage.setItem(this.tokenKey, token);
         return true;
       }
     }
     return false;
   }
 
-
+  setLoggedInStatus(status: boolean): void {
+    this.isLoggedIn = status;
+  }
   getUserBlogs(username: string): any[] {
     const userBlogs = Object.keys(localStorage)
       .filter(key => key.startsWith(`user_${username}_blog_`))
