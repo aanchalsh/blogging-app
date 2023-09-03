@@ -44,7 +44,7 @@ export class AuthService {
         this.currentUser = { username, author: storedUser.author };
         localStorage.setItem('loggedInUsername', username);
         localStorage.setItem('loggedInAuthorName', storedUser.author);
-        const token = 'your_auth_token_here'; // Replace with your actual token
+        const token = 'your_auth_token_here'; 
         localStorage.setItem(this.tokenKey, token);
         return true;
       }
@@ -77,24 +77,17 @@ export class AuthService {
     localStorage.removeItem('loggedInAuthorName');
   }
 
-
-  
-  // In AuthService
-
 signup(username: string, password: string, author: string): boolean {
   if (this.isUsernameAvailable(username)) {
     const userData = {
       password,
       author
     };
-    localStorage.setItem(`user_${username}`, JSON.stringify(userData)); // Store user data in local storage
+    localStorage.setItem(`user_${username}`, JSON.stringify(userData)); 
     this.isLoggedIn = true;
-    return true; // Signup successful
+    return true;
   } else {
-    return false; // Username already exists, signup failed
+    return false;
   }
-}
-
-  
-  
+}  
 }

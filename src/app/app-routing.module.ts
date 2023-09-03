@@ -7,17 +7,16 @@ import { BlogListComponent } from './blog-list/blog-list.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 
-
-
 const routes: Routes = [
-  { path: '', component: HomeComponent},
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
- 
+
   {
     path: 'write-blog',
     component: WriteBlogComponent,
-    canActivate: [AuthGuard] 
+    canActivate: [AuthGuard], data: { requiresAuth: true }
   },
+
   { path: 'blog/:title', component: BlogDetailComponent },
   { path: 'tag/:tag', component: BlogListComponent },
   { path: 'blog-list/:tag', component: BlogListComponent },
@@ -28,4 +27,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

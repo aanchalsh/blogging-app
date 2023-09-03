@@ -10,9 +10,9 @@ import { BlogService } from '../blog.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+
   showLoginPopup: boolean = true; 
   blogs: any[] = [];
- // blogPosts: any[] = [];
   selectedTags: string[] = [];
   searchQuery: string = '';
   filteredBlogPosts: any[] = [];

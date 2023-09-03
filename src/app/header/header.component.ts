@@ -14,16 +14,10 @@ export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   searchTag: string = ''; 
   showInput: boolean = false;
-
   loggedInUser: any | null = null;
   userBlogs: any[] = [];
+  showLoginButton: boolean = true;
   constructor(private router: Router, private blogService: BlogService , public authService: AuthService) {}
-
- 
-  
-
- 
-
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
     if (this.isLoggedIn) {
@@ -31,15 +25,14 @@ export class HeaderComponent implements OnInit {
       this.userBlogs = this.blogService.getUserBlogs(this.loggedInUser.username);
     }
   }
-
- 
- 
   logout(): void {
     this.authService.logout();
     this.isLoggedIn = false;
+    this.showLoginButton = true;
+    this.loggedInUser = null; 
     this.router.navigate(['/login']);
+    this.userBlogs = [];
   }
-  
   searchByTag(): void {
     if (this.searchTag) {
       const blogs = this.blogService.getBlogsByTag(this.searchTag);

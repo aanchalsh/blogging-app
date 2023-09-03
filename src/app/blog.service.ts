@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Blog, Comment } from './blog';
+import { Blog } from './blog';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +17,7 @@ export class BlogService {
       const savedBlogs = this.getBlogsFromLocalStorage();
       savedBlogs.push(blog);
       this.saveBlogsToLocalStorage(savedBlogs);
-      console.log('Blog saved successfully.');
     } catch (error) {
-      console.error('Error saving blog:', error);
     }
   }
 
@@ -42,9 +40,6 @@ export class BlogService {
     });
     return filteredBlogs;
   }
-  getRecentPhotos(): string[] {
-    return this.recentPhotos;
-  }
 
   deleteBlog(title: string): void {
     const savedBlogs = this.getAllBlogsFromLocalStorage();
@@ -54,13 +49,6 @@ export class BlogService {
   getBlogsByTag(tag: string): Blog[] {
     const allBlogs = this.getAllBlogsFromLocalStorage();
     const filteredBlogs = allBlogs.filter((blog: Blog) => blog.tags.includes(tag));
-    console.log('Filtered Blogs:', filteredBlogs);
-    return filteredBlogs;
-
-  }
-  getBlogsByAuthor(username: string): Blog[] {
-    const allBlogs = this.getAllBlogsFromLocalStorage();
-    const filteredBlogs = allBlogs.filter((blog: Blog) => blog.author.includes(username));
     console.log('Filtered Blogs:', filteredBlogs);
     return filteredBlogs;
 

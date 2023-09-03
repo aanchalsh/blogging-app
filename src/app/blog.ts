@@ -5,14 +5,6 @@ export interface Blog {
     content: string;
     tags: string[];
     imageUrl?: string;
-    comments?: Comment[]; 
-    
+  }
 
-  }
-  export interface Comment {
-    author: string;
-    content: string;
-    date: string;
-  }
-  
   

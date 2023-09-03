@@ -1,5 +1,4 @@
-
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Blog } from '../blog';
@@ -11,19 +10,24 @@ import { AuthService } from '../auth.service';
   templateUrl: './write-blog.component.html',
   styleUrls: ['./write-blog.component.css']
 })
-export class WriteBlogComponent {
-
+export class WriteBlogComponent implements OnInit {
   blogForm!: FormGroup;
   errorMessage: string = '';
   userBlogs: any[] = [];
-  
+  showLoginMessage : boolean= false;
   constructor(
     private formBuilder: FormBuilder, 
     private router: Router,
     private blogService: BlogService,
     private authService: AuthService,
-    private route:ActivatedRoute
+    private route: ActivatedRoute
   ) {
+    if (!this.authService.isAuthenticated()) {
+      this.showLoginMessage = true;
+    }
+  }
+
+  ngOnInit(): void {
     const savedAuthorName = localStorage.getItem('loggedInAuthorName');
    
     this.blogForm = this.formBuilder.group({
@@ -33,13 +37,12 @@ export class WriteBlogComponent {
       content: ['', [Validators.required, Validators.minLength(10)]],
       imageUrl: ['', [Validators.required, Validators.pattern('^(http|https)://.*$')]],
     });
-   
-  }  
- 
- 
+  }
+
   get formControls() {
     return this.blogForm.controls;
   }
+
   onSubmit(): void {
     if (this.blogForm.valid) {
       const blog: Blog = {
@@ -58,9 +61,7 @@ export class WriteBlogComponent {
   
       this.router.navigate(['/blog', blog.title]);
     } else {
-      this.errorMessage = 'Please fill in all required fields.'; // Display error message
+      this.errorMessage = 'Please fill in all required fields.';
     }
   }
- 
-  
 }
