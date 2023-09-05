@@ -44,7 +44,7 @@ export class AuthService {
         this.currentUser = { username, author: storedUser.author };
         localStorage.setItem('loggedInUsername', username);
         localStorage.setItem('loggedInAuthorName', storedUser.author);
-        const token = 'your_auth_token_here'; 
+        const token = 'token'; 
         localStorage.setItem(this.tokenKey, token);
         return true;
       }
