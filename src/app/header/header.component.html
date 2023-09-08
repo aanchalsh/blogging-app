@@ -7,25 +7,23 @@
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div>
-    <div class="input-group ml-lg-4 mt-2 mt-lg-0 d-flex align-items-center">
-      <input type="text" class="form-control" placeholder="Search by tag" [(ngModel)]="searchTag"
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" *ngIf="!authService.isAuthenticated() || !loggedInUser">
+        <a class="nav-link text-white border-white" href="/login">Start Writing</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isAuthenticated() && loggedInUser">
+        <a class="nav-link text-white border-white" href="/write-blog">Write Blog</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isAuthenticated() && loggedInUser">
+        <a class="nav-link text-white border-white" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0 ml-3">
+      <input class="form-control mr-sm-2 search-bar" type="search" placeholder="Search by tag" [(ngModel)]="searchTag"
         (keyup.enter)="searchButton.click()" style="max-width: 200px;">
-      <div class="input-group-append">
-        <button class="btn btn-black text-white border-white" #searchButton
-          [routerLink]="['/blogs/tag', searchTag]">Search</button>
-      </div>
-    </div>
+      <button class="btn btn-outline-light my-2 my-sm-0" type="submit" #searchButton
+        [routerLink]="['/blogs/tag', searchTag]">Search</button>
+    </form>
   </div>
-  <ul class="navbar-nav ml-lg-2 d-flex align-items-center">
-    <li class="nav-item" *ngIf="!authService.isAuthenticated() || !loggedInUser">
-      <a class="nav-link text-white border-white" href="/login">Start Writing</a>
-    </li>
-    <li class="nav-item" *ngIf="authService.isAuthenticated() && loggedInUser">
-      <a class="nav-link text-white border-white" href="/write-blog">Write Blog</a>
-    </li>
-    <li class="nav-item" *ngIf="authService.isAuthenticated() && loggedInUser">
-      <a class="nav-link text-white border-white" (click)="logout()">Logout</a>
-    </li>
-  </ul>
 </nav>
