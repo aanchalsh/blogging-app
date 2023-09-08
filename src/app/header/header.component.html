@@ -20,7 +20,8 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0 ml-3">
-      <input class="form-control mr-sm-2 search-bar" type="search" placeholder="Search by tag" [(ngModel)]="searchTag"
+      <input class="form-control mr-sm-2 search-bar" type="search" placeholder="Search by tag" [(ngModel)]="searchTag" (keyup.enter)="searchButton.click()">
+
         (keyup.enter)="searchButton.click()" style="max-width: 200px;">
       <button class="btn btn-outline-light my-2 my-sm-0" type="submit" #searchButton
         [routerLink]="['/blogs/tag', searchTag]">Search</button>
