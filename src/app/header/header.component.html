@@ -10,7 +10,7 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" *ngIf="!authService.isAuthenticated() || !loggedInUser">
-        <a class="nav-link text-white border-white" [attr.href]="authService.isAuthenticated() ? '/write-blog' : '/login'">
+        <a class="nav-link text-white border-white" [attr.href]="authService.isAuthenticated() ?  '/login': '/write-blog'">
           Start Writing
         </a>
       </li>
