@@ -42,6 +42,7 @@ export class AuthService {
       if (password === storedUser.password) {
         this.isLoggedIn = true;
         this.currentUser = { username, author: storedUser.author };
+        console.log(this.currentUser);
         localStorage.setItem('loggedInUsername', username);
         localStorage.setItem('loggedInAuthorName', storedUser.author);
         const token = 'token'; 
@@ -51,6 +52,22 @@ export class AuthService {
     }
     return false;
   }
+
+  getCurrentUser(): any {
+    if (this.isAuthenticated()) {
+      if (!this.currentUser) {
+        const loggedInUsername = localStorage.getItem('loggedInUsername');
+        const loggedInAuthorName = localStorage.getItem('loggedInAuthorName');
+  
+        if (loggedInUsername && loggedInAuthorName) {
+          this.currentUser = { username: loggedInUsername, author: loggedInAuthorName };
+        }
+      }
+      return this.currentUser;
+    }
+    return null;
+  }
+  
 
   setLoggedInStatus(status: boolean): void {
     this.isLoggedIn = status;
@@ -66,6 +83,7 @@ export class AuthService {
         return null;
       })
       .filter(blog => blog !== null); 
+      console.log(userBlogs);
     return userBlogs;
   }
   
@@ -80,6 +98,7 @@ export class AuthService {
 signup(username: string, password: string, author: string): boolean {
   if (this.isUsernameAvailable(username)) {
     const userData = {
+      username,
       password,
       author
     };

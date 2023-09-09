@@ -6,9 +6,12 @@ import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { BlogListComponent } from './blog-list/blog-list.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
+import { ProfileComponent } from './profile/profile.component';
+import { EditBlogComponent } from './edit-blog/edit-blog.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
 
   {
@@ -20,7 +23,8 @@ const routes: Routes = [
   { path: 'blog/:title', component: BlogDetailComponent },
   { path: 'tag/:tag', component: BlogListComponent },
   { path: 'blog-list/:tag', component: BlogListComponent },
-  { path: 'blogs/tag/:tag', component: BlogListComponent },
+  { path: 'profile', component:ProfileComponent},
+  { path: 'edit/:title',component:EditBlogComponent}
 
 ];
 @NgModule({

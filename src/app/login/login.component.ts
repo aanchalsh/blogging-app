@@ -1,5 +1,3 @@
-// app/login/login.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,6 +14,7 @@ export class LoginComponent implements OnInit {
   isSignup: boolean = false;
   errorMessage: string = '';
   signupSuccess = false;
+  user:any;
   
 
   constructor(
@@ -29,15 +28,12 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
-
     this.signupForm = this.formBuilder.group({
       author: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
-
-
   onAuthenticate(): void {
     if (this.isSignup && this.signupForm.valid) {
       const { username, password, author } = this.signupForm.value;
@@ -49,7 +45,7 @@ export class LoginComponent implements OnInit {
         setTimeout(() => {
           this.signupSuccess = false;
           this.authService.setLoggedInStatus(true); // Set the logged in status
-          this.router.navigate(['/write-blog']);
+          this.router.navigate(['/home']);
         }, 3000);
       } else {
         this.errorMessage = 'Username already exists'; // Display the error message
@@ -60,7 +56,7 @@ export class LoginComponent implements OnInit {
 
       if (isLoginSuccessful) {
         this.authService.setLoggedInStatus(true); // Set the logged in status
-        this.router.navigate(['/write-blog']);
+        this.router.navigate(['/home']);
       } else {
         this.errorMessage = 'Invalid username or password';
       }

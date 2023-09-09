@@ -19,6 +19,7 @@ export class BlogService {
       this.saveBlogsToLocalStorage(savedBlogs);
     } catch (error) {
     }
+    console.log(this.getAllBlogsFromLocalStorage)
   }
 
   getBlogByTitle(title: string): Blog | null {
@@ -41,14 +42,17 @@ export class BlogService {
     return filteredBlogs;
   }
 
-  deleteBlog(title: string): void {
-    const savedBlogs = this.getAllBlogsFromLocalStorage();
-    const updatedBlogs = savedBlogs.filter((blog) => blog.title !== title);
-    this.saveBlogsToLocalStorage(updatedBlogs);
-  }
+  
   getBlogsByTag(tag: string): Blog[] {
     const allBlogs = this.getAllBlogsFromLocalStorage();
     const filteredBlogs = allBlogs.filter((blog: Blog) => blog.tags.includes(tag));
+    console.log('Filtered Blogs:', filteredBlogs);
+    return filteredBlogs;
+
+  }
+  getBlogsByAuthor(author: string): Blog[] {
+    const allBlogs = this.getAllBlogsFromLocalStorage();
+    const filteredBlogs = allBlogs.filter((blog: Blog) => blog.author.includes(author));
     console.log('Filtered Blogs:', filteredBlogs);
     return filteredBlogs;
 
@@ -60,7 +64,7 @@ export class BlogService {
     localStorage.setItem('filteredBlogs', JSON.stringify(filteredBlogs));
   }
 
-  private getAllBlogsFromLocalStorage(): Blog[] {
+  getAllBlogsFromLocalStorage(): Blog[] {
     return [
       ...JSON.parse(localStorage.getItem('blogs') || '[]'),
       ...JSON.parse(localStorage.getItem('featuredBlogs') || '[]'),
@@ -82,5 +86,43 @@ export class BlogService {
   getUserBlogs(author: string): Blog[] {
     const storedBlogs = JSON.parse(localStorage.getItem(`user_${author}_blogs`) || '[]');
     return storedBlogs;
+  }
+  deleteBlog(title: string): void {
+    try {
+      console.log('Deleting blog by title:', title);
+      const savedBlogs = this.getBlogsFromLocalStorage();
+
+      // Find the index of the blog with the matching title
+      const index = savedBlogs.findIndex((blog: Blog) => blog.title === title);
+
+      if (index !== -1) {
+        // Remove the blog from the array
+        savedBlogs.splice(index, 1);
+
+        // Save the updated blogs array back to local storage
+        this.saveBlogsToLocalStorage(savedBlogs);
+      }
+    } catch (error) {
+      console.error('Error deleting blog:', error);
+    }
+  }
+  editBlogByTitle(title: string, updatedBlog: Blog): void {
+    try {
+      console.log('Editing blog by title:', title);
+      const savedBlogs = this.getBlogsFromLocalStorage();
+
+      // Find the index of the blog with the matching title
+      const index = savedBlogs.findIndex((blog: Blog) => blog.title === title);
+
+      if (index !== -1) {
+        // Update the blog with the updatedBlog data
+        savedBlogs[index] = updatedBlog;
+
+        // Save the updated blogs array back to local storage
+        this.saveBlogsToLocalStorage(savedBlogs);
+      }
+    } catch (error) {
+      console.error('Error editing blog:', error);
+    }
   }
 }

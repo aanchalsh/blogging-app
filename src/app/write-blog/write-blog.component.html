@@ -10,18 +10,18 @@
             <div class="mb-3">
               <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
               <input type="text" id="title" class="form-control" formControlName="title" required>
-             
             </div>
+
             <div class="mb-3">
               <label for="author" class="form-label">Author <span class="text-danger">*</span></label>
               <input type="text" id="author" class="form-control" formControlName="author" readonly>
-             
             </div>
+
             <div class="mb-3">
               <label for="tags" class="form-label">Tags (comma separated) <span class="text-danger">*</span></label>
               <input type="text" id="tags" class="form-control" formControlName="tags">
-              
             </div>
+
             <div class="mb-3">
               <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
               <textarea id="content" class="form-control" formControlName="content" rows="6" required></textarea>
@@ -30,6 +30,7 @@
                 Content must be at least 10 characters long.
               </div>
             </div>
+
             <div class="mb-3">
               <label for="imageUrl" class="form-label">Image URL <span class="text-danger">*</span></label>
               <input type="text" id="imageUrl" class="form-control" formControlName="imageUrl">
@@ -38,6 +39,7 @@
                 Please provide image in the form of URL
               </div>
             </div>
+
             <button type="submit" class="btn btn-primary bg-black">Submit</button>
           </form>
           <div *ngIf="errorMessage" class="error-message">

@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlogListComponent } from './blog-list/blog-list.component';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
+import { ProfileComponent } from './profile/profile.component';
+import { EditBlogComponent } from './edit-blog/edit-blog.component';
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import { FooterComponent } from './footer/footer.component';
     BlogListComponent,
     LoginComponent,
     FooterComponent,
+    ProfileComponent,
+    EditBlogComponent,
     
   
   ],
