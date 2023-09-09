@@ -27,6 +27,7 @@ Install blogging-app with npm
 
 ```bash
   git clone "https://github.com/aanchalsh/blogging-app.git"
+  cd blogging-app
   npm install
   ng serve --host 0.0.0.0 --port 4200 -o
 ```
