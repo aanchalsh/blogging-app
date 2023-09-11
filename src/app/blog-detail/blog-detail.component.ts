@@ -19,14 +19,9 @@ export class BlogDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const title = this.route.snapshot.paramMap.get('title');
-
-    if (title) {
-      this.blog = this.blogService.getBlogByTitle(title);
-      if (!this.blog) {
-        console.log('Blog not found');
-      }
-    }
+    this.blogService.getPostsById().subscribe((data) => {
+      this.blog=data;
+    });
   }
 
   filterByTag(tag: string): void {

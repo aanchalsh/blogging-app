@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Blog } from './blog';
 
@@ -9,7 +10,15 @@ export class BlogService {
   private localStorageKey = 'blogs';
   private recentPhotos: string[] = [];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+  private baseUrl = 'http://localhost:8080/blogs';
+
+  getAllPosts(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/posts`);
+  }
+  getPostsById(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/posts/{postId}`);
+  }
 
   addBlog(blog: Blog): void {
     try {

@@ -10,8 +10,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditBlogComponent } from './edit-blog/edit-blog.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: '/posts', pathMatch: 'full' },
+  { path: 'posts', component: HomeComponent },
   { path: 'login', component: LoginComponent },
 
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
     canActivate: [AuthGuard], data: { requiresAuth: true }
   },
 
-  { path: 'blog/:title', component: BlogDetailComponent },
+  { path: '/{id}', component: BlogDetailComponent },
   { path: 'tag/:tag', component: BlogListComponent },
   { path: 'blogs/tag/:tag', component: BlogListComponent },
   { path: 'blog-list/:tag', component: BlogListComponent },

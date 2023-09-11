@@ -12,7 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditBlogComponent } from './edit-blog/edit-blog.component';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,9 @@ import { EditBlogComponent } from './edit-blog/edit-blog.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
