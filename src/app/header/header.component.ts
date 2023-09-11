@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { BlogService } from '../blog.service';
+import { Blog } from '../blog';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,8 @@ export class HeaderComponent implements OnInit {
   showLoginButton: boolean = true;
   navLinkText: string = 'Start Writing';
 
+  //filteredBlogs: Blog[] | null = null;
+
   constructor(private router: Router, private blogService: BlogService, public authService: AuthService) { }
 
   ngOnInit(): void {
@@ -27,6 +30,17 @@ export class HeaderComponent implements OnInit {
       this.updateNavLinkText();
     }
   }
+  searchByTag(): void {
+    if (this.searchTag) {
+      const blogs = this.blogService.getBlogsByTag(this.searchTag);
+      console.log('Blogs by Tag:', blogs);
+    }
+    else{
+      console.log('Blogs by tag not available');
+    }
+  }
+
+  
 
   logout(): void {
     this.authService.logout();
@@ -35,11 +49,10 @@ export class HeaderComponent implements OnInit {
     this.loggedInUser = null;
     this.router.navigate(['/login']);
     this.userBlogs = [];
-    this.navLinkText = 'Start Writing'; 
+    this.navLinkText = 'Start Writing';
   }
 
   updateNavLinkText(): void {
     this.navLinkText = 'Write Blog';
   }
 }
-

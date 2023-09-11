@@ -22,6 +22,7 @@ const routes: Routes = [
 
   { path: 'blog/:title', component: BlogDetailComponent },
   { path: 'tag/:tag', component: BlogListComponent },
+  { path: 'blogs/tag/:tag', component: BlogListComponent },
   { path: 'blog-list/:tag', component: BlogListComponent },
   { path: 'profile', component:ProfileComponent},
   { path: 'edit/:title',component:EditBlogComponent}

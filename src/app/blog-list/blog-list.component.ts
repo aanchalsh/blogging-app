@@ -12,6 +12,7 @@ import { Blog } from '../blog';
 export class BlogListComponent implements OnInit {
   filteredBlogs: Blog[] = [];
   tag: string | null = null;
+  
 
   constructor(private route: ActivatedRoute, private blogService: BlogService) {}
 

@@ -1,8 +1,10 @@
 body{
-    min-height: 100vh;
+    min-height: 50vh;
     display:flex;
     flex-direction:column;
+    margin-bottom: 20;
 }
 footer{
     margin-top: auto;
+   
 }
