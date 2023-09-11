@@ -21,7 +21,7 @@ export class HomeComponent {
   constructor(private authService: AuthService,private router:Router,private blogService: BlogService) {}
   
   navigateToBlogDetail(blogId: string) {
-    this.router.navigate(['/posts', blogId]);
+    this.router.navigate(['/blog', blogId]);
   }
   isSelectedTag(tag: string): boolean {
     return this.selectedTags.some(selectedTag => selectedTag === tag);

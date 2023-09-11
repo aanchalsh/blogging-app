@@ -20,7 +20,7 @@ const routes: Routes = [
     canActivate: [AuthGuard], data: { requiresAuth: true }
   },
 
-  { path: '/{id}', component: BlogDetailComponent },
+  { path: 'blog/:title', component: BlogDetailComponent },
   { path: 'tag/:tag', component: BlogListComponent },
   { path: 'blogs/tag/:tag', component: BlogListComponent },
   { path: 'blog-list/:tag', component: BlogListComponent },
