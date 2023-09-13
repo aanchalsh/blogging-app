@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Blog } from '../blog';
+import { Blogs } from '../blog';
 import { BlogService } from '../blog.service';
 import { AuthService } from '../auth.service';
 
@@ -14,9 +14,10 @@ export class WriteBlogComponent implements OnInit {
   blogForm!: FormGroup;
   errorMessage: string = '';
   userBlogs: any[] = [];
-  showLoginMessage : boolean= false;
+  showLoginMessage: boolean = false;
+
   constructor(
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     private router: Router,
     private blogService: BlogService,
     private authService: AuthService,
@@ -29,7 +30,7 @@ export class WriteBlogComponent implements OnInit {
 
   ngOnInit(): void {
     const savedAuthorName = localStorage.getItem('loggedInAuthorName');
-   
+
     this.blogForm = this.formBuilder.group({
       title: ['', Validators.required],
       author: [savedAuthorName || '', Validators.required],
@@ -49,25 +50,33 @@ export class WriteBlogComponent implements OnInit {
       if (this.blogService.getBlogByTitle(title)) {
         this.errorMessage = 'A blog with this title already exists.';
       } else {
-        const blog: Blog = {
+        const blog: Blogs = {
           title: title,
           author: this.blogForm.value.author,
           tags: this.blogForm.value.tags.split(',').map((tag: string) => tag.trim()),
-          content: this.blogForm.value.content, 
+          content: this.blogForm.value.content,
           date: new Date().toISOString(),
           imageUrl: this.blogForm.value.imageUrl
         };
-  
-        this.blogService.addBlog(blog);
+
+        // Call the service to add the blog
+        this.blogService.addBlog(blog).subscribe(
+          (response) => {
+            console.log('Blog added successfully:', response);
+          },
+          (error) => {
+            console.error('Error adding blog:', error);
+          }
+        );
+
         const storedBlogs = JSON.parse(localStorage.getItem(this.blogForm.value.author) || '[]');
         storedBlogs.push(blog);
         localStorage.setItem(this.blogForm.value.author, JSON.stringify(storedBlogs));
-  
+
         this.router.navigate(['/blog', blog.title]);
       }
     } else {
       this.errorMessage = 'Please fill in all required fields.';
     }
   }
-  
 }

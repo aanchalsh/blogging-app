@@ -6,9 +6,12 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
   private isLoggedIn: boolean = false;
+  private loggedInUser:boolean=false;
   private currentUser: any = null;
   private readonly tokenKey = 'authToken';
-  constructor() { }
+  constructor(
+   ) { this.isLoggedIn = !!localStorage.getItem(this.tokenKey);
+    this.loggedInUser = this.isLoggedIn; }
 
   getLoggedInUser(): any {
     const username = localStorage.getItem('loggedInUsername');
@@ -25,6 +28,9 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!localStorage.getItem(this.tokenKey);
   }
+  isAuthenticate(): boolean {
+    return this.isLoggedIn;
+  }
 
   isUsernameAvailable(username: string): boolean {
     const existingUsernames = this.getAllUsernames();
@@ -38,9 +44,11 @@ export class AuthService {
   login(username: string, password: string): boolean {
     const storedUserJson = localStorage.getItem(`user_${username}`);
     if (storedUserJson) {
+      const token = 'authToken';
       const storedUser = JSON.parse(storedUserJson);
       if (password === storedUser.password) {
         this.isLoggedIn = true;
+        this.loggedInUser = true;
         this.currentUser = { username, author: storedUser.author };
         console.log(this.currentUser);
         localStorage.setItem('loggedInUsername', username);
@@ -90,9 +98,11 @@ export class AuthService {
 
   logout(): void {
     this.isLoggedIn = false;
+    this.loggedInUser=false;
     this.currentUser = null;
     localStorage.removeItem('loggedInUsername');
     localStorage.removeItem('loggedInAuthorName');
+    localStorage.removeItem(this.tokenKey);
   }
 
 signup(username: string, password: string, author: string): boolean {

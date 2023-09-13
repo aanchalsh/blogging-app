@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { Blog } from '../blog';
+import { Blogs} from '../blog';
 import { BlogService } from '../blog.service';
 
 @Component({
@@ -12,11 +12,11 @@ import { BlogService } from '../blog.service';
 export class HomeComponent {
 
   showLoginPopup: boolean = true; 
-  blogs: Blog[] = [];
+  blogs: Blogs[] = [];
   selectedTags: string[] = [];
   searchQuery: string = '';
   filteredBlogPosts: any[] = [];
-  blog: Blog | null = null;
+  blog: Blogs | null = null;
 
   constructor(private authService: AuthService,private router:Router,private blogService: BlogService) {}
   

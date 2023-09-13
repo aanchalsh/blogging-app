@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
         setTimeout(() => {
           this.signupSuccess = false;
           this.authService.setLoggedInStatus(true); // Set the logged in status
-          this.router.navigate(['/home']);
+         // this.router.navigate(['/home']);
         }, 3000);
       } else {
         this.errorMessage = 'Username already exists'; // Display the error message
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
 
       if (isLoginSuccessful) {
         this.authService.setLoggedInStatus(true); // Set the logged in status
-        this.router.navigate(['/home']);
+        this.router.navigate(['/write-blog']);
       } else {
         this.errorMessage = 'Invalid username or password';
       }

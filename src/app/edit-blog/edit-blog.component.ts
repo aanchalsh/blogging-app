@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Blog } from '../blog';
+import { Blogs} from '../blog';
 import { BlogService } from '../blog.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { BlogService } from '../blog.service';
 export class EditBlogComponent implements OnInit {
   blogForm!: FormGroup;
   errorMessage: string = '';
-  blog: Blog | null = null;
+  blog: Blogs | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,7 +51,7 @@ export class EditBlogComponent implements OnInit {
       const editedTitle = this.blogForm.value.title;
       const allBlogs = this.blogService.getAllBlogsFromLocalStorage();
 
-      const titleConflict = allBlogs.some((blog: Blog) => {
+      const titleConflict = allBlogs.some((blog: Blogs) => {
         return blog.title === editedTitle && blog.title !== this.blog!.title;
       });
 
@@ -60,7 +60,7 @@ export class EditBlogComponent implements OnInit {
         this.errorMessage = 'A blog with this title already exists.';
       } else {
 
-        const updatedBlog: Blog = {
+        const updatedBlog: Blogs = {
           title: editedTitle,
           author: this.blogForm.value.author,
           tags: this.blogForm.value.tags.split(',').map((tag: string) => tag.trim()),

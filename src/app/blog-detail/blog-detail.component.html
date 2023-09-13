@@ -10,7 +10,7 @@
               <h1 class="card-title mb-0">{{ blog.title }}</h1>
               <p class="card-subtitle mb-2 text-muted">By {{ blog.author }}</p>
               <div class="tags">
-                <span *ngFor="let tag of blog.tags" class="tag" (click)="filterByTag(tag)">{{ tag }}</span>
+                <span *ngFor="let tag of blog.tags" class="tag" (click)="searchBlogsByTag(tag)">{{ tag }}</span>
                 </div> 
             </div>
             <div class="card-body">

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Blog } from './blog';
+import { Blogs } from './blog';
 
 @Injectable({
   providedIn: 'root'
@@ -20,28 +20,24 @@ export class BlogService {
     return this.http.get(`${this.baseUrl}/posts/{postId}`);
   }
 
-  addBlog(blog: Blog): void {
-    try {
-      console.log('Adding blog:', blog);
-      const savedBlogs = this.getBlogsFromLocalStorage();
-      savedBlogs.push(blog);
-      this.saveBlogsToLocalStorage(savedBlogs);
-    } catch (error) {
-    }
-    console.log(this.getAllBlogsFromLocalStorage)
+  addBlog(blog: Blogs): Observable<any> {
+   
+    
+      return this.http.post<Blogs>(`${this.baseUrl}/posts`, blog);
+    
   }
 
-  getBlogByTitle(title: string): Blog | null {
+  getBlogByTitle(title: string): Blogs | null {
     const allBlogs = this.getAllBlogsFromLocalStorage();
-    return allBlogs.find((blog: Blog) => blog.title === title) || null;
+    return allBlogs.find((blog: Blogs) => blog.title === title) || null;
   }
 
-  getBlogs(): Observable<Blog[]> {
+  getBlogs(): Observable<Blogs[]> {
     return of(this.getAllBlogsFromLocalStorage());
   }
-  searchBlogs(query: string): Blog[] {
+  searchBlogs(query: string): Blogs[] {
     const allBlogs = this.getAllBlogsFromLocalStorage();
-    const filteredBlogs = allBlogs.filter((blog: Blog) => {
+    const filteredBlogs = allBlogs.filter((blog: Blogs) => {
       return (
         blog.title.toLowerCase().includes(query.toLowerCase()) ||
         blog.content.toLowerCase().includes(query.toLowerCase()) ||
@@ -52,16 +48,13 @@ export class BlogService {
   }
 
   
-  getBlogsByTag(tag: string): Blog[] {
-    const allBlogs = this.getAllBlogsFromLocalStorage();
-    const filteredBlogs = allBlogs.filter((blog: Blog) => blog.tags.includes(tag));
-    console.log('Filtered Blogs:', filteredBlogs);
-    return filteredBlogs;
 
+  getBlogsByTag(tag: string): Observable<Blogs[]> {
+    return this.http.get<Blogs[]>(`${this.baseUrl}/tag/${tag}`);
   }
-  getBlogsByAuthor(author: string): Blog[] {
+  getBlogsByAuthor(author: string): Blogs[] {
     const allBlogs = this.getAllBlogsFromLocalStorage();
-    const filteredBlogs = allBlogs.filter((blog: Blog) => blog.author.includes(author));
+    const filteredBlogs = allBlogs.filter((blog: Blogs) => blog.author.includes(author));
     console.log('Filtered Blogs:', filteredBlogs);
     return filteredBlogs;
 
@@ -69,11 +62,11 @@ export class BlogService {
 
   updateFilteredBlogs(tag: string): void {
     const allBlogs = this.getAllBlogsFromLocalStorage();
-    const filteredBlogs = allBlogs.filter((blog: Blog) => blog.tags.includes(tag));
+    const filteredBlogs = allBlogs.filter((blog: Blogs) => blog.tags.includes(tag));
     localStorage.setItem('filteredBlogs', JSON.stringify(filteredBlogs));
   }
 
-  getAllBlogsFromLocalStorage(): Blog[] {
+  getAllBlogsFromLocalStorage(): Blogs[] {
     return [
       ...JSON.parse(localStorage.getItem('blogs') || '[]'),
       ...JSON.parse(localStorage.getItem('featuredBlogs') || '[]'),
@@ -81,18 +74,18 @@ export class BlogService {
     ];
   }
 
-  private getBlogsFromLocalStorage(): Blog[] {
+  private getBlogsFromLocalStorage(): Blogs[] {
     return JSON.parse(localStorage.getItem(this.localStorageKey) || '[]');
   }
 
-  private saveBlogsToLocalStorage(blogs: Blog[]): void {
+  private saveBlogsToLocalStorage(blogs: Blogs[]): void {
     localStorage.setItem(this.localStorageKey, JSON.stringify(blogs));
   }
-  private saveUserBlogs(author: string, blogs: Blog[]): void {
+  private saveUserBlogs(author: string, blogs: Blogs[]): void {
     localStorage.setItem(`user_${author}_blogs`, JSON.stringify(blogs));
   }
 
-  getUserBlogs(author: string): Blog[] {
+  getUserBlogs(author: string): Blogs[] {
     const storedBlogs = JSON.parse(localStorage.getItem(`user_${author}_blogs`) || '[]');
     return storedBlogs;
   }
@@ -102,7 +95,7 @@ export class BlogService {
       const savedBlogs = this.getBlogsFromLocalStorage();
 
       // Find the index of the blog with the matching title
-      const index = savedBlogs.findIndex((blog: Blog) => blog.title === title);
+      const index = savedBlogs.findIndex((blog: Blogs) => blog.title === title);
 
       if (index !== -1) {
         // Remove the blog from the array
@@ -115,13 +108,13 @@ export class BlogService {
       console.error('Error deleting blog:', error);
     }
   }
-  editBlogByTitle(title: string, updatedBlog: Blog): void {
+  editBlogByTitle(title: string, updatedBlog: Blogs): void {
     try {
       console.log('Editing blog by title:', title);
       const savedBlogs = this.getBlogsFromLocalStorage();
 
       // Find the index of the blog with the matching title
-      const index = savedBlogs.findIndex((blog: Blog) => blog.title === title);
+      const index = savedBlogs.findIndex((blog: Blogs) => blog.title === title);
 
       if (index !== -1) {
         // Update the blog with the updatedBlog data

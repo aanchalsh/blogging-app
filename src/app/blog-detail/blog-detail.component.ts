@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../blog.service';
-import { Blog } from '../blog';
+import { Blogs } from '../blog';
 
 @Component({
   selector: 'app-blog-detail',
@@ -10,13 +10,18 @@ import { Blog } from '../blog';
   styleUrls: ['./blog-detail.component.css']
 })
 export class BlogDetailComponent implements OnInit {
-  blog: Blog | null = null;
+  blog: Blogs | null = null;
+  tag!: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private blogService: BlogService
-  ) { }
+  ) {
+    this.route.params.subscribe((params) => {
+    this.tag = params['tag'];
+    this.searchBlogsByTag(this.tag);
+  }); }
 
   ngOnInit(): void {
     this.blogService.getPostsById().subscribe((data) => {
@@ -27,7 +32,11 @@ export class BlogDetailComponent implements OnInit {
   filterByTag(tag: string): void {
     this.router.navigate(['/tag', tag]);
   }
+  searchBlogsByTag(tag: string): void {
+    this.blogService.getBlogsByTag(tag).subscribe((blogs) => {
+    
+    });
   
-  
+}
 }
 
