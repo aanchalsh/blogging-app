@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
 
       if (isLoginSuccessful) {
         this.authService.setLoggedInStatus(true); // Set the logged in status
-        this.router.navigate(['/home']);
+        this.router.navigate(['/blogs/posts']);
       } else {
         this.errorMessage = 'Invalid username or password';
       }

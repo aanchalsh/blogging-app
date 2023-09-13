@@ -16,8 +16,12 @@ export class BlogService {
   getAllPosts(): Observable<any> {
     return this.http.get(`${this.baseUrl}/posts`);
   }
-  getPostsById(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/posts/{postId}`);
+  getPostsById(postId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/posts/${postId}`);
+  }
+  searchByTag(tag: string): Observable<any> {
+    const params = { tag }; 
+    return this.http.get(`${this.baseUrl}/searchByTag`, { params });
   }
 
   addBlog(blog: Blog): void {
@@ -36,9 +40,6 @@ export class BlogService {
     return allBlogs.find((blog: Blog) => blog.title === title) || null;
   }
 
-  getBlogs(): Observable<Blog[]> {
-    return of(this.getAllBlogsFromLocalStorage());
-  }
   searchBlogs(query: string): Blog[] {
     const allBlogs = this.getAllBlogsFromLocalStorage();
     const filteredBlogs = allBlogs.filter((blog: Blog) => {
@@ -51,7 +52,6 @@ export class BlogService {
     return filteredBlogs;
   }
 
-  
   getBlogsByTag(tag: string): Blog[] {
     const allBlogs = this.getAllBlogsFromLocalStorage();
     const filteredBlogs = allBlogs.filter((blog: Blog) => blog.tags.includes(tag));

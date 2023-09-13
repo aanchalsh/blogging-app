@@ -3,35 +3,36 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Blog } from '../blog';
 import { BlogService } from '../blog.service';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-
+export class HomeComponent implements OnInit{
   showLoginPopup: boolean = true; 
   blogs: Blog[] = [];
   selectedTags: string[] = [];
   searchQuery: string = '';
   filteredBlogPosts: any[] = [];
-  blog: Blog | null = null;
+  blog: Blog | undefined;
 
-  constructor(private authService: AuthService,private router:Router,private blogService: BlogService) {}
+  constructor(private authService: AuthService,private router:Router,private blogService: BlogService,) {}
   
   navigateToBlogDetail(blogId: string) {
-    this.router.navigate(['/blog', blogId]);
+    this.router.navigate(['/posts', blogId]);
+  
+    console.log(blogId);
+  }
+  searchByTag(tag: string) {
+    this.router.navigate(['/searchByTag'], { queryParams: { tag: tag } });
   }
   isSelectedTag(tag: string): boolean {
     return this.selectedTags.some(selectedTag => selectedTag === tag);
   }
- 
-  filterByTag(tag: string): void {
-    this.router.navigate(['/tag', tag]);
-  }
   
-
   getAllTags(): string[] {
     const allTags: string[] = [];
     this.blogs.forEach(post => {
@@ -47,6 +48,7 @@ export class HomeComponent {
   ngOnInit() {
     this.blogService.getAllPosts().subscribe((data) => {
       this.blogs=data.reverse();
+      console.log(this.blogs)
     });
   }
 

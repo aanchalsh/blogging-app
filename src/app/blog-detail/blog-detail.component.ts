@@ -19,13 +19,24 @@ export class BlogDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.blogService.getPostsById().subscribe((data) => {
-      this.blog=data;
+    this.route.paramMap.subscribe((params) => {
+      const postId = params.get('id');
+      console.log(postId)
+      if (postId) {
+        this.blogService.getPostsById(postId).subscribe(
+          (data) => {
+            this.blog = data;
+          },
+          (error) => {
+            console.error('Error fetching blog post:', error);
+          }
+        );
+      }
     });
   }
 
   filterByTag(tag: string): void {
-    this.router.navigate(['/tag', tag]);
+    this.router.navigate(['/searchByTag'],{ queryParams: { tag: tag }});
   }
   
   

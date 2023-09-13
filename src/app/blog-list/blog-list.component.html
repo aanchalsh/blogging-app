@@ -9,7 +9,7 @@
             <div class="card-body">
               <h5 class="card-title">{{ blog.title }}</h5>
               <p class="card-text">{{ blog.content.substring(0, 100) }}...</p>
-              <a [routerLink]="['/blog', blog.title]" class="btn btn-primary bg-black text-white">Read More</a>
+              <a [routerLink]="['/posts', blog.id]" class="btn btn-primary bg-black text-white">Read More</a>
             </div>
           </div>
         </div>

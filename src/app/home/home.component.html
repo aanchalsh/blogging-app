@@ -12,11 +12,11 @@
               </div>
             </div>
             <div class="col-md-6 d-flex flex-column justify-content-center align-items-start">
-              <h1 class="text-primary post-title text-black" (click)="navigateToBlogDetail(blog.title)">{{ blog.title }}
+              <h1 class="text-primary post-title text-black" (click)="navigateToBlogDetail(blog.id)">{{ blog.title }}
               </h1>
 
               <!-- <p class="mt-3">{{ blog.content.substring(0, 120) }}..</p> -->
-              <button class="btn  bg-black text-white btn-outline-white" (click)="navigateToBlogDetail(blog.title)">Read More</button>
+              <button class="btn  bg-black text-white btn-outline-white" (click)="navigateToBlogDetail(blog.id)">Read More</button>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
       <div class="card mb-4">
         <img [src]="blog.imageUrl" class="card-img-top" alt="{{ blog.title }}" (click)="navigateToBlogDetail(blog.id)">
         <div class="card-body">
-          <h5 class="card-title " (click)="navigateToBlogDetail(blog.title)">{{ blog.title }}</h5>
+          <h5 class="card-title " (click)="navigateToBlogDetail(blog.id)">{{ blog.title }}</h5>
           <p class="card-text">{{ blog.content.substring(0, 120) }}...</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="tag-container">
@@ -48,12 +48,12 @@
                 *ngFor="let tag of blog.tags.slice(0, 3)"
                 class="btn btn-outline-dark rounded-pill m-1 tag-button"
                 [ngClass]="{ 'btn-primary': isSelectedTag(tag) }"
-                (click)="filterByTag(tag)"
+                (click)="searchByTag(tag)"
               >
                 {{ tag }}
               </button>
             </div>
-            <button class="btn bg-black text-white btn-outline-white" (click)="navigateToBlogDetail(blog.title)">Read More</button>
+            <button class="btn bg-black text-white btn-outline-white" (click)="navigateToBlogDetail(blog.id)">Read More</button>
           </div>
         </div>
       </div>

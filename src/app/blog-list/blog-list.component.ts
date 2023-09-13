@@ -11,22 +11,32 @@ import { Blog } from '../blog';
 })
 export class BlogListComponent implements OnInit {
   filteredBlogs: Blog[] = [];
-  tag: string | null = null;
+ 
   
 
   constructor(private route: ActivatedRoute, private blogService: BlogService) {}
+  // ngOnInit(): void {
+  //   throw new Error('Method not implemented.');
+  // }
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.tag = params.get('tag');
-      if (this.tag) {
-        this.filteredBlogs = this.blogService.getBlogsByTag(this.tag);
-      } else {
-        this.blogService.getBlogs().subscribe(blogs => {
-          this.filteredBlogs = blogs;
-        });
+  
+    ngOnInit(): void {
+      const tag = this.route.snapshot.queryParamMap.get('tag');
+      console.log(tag)
+      if (tag!==null) {
+        this.blogService.searchByTag(tag).subscribe(
+          (data) => {
+            console.log(data)
+            this.filteredBlogs = data;
+            console.log(this.filteredBlogs)
+          },
+          (error) => {
+            console.error('Error:', error);
+            // Handle the error (e.g., display an error message to the user)
+          }
+        );
       }
-    });
+    
   }
 }
 
