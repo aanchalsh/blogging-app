@@ -22,10 +22,10 @@ const routes: Routes = [
 
   { path: 'posts/:id', component: BlogDetailComponent },
   { path: 'searchByTag', component: BlogListComponent },
-  { path: 'blogs/tag/:tag', component: BlogListComponent },
-  { path: 'blog-list/:tag', component: BlogListComponent },
+  // { path: 'author', component: BlogListComponent },
+  // { path: 'blog-list/:tag', component: BlogListComponent },
   { path: 'profile', component:ProfileComponent},
-  { path: 'edit/:title',component:EditBlogComponent}
+  { path: 'edit/:id',component:EditBlogComponent}
 
 ];
 @NgModule({

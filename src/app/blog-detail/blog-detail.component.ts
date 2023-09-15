@@ -11,12 +11,17 @@ import { Blog } from '../blog';
 })
 export class BlogDetailComponent implements OnInit {
   blog: Blog | null = null;
+  tag!: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private blogService: BlogService
-  ) { }
+  ) {
+    this.route.params.subscribe((params) => {
+    this.tag = params['tag'];
+    
+  }); }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -41,4 +46,5 @@ export class BlogDetailComponent implements OnInit {
   
   
 }
+
 

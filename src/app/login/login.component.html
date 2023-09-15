@@ -1,58 +1,68 @@
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-md-6 ">
-      <div class="card mt-5 shadow rounded-lg ">
+    <div class="col-md-6">
+      <div class="card mt-5 shadow rounded-lg">
         <div class="card-header bg-primary text-white bg-black">
-          <h3 class="text-center ">{{ isSignup ? 'Join our Community' : 'Welcome Back' }}</h3>
+          <h3 class="text-center">{{ isSignup ? 'Join our Community' : 'Welcome Back' }}</h3>
         </div>
         <div class="card-body">
-          <form *ngIf="!isSignup" [formGroup]="loginForm" (ngSubmit)="onAuthenticate()">
+          <form *ngIf="!isSignup"  (ngSubmit)="login()">
             <div class="mb-3">
-              <label for="content" class="form-label">Username <span class="text-danger">*</span></label>
+              <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                 <input type="text" id="username" class="form-control rounded-pill" formControlName="username">
               </div>
             </div>
             <div class="mb-3">
-              <label for="content" class="form-label">Password <span class="text-danger">*</span></label>
+              <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
                 <input type="password" id="password" class="form-control rounded-pill" formControlName="password">
               </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">
-              Login
-            </button>
-          </form>
-
-          <form *ngIf="isSignup" [formGroup]="signupForm" (ngSubmit)="onAuthenticate()">
-            <div class="mb-3">
-                    <label for="content" class="form-label">Author <span class="text-danger">*</span></label>
-
+            <!-- <div class="mb-3">
+              <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                <input type="text" id="signupAuthorName" class="form-control rounded-pill" formControlName="author">
+                <input type="text" id="username" name="username" class="form-control rounded-pill" [(ngModel)]="username" required>
               </div>
             </div>
             <div class="mb-3">
-              <label for="content" class="form-label">Username <span class="text-danger">*</span></label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                <input type="text" id="signupUsername" class="form-control rounded-pill" formControlName="username">
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="content" class="form-label">password <span class="text-danger">*</span></label>
+              <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                <input type="password" id="signupPassword" class="form-control rounded-pill" formControlName="password">
+                <input type="password" id="password" name="password" class="form-control rounded-pill" [(ngModel)]="password" required>
+              </div>
+            </div> -->
+            <button type="submit" class="btn btn-primary btn-block rounded-pill">Login</button>
+          </form>
+          <form *ngIf="isSignup" (submit)="registerUser()">
+            <div class="mb-3">
+              <label for="author" class="form-label">Author <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" id="author" name="author" class="form-control rounded-pill" [(ngModel)]="user.name" required>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">
-              Sign Up
-            </button>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" id="username" name="username" class="form-control rounded-pill" [(ngModel)]="user.username" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                <input type="password" id="password" name="password" class="form-control rounded-pill" [(ngModel)]="user.password" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block rounded-pill">Sign Up</button>
           </form>
+          
+          
           <button type="button" class="btn btn-link .btn-link-white border-white btn-link-white text-black"
             (click)="toggleSignup()">
             {{ isSignup ? 'Back to Login' : 'Sign up here ' }}
