@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BlogService } from '../blog.service';
-import { Blogs } from '../blog';
+import { Blog } from '../blog';
 
 @Component({
   selector: 'app-blog-list',
@@ -9,18 +9,25 @@ import { Blogs } from '../blog';
   styleUrls: ['./blog-list.component.css']
 })
 export class BlogListComponent implements OnInit {
-  filteredBlogs: Blogs[] = [];
-  selectedSearchType: string = ''; // Default to 'tag', but you can change it as needed
-
+  filteredBlogs: Blog[] = [];
   tag: string | null = null;
   title: string | null = null;
   author: string | null = null;
   searchTitle: string = '';
-  searchResults: Blogs[] = [];
+  searchResults: Blog[] = [];
   errorMessage: string = '';
+  blogs: Blog[] = [];
+  searchQuery: string = '';
+  searchTerm: string = '';
+ 
+  
 
   constructor(private route: ActivatedRoute, private blogService: BlogService) {}
+  // ngOnInit(): void {
+  //   throw new Error('Method not implemented.');
+  // }
 
+  
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.tag = params['tag'];
@@ -39,7 +46,15 @@ export class BlogListComponent implements OnInit {
       }
     });
   }
+ 
 
+  searchBlogs(): void {
+    if (this.searchTerm.trim()) {
+      this.blogService.searchBlogs(this.searchTerm).subscribe((blogs) => {
+        this.searchResults = blogs;
+      });
+    }
+  }
   searchBlogsByTag(tag: string): void {
     this.blogService.getBlogsByTag(tag).subscribe((blogs) => {
       this.filteredBlogs = blogs;
@@ -64,12 +79,10 @@ export class BlogListComponent implements OnInit {
     );
   }
 
-  searchBlogsByAuthor(author: string): void {
-    
-    this.blogService.searchBlogsByAuthor(author).subscribe((blogs) => {
-      this.filteredBlogs = blogs;
-    });
-  }
-  
-  
+searchBlogsByAuthor(author: string): void {
+  this.blogService.searchBlogsByAuthor(author).subscribe((blogs) => {
+    this.filteredBlogs = blogs;
+  });
+}
+
 }

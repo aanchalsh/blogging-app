@@ -8,9 +8,9 @@
             <img [src]="blog.imageUrl" class="card-img-top blog-image" alt="{{ blog.title }}">
             <div class="card-body">
               <h5 class="card-title">{{ blog.title }}</h5>
-              <a [routerLink]="['/blog', blog.title]" class="btn btn-primary bg-black text-white">Read More</a>
-              <a [routerLink]="['/edit', blog.title]" class="btn btn-primary bg-black text-white">Edit Blog</a>
-              <a class="btn btn-primary bg-black text-white" (click)="deleteblog(blog.title)">Delete Blog</a>
+              <a [routerLink]="['/posts', blog.id]" class="btn btn-primary bg-black text-white">Read More</a>
+              <a [routerLink]="['/edit', blog.id]" class="btn btn-primary bg-black text-white">Edit Blog</a>
+              <a class="btn btn-primary bg-black text-white" (click)="deleteBlog(blog.id)">Delete Blog</a>
             </div>
           </div>
         </div>

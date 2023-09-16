@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { BlogService } from '../blog.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-login',
@@ -14,25 +16,48 @@ export class LoginComponent implements OnInit {
   isSignup: boolean = false;
   errorMessage: string = '';
   signupSuccess = false;
-  user:any;
+  user: any = {};
+
+  username: string="";
+  password: string="";
+
   
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService, 
+    private authService: AuthService,
+    private blogService: BlogService, 
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-    this.signupForm = this.formBuilder.group({
-      author: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
+    
+  }
+
+  registerUser() {
+    this.blogService.registerUser(this.user).subscribe(
+
+      response => {
+        
+        console.log('Registration successful', response);
+      },
+      error => {
+        
+        console.error('Registration error', error);
+      }
+    );
+  }
+  login() {
+    this.blogService.loginUser(this.username, this.password).subscribe(
+      (response) => {
+        // Handle the login response here
+        console.log('Login successful', response);
+        // You can redirect the user or perform other actions here
+      },
+      (error) => {
+        console.error('Login failed', error);
+      }
+    );
   }
   onAuthenticate(): void {
     if (this.isSignup && this.signupForm.valid) {

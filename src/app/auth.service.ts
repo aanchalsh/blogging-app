@@ -1,5 +1,8 @@
-
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import {  User } from './user';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +12,9 @@ export class AuthService {
   private loggedInUser:boolean=false;
   private currentUser: any = null;
   private readonly tokenKey = 'authToken';
-  constructor(
-   ) { this.isLoggedIn = !!localStorage.getItem(this.tokenKey);
+  constructor(private http: HttpClient) 
+  { 
+    this.isLoggedIn = !!localStorage.getItem(this.tokenKey);
     this.loggedInUser = this.isLoggedIn; }
 
   getLoggedInUser(): any {
@@ -24,6 +28,7 @@ export class AuthService {
     }
     return null;
   }
+  private baseUrl = 'http://localhost:8080/blogs';
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem(this.tokenKey);

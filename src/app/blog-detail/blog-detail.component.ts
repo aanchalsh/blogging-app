@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../blog.service';
-import { Blogs } from '../blog';
+import { Blog } from '../blog';
 
 @Component({
   selector: 'app-blog-detail',
@@ -10,7 +10,7 @@ import { Blogs } from '../blog';
   styleUrls: ['./blog-detail.component.css']
 })
 export class BlogDetailComponent implements OnInit {
-  blog: Blogs | null = null;
+  blog: Blog | null = null;
   tag!: string;
 
   constructor(
@@ -20,22 +20,31 @@ export class BlogDetailComponent implements OnInit {
   ) {
     this.route.params.subscribe((params) => {
     this.tag = params['tag'];
-    this.searchBlogsByTag(this.tag);
+    
   }); }
 
   ngOnInit(): void {
-    this.blogService.getPostsById().subscribe((data) => {
-      this.blog=data;
+    this.route.paramMap.subscribe((params) => {
+      const postId = params.get('id');
+      console.log(postId)
+      if (postId) {
+        this.blogService.getPostsById(postId).subscribe(
+          (data) => {
+            this.blog = data;
+          },
+          (error) => {
+            console.error('Error fetching blog post:', error);
+          }
+        );
+      }
     });
   }
 
   filterByTag(tag: string): void {
-    this.router.navigate(['/tag', tag]);
+    this.router.navigate(['/blogs/tag', tag]);
   }
-  searchBlogsByTag(tag: string): void {
-    this.blogService.getBlogsByTag(tag).subscribe((blogs) => {
-    
-    });
+  
   
 }
-}
+
+

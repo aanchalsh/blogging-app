@@ -22,7 +22,7 @@
           <a class="nav-link text-white border-white" href="/write-blog">Write Blog</a>
         </li>
         <li class="nav-item" *ngIf="authService.isAuthenticated() && authService.isAuthenticate()">
-          <a class="nav-link text-white border-white" routerLink="/profile">Profile</a>
+          <a class="nav-link text-white border-white" (click)="navigateTo()">Profile</a>
         </li>
         <li class="nav-item" *ngIf="authService.isAuthenticated() && authService.isAuthenticate()">
           <a class="nav-link text-white border-white" (click)="logout()">Logout</a>
@@ -53,10 +53,6 @@
         </div>
       </div>
      
-      
-    
-      
-      
     </div>
   </div>
 
