@@ -4,11 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Blog } from '../blog';
 import { BlogService } from '../blog.service';
 import { AuthService } from '../auth.service';
+import { AuthGuard } from '../auth.guard';
+
 
 @Component({
   selector: 'app-write-blog',
   templateUrl: './write-blog.component.html',
-  styleUrls: ['./write-blog.component.css']
+  styleUrls: ['./write-blog.component.css'],
+  providers:[AuthGuard]
 })
 export class WriteBlogComponent implements OnInit {
   blogForm!: FormGroup;
@@ -22,22 +25,23 @@ export class WriteBlogComponent implements OnInit {
     private blogService: BlogService,
     private authService: AuthService,
     private route: ActivatedRoute
-  ) {
-    if (!this.authService.isAuthenticated()) {
-      this.showLoginMessage = true;
-    }
+  ) 
+  {
+    // if (!this.authService.isAuthenticated()) {
+    //   this.showLoginMessage = true;
+    // }
   }
 
   ngOnInit(): void {
-    const savedAuthorName = localStorage.getItem('loggedInAuthorName');
+    // const savedAuthorName = localStorage.getItem('loggedInAuthorName');
 
-    this.blogForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      author: [savedAuthorName || '', Validators.required],
-      tags: ['', Validators.required],
-      content: ['', [Validators.required, Validators.minLength(10)]],
-      imageUrl: ['', [Validators.required, Validators.pattern('^(http|https)://.*$')]],
-    });
+    // this.blogForm = this.formBuilder.group({
+    //   title: ['', Validators.required],
+    //   author: [savedAuthorName || '', Validators.required],
+    //   tags: ['', Validators.required],
+    //   content: ['', [Validators.required, Validators.minLength(10)]],
+    //   imageUrl: ['', [Validators.required, Validators.pattern('^(http|https)://.*$')]],
+    // });
   }
 
   get formControls() {
@@ -63,17 +67,18 @@ export class WriteBlogComponent implements OnInit {
         this.blogService.addBlog(blog).subscribe(
           (response) => {
             console.log('Blog added successfully:', response);
+            this.router.navigate(['blogs/posts', blog.title]);
           },
           (error) => {
             console.error('Error adding blog:', error);
           }
         );
 
-        const storedBlogs = JSON.parse(localStorage.getItem(this.blogForm.value.author) || '[]');
-        storedBlogs.push(blog);
-        localStorage.setItem(this.blogForm.value.author, JSON.stringify(storedBlogs));
+        // const storedBlogs = JSON.parse(localStorage.getItem(this.blogForm.value.author) || '[]');
+        // storedBlogs.push(blog);
+        // localStorage.setItem(this.blogForm.value.author, JSON.stringify(storedBlogs));
 
-        this.router.navigate(['blogs/posts', blog.title]);
+        
       }
     } 
   }

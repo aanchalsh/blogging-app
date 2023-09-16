@@ -30,7 +30,7 @@ export class BlogService {
   }
 
   addBlog(blog: Blog): Observable<any> { 
-    return this.http.post<Blog>(`${this.baseUrl}/posts`, blog);
+    return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog);
   }
 
   // getBlogsByAuthor(author: string): Observable<Blog[]> { 
@@ -54,7 +54,7 @@ export class BlogService {
 
 
   registerUser(user: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, user);
+    return this.http.post(`${this.baseUrl}/create-user`, user);
   }
   loginUser(username: string, password: string): Observable<any> {
     const loginRequest = { username, password };
