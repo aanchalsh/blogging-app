@@ -11,20 +11,6 @@
               <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                <input type="text" id="username" class="form-control rounded-pill" formControlName="username">
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                <input type="password" id="password" class="form-control rounded-pill" formControlName="password">
-              </div>
-            </div>
-            <!-- <div class="mb-3">
-              <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
                 <input type="text" id="username" name="username" class="form-control rounded-pill" [(ngModel)]="username" required>
               </div>
             </div>
@@ -34,8 +20,8 @@
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
                 <input type="password" id="password" name="password" class="form-control rounded-pill" [(ngModel)]="password" required>
               </div>
-            </div> -->
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">Login</button>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block rounded-pill" >Login</button>
           </form>
           <form *ngIf="isSignup" (submit)="registerUser()">
             <div class="mb-3">

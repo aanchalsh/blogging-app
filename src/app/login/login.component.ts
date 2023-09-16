@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
       response => {
         
         console.log('Registration successful', response);
+        
       },
       error => {
         
@@ -50,45 +51,44 @@ export class LoginComponent implements OnInit {
   login() {
     this.blogService.loginUser(this.username, this.password).subscribe(
       (response) => {
-        // Handle the login response here
         console.log('Login successful', response);
-        // You can redirect the user or perform other actions here
+        this.router.navigate(['blogs/writeblog']);
       },
       (error) => {
         console.error('Login failed', error);
       }
     );
   }
-  onAuthenticate(): void {
-    if (this.isSignup && this.signupForm.valid) {
-      const { username, password, author } = this.signupForm.value;
-      const isSignupSuccessful = this.authService.signup(username, password, author);
+  // onAuthenticate(): void {
+  //   if (this.isSignup && this.signupForm.valid) {
+  //     const { username, password, author } = this.signupForm.value;
+  //     const isSignupSuccessful = this.authService.signup(username, password, author);
 
-      if (isSignupSuccessful) {
-        this.signupForm.reset();
-        this.signupSuccess = true;
-        setTimeout(() => {
-          this.signupSuccess = false;
-          this.authService.setLoggedInStatus(true); // Set the logged in status
-         // this.router.navigate(['/home']);
-        }, 3000);
-      } else {
-        this.errorMessage = 'Username already exists'; // Display the error message
-      }
-    } else if (!this.isSignup && this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      const isLoginSuccessful = this.authService.login(username, password);
+  //     if (isSignupSuccessful) {
+  //       this.signupForm.reset();
+  //       this.signupSuccess = true;
+  //       setTimeout(() => {
+  //         this.signupSuccess = false;
+  //         this.authService.setLoggedInStatus(true); // Set the logged in status
+  //        // this.router.navigate(['/home']);
+  //       }, 3000);
+  //     } else {
+  //       this.errorMessage = 'Username already exists'; // Display the error message
+  //     }
+  //   } else if (!this.isSignup && this.loginForm.valid) {
+  //     const { username, password } = this.loginForm.value;
+  //     const isLoginSuccessful = this.authService.login(username, password);
 
-      if (isLoginSuccessful) {
-        this.authService.setLoggedInStatus(true); // Set the logged in status
-        this.router.navigate(['/write-blog']);
-      } else {
-        this.errorMessage = 'Invalid username or password';
-      }
-    } else {
-      this.errorMessage = 'Please fill in all required fields'; // Display the general error message
-    }
-  }
+  //     if (isLoginSuccessful) {
+  //       this.authService.setLoggedInStatus(true); // Set the logged in status
+  //       this.router.navigate(['/write-blog']);
+  //     } else {
+  //       this.errorMessage = 'Invalid username or password';
+  //     }
+  //   } else {
+  //     this.errorMessage = 'Please fill in all required fields'; // Display the general error message
+  //   }
+  // }
   toggleSignup(): void {
     this.isSignup = !this.isSignup;
     this.errorMessage = '';
