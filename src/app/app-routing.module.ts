@@ -19,13 +19,16 @@ const routes: Routes = [
     component: WriteBlogComponent,
     canActivate: [AuthGuard], data: { requiresAuth: true }
   },
-
+  { path: 'search', component:BlogListComponent },
+  { path: 'blogs/title/:title', component: BlogListComponent },
+  { path: 'blogs/author/:author', component: BlogListComponent },
   { path: 'blog/:title', component: BlogDetailComponent },
   { path: 'tag/:tag', component: BlogListComponent },
   { path: 'blogs/tag/:tag', component: BlogListComponent },
   { path: 'blog-list/:tag', component: BlogListComponent },
   { path: 'profile', component:ProfileComponent},
-  { path: 'edit/:title',component:EditBlogComponent}
+  { path: 'edit/:title',component:EditBlogComponent},
+  { path: 'blog-list', component: BlogListComponent },
 
 ];
 @NgModule({

@@ -12,7 +12,7 @@ export class BlogService {
 
   constructor(private http: HttpClient) { }
   private baseUrl = 'http://localhost:8080/blogs';
-
+  
   getAllPosts(): Observable<any> {
     return this.http.get(`${this.baseUrl}/posts`);
   }
@@ -26,6 +26,21 @@ export class BlogService {
       return this.http.post<Blogs>(`${this.baseUrl}/posts`, blog);
     
   }
+  getBlogsByTag(tag: string): Observable<Blogs[]> {
+    return this.http.get<Blogs[]>(`${this.baseUrl}/tag/${tag}`);
+  }
+  searchBlogsByTitle(title: string): Observable<Blogs[]> {
+    const url = `${this.baseUrl}/searchByTitle?title=${title}`; // Properly construct the URL
+    return this.http.get<Blogs[]>(url);
+  }
+  searchBlogsByAuthor(author: string): Observable<Blogs[]> {
+    const url = `${this.baseUrl}/searchByAuthor?author=${author}`; // Properly construct the URL
+    return this.http.get<Blogs[]>(url);
+  }
+  search(searchType: string, searchTerm: string): Observable<any> {
+    const url = `${this.baseUrl}/search/${searchType}/${searchTerm}`;
+    return this.http.get(url);
+  }
 
   getBlogByTitle(title: string): Blogs | null {
     const allBlogs = this.getAllBlogsFromLocalStorage();
@@ -35,23 +50,21 @@ export class BlogService {
   getBlogs(): Observable<Blogs[]> {
     return of(this.getAllBlogsFromLocalStorage());
   }
-  searchBlogs(query: string): Blogs[] {
-    const allBlogs = this.getAllBlogsFromLocalStorage();
-    const filteredBlogs = allBlogs.filter((blog: Blogs) => {
-      return (
-        blog.title.toLowerCase().includes(query.toLowerCase()) ||
-        blog.content.toLowerCase().includes(query.toLowerCase()) ||
-        blog.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
-      );
-    });
-    return filteredBlogs;
-  }
-
+ 
   
 
-  getBlogsByTag(tag: string): Observable<Blogs[]> {
-    return this.http.get<Blogs[]>(`${this.baseUrl}/tag/${tag}`);
+  
+  searchBlogs(query: string, type: string): Observable<Blogs[]> {
+    if (type === 'tag') {
+      return this.getBlogsByTag(query);
+    } else if (type === 'title') {
+      return this.searchBlogsByTitle(query);
+    } else {
+      // Handle invalid search type here, or you can return an empty list
+      return of([]);
+    }
   }
+  
   getBlogsByAuthor(author: string): Blogs[] {
     const allBlogs = this.getAllBlogsFromLocalStorage();
     const filteredBlogs = allBlogs.filter((blog: Blogs) => blog.author.includes(author));

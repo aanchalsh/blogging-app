@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BlogService } from '../blog.service';
@@ -11,18 +10,32 @@ import { Blogs } from '../blog';
 })
 export class BlogListComponent implements OnInit {
   filteredBlogs: Blogs[] = [];
-  tag: string| null=null;
-  
+  selectedSearchType: string = ''; // Default to 'tag', but you can change it as needed
+
+  tag: string | null = null;
+  title: string | null = null;
+  author: string | null = null;
+  searchTitle: string = '';
+  searchResults: Blogs[] = [];
+  errorMessage: string = '';
 
   constructor(private route: ActivatedRoute, private blogService: BlogService) {}
 
   ngOnInit(): void {
-    // Get the tag from the route parameter
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.tag = params['tag'];
-      // Call the method to fetch blogs by tag
+      this.title = params['title'];
+      this.author=params['author'];
+
       if (this.tag !== null) {
-      this.searchBlogsByTag(this.tag);
+        this.searchBlogsByTag(this.tag);
+      }
+
+      if (this.title !== null) {
+        this.searchBlogsByTitle(this.title);
+      }
+      if (this.author !== null) {
+        this.searchBlogsByAuthor(this.author);
       }
     });
   }
@@ -30,9 +43,33 @@ export class BlogListComponent implements OnInit {
   searchBlogsByTag(tag: string): void {
     this.blogService.getBlogsByTag(tag).subscribe((blogs) => {
       this.filteredBlogs = blogs;
-      // Handle the retrieved blogs, e.g., display them in your component
     });
   }
+  // searchBlogsByAuthor(author: string): void {
+  //   this.blogService.searchBlogsByAuthor(author).subscribe((blogs) => {
+  //     this.filteredBlogs = blogs;
+  //   });
+  // }
+
+  searchBlogsByTitle(title: string): void {
+    this.blogService.searchBlogsByTitle(title).subscribe(
+      (blogs) => {
+        this.filteredBlogs = blogs;
+        this.errorMessage = ''; // Clear any previous error messages
+      },
+      (error) => {
+        this.errorMessage = 'Error fetching blogs by title.';
+        console.error('Error fetching blogs by title:', error);
+      }
+    );
+  }
+
+  searchBlogsByAuthor(author: string): void {
+    
+    this.blogService.searchBlogsByAuthor(author).subscribe((blogs) => {
+      this.filteredBlogs = blogs;
+    });
+  }
+  
+  
 }
-
-
