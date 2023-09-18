@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       response => {
         
         console.log('Registration successful', response);
-        
+
       },
       error => {
         
@@ -48,10 +48,31 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+  // login() {
+  //   this.blogService.loginUser(this.username, this.password).subscribe(
+  //     (response) => {
+  //       console.log('Login successful', response);
+  //       this.router.navigate(['blogs/writeblog']);
+  //     },
+  //     (error) => {
+  //       console.error('Login failed', error);
+  //     }
+  //   );
+  // }
   login() {
     this.blogService.loginUser(this.username, this.password).subscribe(
       (response) => {
         console.log('Login successful', response);
+  
+        // Extract the token and username from the response
+        const token = response.jwtToken;
+        const username = response.username;
+  
+        // Store the token and username in local storage
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', username);
+  
+        // Redirect to the desired page
         this.router.navigate(['blogs/writeblog']);
       },
       (error) => {

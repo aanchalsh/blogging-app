@@ -12,116 +12,116 @@ export class AuthService {
   private loggedInUser:boolean=false;
   private currentUser: any = null;
   private readonly tokenKey = 'authToken';
-  constructor(private http: HttpClient) 
-  { 
-    this.isLoggedIn = !!localStorage.getItem(this.tokenKey);
-    this.loggedInUser = this.isLoggedIn; }
+  // constructor(private http: HttpClient) 
+  // { 
+  //   this.isLoggedIn = !!localStorage.getItem(this.tokenKey);
+  //   this.loggedInUser = this.isLoggedIn; }
 
-  getLoggedInUser(): any {
-    const username = localStorage.getItem('loggedInUsername');
-    if (username) {
-      const userJson = localStorage.getItem(`user_${username}`);
-      if (userJson) {
-        const user = JSON.parse(userJson);
-        return { username, author: user.author };
-      }
-    }
-    return null;
-  }
+  // getLoggedInUser(): any {
+  //   const username = localStorage.getItem('loggedInUsername');
+  //   if (username) {
+  //     const userJson = localStorage.getItem(`user_${username}`);
+  //     if (userJson) {
+  //       const user = JSON.parse(userJson);
+  //       return { username, author: user.author };
+  //     }
+  //   }
+  //   return null;
+  // }
   private baseUrl = 'http://localhost:8080/blogs';
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem(this.tokenKey);
-  }
-  isAuthenticate(): boolean {
-    return this.isLoggedIn;
-  }
+  // isAuthenticated(): boolean {
+  //   return !!localStorage.getItem(this.tokenKey);
+  // }
+  // isAuthenticate(): boolean {
+  //   return this.isLoggedIn;
+  // }
 
-  isUsernameAvailable(username: string): boolean {
-    const existingUsernames = this.getAllUsernames();
-    return !existingUsernames.includes(username);
-  }
+  // isUsernameAvailable(username: string): boolean {
+  //   const existingUsernames = this.getAllUsernames();
+  //   return !existingUsernames.includes(username);
+  // }
 
-  private getAllUsernames(): string[] {
-    const storedUsernames = Object.keys(localStorage).filter(key => key.startsWith('user_'));
-    return storedUsernames.map(key => key.replace('user_', ''));
-  }
-  login(username: string, password: string): boolean {
-    const storedUserJson = localStorage.getItem(`user_${username}`);
-    if (storedUserJson) {
-      const token = 'authToken';
-      const storedUser = JSON.parse(storedUserJson);
-      if (password === storedUser.password) {
-        this.isLoggedIn = true;
-        this.loggedInUser = true;
-        this.currentUser = { username, author: storedUser.author };
-        console.log(this.currentUser);
-        localStorage.setItem('loggedInUsername', username);
-        localStorage.setItem('loggedInAuthorName', storedUser.author);
-        const token = 'token'; 
-        localStorage.setItem(this.tokenKey, token);
-        return true;
-      }
-    }
-    return false;
-  }
+  // private getAllUsernames(): string[] {
+  //   const storedUsernames = Object.keys(localStorage).filter(key => key.startsWith('user_'));
+  //   return storedUsernames.map(key => key.replace('user_', ''));
+  // }
+  // login(username: string, password: string): boolean {
+  //   const storedUserJson = localStorage.getItem(`user_${username}`);
+  //   if (storedUserJson) {
+  //     const token = 'authToken';
+  //     const storedUser = JSON.parse(storedUserJson);
+  //     if (password === storedUser.password) {
+  //       this.isLoggedIn = true;
+  //       this.loggedInUser = true;
+  //       this.currentUser = { username, author: storedUser.author };
+  //       console.log(this.currentUser);
+  //       localStorage.setItem('loggedInUsername', username);
+  //       localStorage.setItem('loggedInAuthorName', storedUser.author);
+  //       const token = 'token'; 
+  //       localStorage.setItem(this.tokenKey, token);
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 
-  getCurrentUser(): any {
-    if (this.isAuthenticated()) {
-      if (!this.currentUser) {
-        const loggedInUsername = localStorage.getItem('loggedInUsername');
-        const loggedInAuthorName = localStorage.getItem('loggedInAuthorName');
+  // getCurrentUser(): any {
+  //   if (this.isAuthenticated()) {
+  //     if (!this.currentUser) {
+  //       const loggedInUsername = localStorage.getItem('loggedInUsername');
+  //       const loggedInAuthorName = localStorage.getItem('loggedInAuthorName');
   
-        if (loggedInUsername && loggedInAuthorName) {
-          this.currentUser = { username: loggedInUsername, author: loggedInAuthorName };
-        }
-      }
-      return this.currentUser;
-    }
-    return null;
-  }
-  
-
-  setLoggedInStatus(status: boolean): void {
-    this.isLoggedIn = status;
-  }
-  getUserBlogs(username: string): any[] {
-    const userBlogs = Object.keys(localStorage)
-      .filter(key => key.startsWith(`user_${username}_blog_`))
-      .map(key => {
-        const item = localStorage.getItem(key);
-        if (item) {
-          return JSON.parse(item);
-        }
-        return null;
-      })
-      .filter(blog => blog !== null); 
-      console.log(userBlogs);
-    return userBlogs;
-  }
+  //       if (loggedInUsername && loggedInAuthorName) {
+  //         this.currentUser = { username: loggedInUsername, author: loggedInAuthorName };
+  //       }
+  //     }
+  //     return this.currentUser;
+  //   }
+  //   return null;
+  // }
   
 
-  logout(): void {
-    this.isLoggedIn = false;
-    this.loggedInUser=false;
-    this.currentUser = null;
-    localStorage.removeItem('loggedInUsername');
-    localStorage.removeItem('loggedInAuthorName');
-    localStorage.removeItem(this.tokenKey);
-  }
+  // setLoggedInStatus(status: boolean): void {
+  //   this.isLoggedIn = status;
+  // }
+  // getUserBlogs(username: string): any[] {
+  //   const userBlogs = Object.keys(localStorage)
+  //     .filter(key => key.startsWith(`user_${username}_blog_`))
+  //     .map(key => {
+  //       const item = localStorage.getItem(key);
+  //       if (item) {
+  //         return JSON.parse(item);
+  //       }
+  //       return null;
+  //     })
+  //     .filter(blog => blog !== null); 
+  //     console.log(userBlogs);
+  //   return userBlogs;
+  // }
+  
 
-signup(username: string, password: string, author: string): boolean {
-  if (this.isUsernameAvailable(username)) {
-    const userData = {
-      username,
-      password,
-      author
-    };
-    localStorage.setItem(`user_${username}`, JSON.stringify(userData)); 
-    this.isLoggedIn = true;
-    return true;
-  } else {
-    return false;
-  }
-}  
+  // logout(): void {
+  //   this.isLoggedIn = false;
+  //   this.loggedInUser=false;
+  //   this.currentUser = null;
+  //   localStorage.removeItem('loggedInUsername');
+  //   localStorage.removeItem('loggedInAuthorName');
+  //   localStorage.removeItem(this.tokenKey);
+  // }
+
+// signup(username: string, password: string, author: string): boolean {
+//   if (this.isUsernameAvailable(username)) {
+//     const userData = {
+//       username,
+//       password,
+//       author
+//     };
+//     localStorage.setItem(`user_${username}`, JSON.stringify(userData)); 
+//     this.isLoggedIn = true;
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }  
 }

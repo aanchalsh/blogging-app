@@ -23,66 +23,51 @@ export class BlogListComponent implements OnInit {
   
 
   constructor(private route: ActivatedRoute, private blogService: BlogService) {}
-  // ngOnInit(): void {
-  //   throw new Error('Method not implemented.');
-  // }
-
-  
+ 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.tag = params['tag'];
-      this.title = params['title'];
-      this.author=params['author'];
-
-      if (this.tag !== null) {
-        this.searchBlogsByTag(this.tag);
+    const tag = this.route.snapshot.queryParamMap.get('tag');
+      console.log(tag)
+      if (tag!==null) {
+        this.blogService.searchBlogsByTag(tag).subscribe(
+          (data) => {
+            console.log(data)
+            this.filteredBlogs = data;
+            console.log(this.filteredBlogs)
+          },
+          (error) => {
+            console.error('Error:', error);
+            // Handle the error (e.g., display an error message to the user)
+          }
+        );
       }
-
-      if (this.title !== null) {
-        this.searchBlogsByTitle(this.title);
-      }
-      if (this.author !== null) {
-        this.searchBlogsByAuthor(this.author);
-      }
-    });
   }
  
 
-  searchBlogs(): void {
-    if (this.searchTerm.trim()) {
-      this.blogService.searchBlogs(this.searchTerm).subscribe((blogs) => {
-        this.searchResults = blogs;
-      });
-    }
-  }
-  searchBlogsByTag(tag: string): void {
-    this.blogService.getBlogsByTag(tag).subscribe((blogs) => {
-      this.filteredBlogs = blogs;
-    });
-  }
-  // searchBlogsByAuthor(author: string): void {
-  //   this.blogService.searchBlogsByAuthor(author).subscribe((blogs) => {
-  //     this.filteredBlogs = blogs;
-  //   });
-  // }
+//   searchBlogs(): void {
+//     if (this.searchTerm.trim()) {
+//       this.blogService.searchBlogs(this.searchTerm).subscribe((blogs) => {
+//         this.searchResults = blogs;
+//       });
+//     }
+//   }
 
-  searchBlogsByTitle(title: string): void {
-    this.blogService.searchBlogsByTitle(title).subscribe(
-      (blogs) => {
-        this.filteredBlogs = blogs;
-        this.errorMessage = ''; // Clear any previous error messages
-      },
-      (error) => {
-        this.errorMessage = 'Error fetching blogs by title.';
-        console.error('Error fetching blogs by title:', error);
-      }
-    );
-  }
+//   searchBlogsByTitle(title: string): void {
+//     this.blogService.searchBlogsByTitle(title).subscribe(
+//       (blogs) => {
+//         this.filteredBlogs = blogs;
+//         this.errorMessage = ''; // Clear any previous error messages
+//       },
+//       (error) => {
+//         this.errorMessage = 'Error fetching blogs by title.';
+//         console.error('Error fetching blogs by title:', error);
+//       }
+//     );
+//   }
 
-searchBlogsByAuthor(author: string): void {
-  this.blogService.searchBlogsByAuthor(author).subscribe((blogs) => {
-    this.filteredBlogs = blogs;
-  });
-}
+// searchBlogsByAuthor(author: string): void {
+//   this.blogService.searchBlogsByAuthor(author).subscribe((blogs) => {
+//     this.filteredBlogs = blogs;
+//   });
+// }
 
 }

@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'blogs/writeblog',
     component: WriteBlogComponent,
-    canActivate: [AuthGuard], data: { requiresAuth: true }
+    canActivate: [AuthGuard]
   },
 
  

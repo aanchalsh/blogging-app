@@ -43,8 +43,6 @@ export class BlogDetailComponent implements OnInit {
   filterByTag(tag: string): void {
     this.router.navigate(['/blogs/tag', tag]);
   }
-  
-  
 }
 
 

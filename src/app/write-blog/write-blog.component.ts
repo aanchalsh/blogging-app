@@ -18,6 +18,8 @@ export class WriteBlogComponent implements OnInit {
   errorMessage: string = '';
   userBlogs: any[] = [];
   showLoginMessage: boolean = false;
+  blog: Blog[]=[];
+  currentUser: string | null | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,15 +35,14 @@ export class WriteBlogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // const savedAuthorName = localStorage.getItem('loggedInAuthorName');
-
-    // this.blogForm = this.formBuilder.group({
-    //   title: ['', Validators.required],
-    //   author: [savedAuthorName || '', Validators.required],
-    //   tags: ['', Validators.required],
-    //   content: ['', [Validators.required, Validators.minLength(10)]],
-    //   imageUrl: ['', [Validators.required, Validators.pattern('^(http|https)://.*$')]],
-    // });
+    this.currentUser=localStorage.getItem('username')
+    this.blogForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      author: [this.currentUser,Validators.required],
+      tags: ['', Validators.required],
+      content: ['', [Validators.required, Validators.minLength(10)]],
+      imageUrl: ['', [Validators.required, Validators.pattern('^(http|https)://.*$')]],
+    });
   }
 
   get formControls() {
@@ -67,7 +68,7 @@ export class WriteBlogComponent implements OnInit {
         this.blogService.addBlog(blog).subscribe(
           (response) => {
             console.log('Blog added successfully:', response);
-            this.router.navigate(['blogs/posts', blog.title]);
+            this.router.navigate(['/posts',response.id]);
           },
           (error) => {
             console.error('Error adding blog:', error);

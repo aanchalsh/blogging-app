@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit {
     //     this.filteredBlogs = blogs;
     //     console.log(this.filteredBlogs);
     //   },
-    //   (error) => {
+    //   (error: any) => {
     //     console.error('Error:', error);
     //     // Handle errors here
     //   }
@@ -55,26 +55,50 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  getCurrentUser(): void {
-    this.currentUser = this.authService.getCurrentUser();
-    this.displayusername=this.currentUser.author; // Call the AuthService function
-  }
-  deleteBlog(blogId:string):void {
+  // getCurrentUser(): void {
+  //   this.currentUser = localStorage.getItem()
+  //   this.displayusername=this.currentUser.author; // Call the AuthService function
+  // }
+  // deleteBlog(blogId:string):void {
+  //   if (blogId) {
+  //     this.blogService.deleteBlog(blogId).subscribe(
+  //       () => {
+  //         console.log('Blog deleted successfully');
+  //         this.router.navigate(['/blog-list']); // Navigate to the blog list page or another appropriate page
+  //       },
+  //       (error) => {
+  //         console.error('Error deleting blog:', error);
+  //       }
+  //     );
+  //   } else {
+  //     console.error('Invalid ID');
+  //   }
+    
+  //   this.filteredBlogs = this.filteredBlogs.filter((blog: Blog) => blog.id !== blogId);
+  // }
+  deleteBlog(blogId: string): void {
     if (blogId) {
-      this.blogService.deleteBlog(blogId).subscribe(
-        () => {
-          console.log('Blog deleted successfully');
-          this.router.navigate(['/blog-list']); // Navigate to the blog list page or another appropriate page
-        },
-        (error) => {
-          console.error('Error deleting blog:', error);
-        }
-      );
+      // Display a confirmation dialog before deleting
+      const confirmDelete = confirm('Are you sure you want to delete this blog?');
+
+      if (confirmDelete) {
+        this.blogService.deleteBlog(blogId).subscribe(
+          () => {
+            console.log('Blog deleted successfully');
+            this.router.navigate(['/blog-list']); // Navigate to the blog list page or another appropriate page
+          },
+          (error) => {
+            console.error('Error deleting blog:', error);
+          }
+        );
+
+        // Update your local filteredBlogs array
+        this.filteredBlogs = this.filteredBlogs.filter((blog: Blog) => blog.id !== blogId);
+      }
     } else {
       console.error('Invalid ID');
     }
-    
-    this.filteredBlogs = this.filteredBlogs.filter((blog: Blog) => blog.id !== blogId);
   }
+
   
 }

@@ -10,7 +10,7 @@ import { Blog } from '../blog';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  isLoggedIn: boolean = false;
+  
   searchQuery: string = '';
   searchResults: Blog[] = []; // Assuming your Blog model/interface is defined
   selectedSearchType: string = '';
@@ -26,36 +26,65 @@ export class HeaderComponent implements OnInit {
   displayUsername: string = '';
   searchTerm: string = '';
 
+  isAuthenticated = false;
+
   constructor(private router: Router, private blogService: BlogService, public authService: AuthService) { }
 
   ngOnInit(): void {
-    this.updateLoginStatus();
-    this.currentUser = this.authService.getCurrentUser();
-    this.displayUsername = this.currentUser ? this.currentUser.author : '';
+    this.currentUser=localStorage.getItem('username');
+    // this.updateLoginStatus();
+    // this.currentUser = this.authService.getCurrentUser();
+    // this.displayUsername = this.currentUser ? this.currentUser.author : '';
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      // Token found, set authenticated to true
+      this.isAuthenticated = true;
+    } else {
+      // Token not found, set authenticated to false
+      this.isAuthenticated = false;
+    }
+
+    this.blogService.isAuthenticatedSubject.subscribe((isAuthenticated) => {
+      this.isAuthenticated = isAuthenticated;
+    });
   }
 
   navigateTo(): void {
-    if (this.displayUsername) {
-      this.router.navigate(['/profile'], { queryParams: { author: this.displayUsername } });
+    if (this.currentUser) {
+      this.router.navigate(['/profile'], { queryParams: { author: this.currentUser } });
     }
   }
 
 
-  updateLoginStatus(): void {
-    this.isLoggedIn = this.authService.isAuthenticated();
-    if (this.isLoggedIn) {
-      this.loggedInUser = this.authService.getLoggedInUser();
+  // updateLoginStatus(): void {
+  //   this.isLoggedIn = this.blogService.isAuthenticated();
+  //   if (this.isLoggedIn) {
+  //     //this.loggedInUser = this.blogService.getLoggedInUser();
+  //   }
+  // }
+  navigateToWriteBlog(): void {
+    if (this.isAuthenticated) {
+      // User is authenticated, navigate to "Write Blog"
+      this.router.navigate(['/write-blog']);
+    } else {
+      // User is not authenticated, navigate to the login page
+      this.router.navigate(['/login']);
     }
+  }
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('token');
+    return !!token; // Returns true if a token exists, otherwise false
   }
  
   
 
   logout(): void {
-    this.authService.logout();
-    this.isLoggedIn = false;
-    this.showLoginButton = true;
-    this.updateLoginStatus();
-    this.loggedInUser = null;
+    // Remove the JWT token from local storage
+    localStorage.removeItem('token');
+
+    // Optionally, perform additional logout actions (e.g., clear user state)
+
+    // Redirect to the login page or any other desired page
     this.router.navigate(['/login']);
   }
  
