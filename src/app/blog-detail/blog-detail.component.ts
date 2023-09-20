@@ -41,7 +41,7 @@ export class BlogDetailComponent implements OnInit {
   }
 
   filterByTag(tag: string): void {
-    this.router.navigate(['/blogs/tag', tag]);
+    this.router.navigate(['/searchByTag'], { queryParams: { tag: tag } });
   }
 }
 

@@ -35,6 +35,14 @@ export class BlogService {
     const params = new HttpParams().set('tag', tag); 
     return this.http.get<Blog[]>(`${this.baseUrl}/searchByTag`, { params });
   }
+  searchBlogs(searchTerm: string): Observable<Blog[]> {
+    return this.http.get<Blog[]>(`${this.baseUrl}/search`, {
+      params: { searchTerm },
+    });
+  }
+  getBlogsByTag(tag: string): Observable<Blog[]> {
+    return this.http.get<Blog[]>(`${this.baseUrl}/tag/${tag}`);
+  }
  
   searchByAuthor(author: string): Observable<any> {
     const params = { author }; 

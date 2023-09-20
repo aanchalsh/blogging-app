@@ -1,44 +1,56 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../blog.service';
 import { Blog } from '../blog';
-
 @Component({
   selector: 'app-blog-list',
   templateUrl: './blog-list.component.html',
-  styleUrls: ['./blog-list.component.css']
+  styleUrls: ['./blog-list.component.css'],
 })
 export class BlogListComponent implements OnInit {
   filteredBlogs: Blog[] = [];
-  tag: string | null = null;
-  title: string | null = null;
-  author: string | null = null;
-  searchTitle: string = '';
-  searchResults: Blog[] = [];
-  errorMessage: string = '';
-  blogs: Blog[] = [];
-  searchQuery: string = '';
   searchTerm: string = '';
- 
-  
-
-  constructor(private route: ActivatedRoute, private blogService: BlogService) {}
- 
+  errorMessage: string = '';
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private blogService: BlogService
+  ) {}
   ngOnInit(): void {
-    const tag = this.route.snapshot.queryParamMap.get('tag');
-      console.log(tag)
-      if (tag!==null) {
-        this.blogService.searchBlogsByTag(tag).subscribe(
-          (data) => {
-            console.log(data)
-            this.filteredBlogs = data;
-            console.log(this.filteredBlogs)
-          },
-          (error) => {
-            console.error('Error:', error);
-          }
-        );
+    this.route.queryParams.subscribe((params) => {
+      const searchTerm = params['searchTerm'];
+      const selectedTag = params['tag']; // Extract the tag parameter
+      if (searchTerm) {
+        // If searchTerm is provided, search by searchTerm
+        this.searchBlogs(searchTerm);
+      } else if (selectedTag) {
+        // If a tag is provided, filter by tag
+        this.searchBlogsByTag(selectedTag);
       }
+    });
   }
- 
+  searchBlogs(searchTerm: string): void {
+    this.blogService.searchBlogs(searchTerm).subscribe(
+      (blogs) => {
+        this.filteredBlogs = blogs;
+        this.errorMessage = '';
+      },
+      (error) => {
+        this.errorMessage = `Error fetching blogs: ${error.message}`;
+        console.error('Error fetching blogs:', error);
+      }
+    );
+  }
+  searchBlogsByTag(tag: string): void {
+    this.blogService.getBlogsByTag(tag).subscribe(
+      (blogs: Blog[]) => {
+        this.filteredBlogs = blogs;
+        this.errorMessage = '';
+      },
+      (error: { message: any; }) => {
+        this.errorMessage = `Error fetching blogs by tag: ${error.message}`;
+        console.error('Error fetching blogs by tag:', error);
+      }
+    );
+  }
 }
