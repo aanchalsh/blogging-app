@@ -1,5 +1,4 @@
 import { Component,OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Blog } from '../blog';
 import { BlogService } from '../blog.service';
@@ -19,7 +18,7 @@ export class HomeComponent implements OnInit{
   filteredBlogPosts: any[] = [];
   blog: Blog | undefined;
 
-  constructor(private authService: AuthService,private router:Router,private blogService: BlogService,) {}
+  constructor(private router:Router,private blogService: BlogService,) {}
   
   navigateToBlogDetail(blogId: string) {
     this.router.navigate(['/posts', blogId]);

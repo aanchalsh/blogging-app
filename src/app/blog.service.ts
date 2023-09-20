@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders,HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable, Subject, throwError,of } from 'rxjs';
 import {  Blog } from './blog';
 import { map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlogService {
-  getBlogsByAuthor // Properly construct the URL
+  getBlogsByAuthor 
     (displayusername: string) {
       throw new Error('Method not implemented.');
   }
@@ -30,32 +32,9 @@ export class BlogService {
   }
 
   searchBlogsByTag(tag: string): Observable<Blog[]> {
-    const params = new HttpParams().set('tag', tag); // Set the 'tag' query parameter
+    const params = new HttpParams().set('tag', tag); 
     return this.http.get<Blog[]>(`${this.baseUrl}/searchByTag`, { params });
   }
-  
- // blog.service.ts
-// search(searchType: string, searchTerm: string): Observable<any[]> {
-//   const params = { searchType, searchTerm };
-//   return this.http.get<any[]>(`${this.baseUrl}/search`, { params });
-// }
-
-//   getBlogsByTag(tag: string): Observable<Blog[]> {
-//     return this.http.get<Blog[]>(`${this.baseUrl}/tag/${tag}`);
-//   }
-//   searchBlogsByTitle(title: string): Observable<Blog[]> {
-//     const url = `${this.baseUrl}/searchByTitle?title=${title}`; // Properly construct the URL
-//     return this.http.get<Blog[]>(url);
-//   }
- 
-//   searchBlogs(searchTerm: string): Observable<Blog[]> {
-//     const url = `${this.baseUrl}/search/${searchTerm}`;
-//     return this.http.get<Blog[]>(url);
-//   }
-//   searchBlogsByAuthor(author: string): Observable<Blog[]> {
-//     const url = `${this.baseUrl}/searchByAuthor?author=${author}`; // Properly construct the URL
-//     return this.http.get<Blog[]>(url);
-//   }
  
   searchByAuthor(author: string): Observable<any> {
     const params = { author }; 
@@ -74,32 +53,19 @@ export class BlogService {
   }
   registerUser(user: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/create-user`, user);
+    
   }
   loginUser(username: string, password: string): Observable<any> {
     const loginRequest = { username, password };
     this.isAuthenticatedSubject.next(true);
     return this.http.post(`${this.baseUrl}/login`, loginRequest);
+    
   }
+  
   isAuthenticated(): boolean {
     const token = localStorage.getItem('jwtToken');
-    console.log(!!token) // Change this to match your token storage
-    return !!token; // Return true if a token exists, false otherwise
+    console.log(!!token) 
+    return !!token; 
   }
-  // fetchCurrentUser(): void {
-  //   // Send an HTTP GET request to retrieve the current user's username
-  //   this.http.get<string>(`${this.baseUrl}/current-user`).subscribe(
-  //     (username: string) => {
-  //       this.currentUserSubject.next(username);
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching current user:', error);
-  //       // Handle errors here as needed
-  //     }
-  //   );
-  // }
-
-  // getCurrentUser(): string | null {
-  //   return this.currentUserSubject.value;
-  // }
 
 }

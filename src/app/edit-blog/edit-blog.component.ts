@@ -67,7 +67,6 @@ export class EditBlogComponent implements OnInit {
       const updatedBlog: Blog = {
         ...this.blog,
         title: this.blogForm.value.title,
-        // author: this.blogForm.value.author,
         tags: tagsArray,
         content: this.blogForm.value.content,
         imageUrl: this.blogForm.value.imageUrl
@@ -87,7 +86,6 @@ export class EditBlogComponent implements OnInit {
         console.error('Invalid ID');
       }
     } else {
-      // Form is invalid, display an error message
       this.errorMessage = 'Please fill out all required fields and provide a valid image URL.';
     }
   }

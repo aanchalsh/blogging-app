@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
 import { BlogService } from '../blog.service';
 import { User } from '../user';
 
@@ -21,11 +20,7 @@ export class LoginComponent implements OnInit {
   username: string="";
   password: string="";
 
-  
-
   constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
     private blogService: BlogService, 
     private router: Router
   ) { }
@@ -48,31 +43,18 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-  // login() {
-  //   this.blogService.loginUser(this.username, this.password).subscribe(
-  //     (response) => {
-  //       console.log('Login successful', response);
-  //       this.router.navigate(['blogs/writeblog']);
-  //     },
-  //     (error) => {
-  //       console.error('Login failed', error);
-  //     }
-  //   );
-  // }
+
   login() {
     this.blogService.loginUser(this.username, this.password).subscribe(
       (response) => {
         console.log('Login successful', response);
   
-        // Extract the token and username from the response
         const token = response.jwtToken;
         const username = response.username;
-  
-        // Store the token and username in local storage
+
         localStorage.setItem('token', token);
         localStorage.setItem('username', username);
   
-        // Redirect to the desired page
         this.router.navigate(['blogs/writeblog']);
       },
       (error) => {
@@ -80,36 +62,6 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-  // onAuthenticate(): void {
-  //   if (this.isSignup && this.signupForm.valid) {
-  //     const { username, password, author } = this.signupForm.value;
-  //     const isSignupSuccessful = this.authService.signup(username, password, author);
-
-  //     if (isSignupSuccessful) {
-  //       this.signupForm.reset();
-  //       this.signupSuccess = true;
-  //       setTimeout(() => {
-  //         this.signupSuccess = false;
-  //         this.authService.setLoggedInStatus(true); // Set the logged in status
-  //        // this.router.navigate(['/home']);
-  //       }, 3000);
-  //     } else {
-  //       this.errorMessage = 'Username already exists'; // Display the error message
-  //     }
-  //   } else if (!this.isSignup && this.loginForm.valid) {
-  //     const { username, password } = this.loginForm.value;
-  //     const isLoginSuccessful = this.authService.login(username, password);
-
-  //     if (isLoginSuccessful) {
-  //       this.authService.setLoggedInStatus(true); // Set the logged in status
-  //       this.router.navigate(['/write-blog']);
-  //     } else {
-  //       this.errorMessage = 'Invalid username or password';
-  //     }
-  //   } else {
-  //     this.errorMessage = 'Please fill in all required fields'; // Display the general error message
-  //   }
-  // }
   toggleSignup(): void {
     this.isSignup = !this.isSignup;
     this.errorMessage = '';

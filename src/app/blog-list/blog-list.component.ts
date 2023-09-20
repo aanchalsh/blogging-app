@@ -36,38 +36,9 @@ export class BlogListComponent implements OnInit {
           },
           (error) => {
             console.error('Error:', error);
-            // Handle the error (e.g., display an error message to the user)
           }
         );
       }
   }
  
-
-//   searchBlogs(): void {
-//     if (this.searchTerm.trim()) {
-//       this.blogService.searchBlogs(this.searchTerm).subscribe((blogs) => {
-//         this.searchResults = blogs;
-//       });
-//     }
-//   }
-
-//   searchBlogsByTitle(title: string): void {
-//     this.blogService.searchBlogsByTitle(title).subscribe(
-//       (blogs) => {
-//         this.filteredBlogs = blogs;
-//         this.errorMessage = ''; // Clear any previous error messages
-//       },
-//       (error) => {
-//         this.errorMessage = 'Error fetching blogs by title.';
-//         console.error('Error fetching blogs by title:', error);
-//       }
-//     );
-//   }
-
-// searchBlogsByAuthor(author: string): void {
-//   this.blogService.searchBlogsByAuthor(author).subscribe((blogs) => {
-//     this.filteredBlogs = blogs;
-//   });
-// }
-
 }

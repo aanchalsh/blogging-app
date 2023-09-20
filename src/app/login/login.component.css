@@ -82,4 +82,8 @@ body {
   .col-lg-6 {
     width: 100%;
   }
+  .error-message {
+    color: red;
+    font-size: 14px;
+  }
 }
