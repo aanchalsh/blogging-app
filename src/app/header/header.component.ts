@@ -56,36 +56,28 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  // updateLoginStatus(): void {
-  //   this.isLoggedIn = this.blogService.isAuthenticated();
-  //   if (this.isLoggedIn) {
-  //     //this.loggedInUser = this.blogService.getLoggedInUser();
-  //   }
-  // }
+  
   navigateToWriteBlog(): void {
     if (this.isAuthenticated) {
-      // User is authenticated, navigate to "Write Blog"
+    
       this.router.navigate(['/write-blog']);
     } else {
-      // User is not authenticated, navigate to the login page
+   
       this.router.navigate(['/login']);
     }
   }
   isLoggedIn(): boolean {
     const token = localStorage.getItem('token');
-    return !!token; // Returns true if a token exists, otherwise false
+    return !!token; 
   }
  
   
 
   logout(): void {
-    // Remove the JWT token from local storage
+   
     localStorage.removeItem('token');
 
-    // Optionally, perform additional logout actions (e.g., clear user state)
-
-    // Redirect to the login page or any other desired page
-    this.router.navigate(['/login']);
+    this.router.navigate(['/blogs/posts']);
   }
  
   updateNavLinkText(): void {

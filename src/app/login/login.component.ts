@@ -29,20 +29,56 @@ export class LoginComponent implements OnInit {
     
   }
 
+  // registerUser() {
+  //   this.blogService.registerUser(this.user).subscribe(
+
+  //     response => {
+        
+  //       console.log('Registration successful', response);
+
+  //     },
+  //     error => {
+        
+  //       console.error('Registration error', error);
+  //     }
+  //   );
+  // }
   registerUser() {
     this.blogService.registerUser(this.user).subscribe(
-
-      response => {
-        
+      (response) => {
         console.log('Registration successful', response);
-
+        this.signupSuccess = true;
+        this.errorMessage = ''; 
       },
-      error => {
-        
+      (error) => {
         console.error('Registration error', error);
+        this.errorMessage = error.error;
       }
     );
   }
+  
+  // registerUser() {
+  //   // Check if the password length is exactly 8 characters
+  //   if (this.user.password.length !== 8) {
+  //     this.errorMessage = 'Password must be exactly 8 characters long.';
+  //     return;
+  //   }
+  
+    
+  //   this.blogService.registerUser(this.user).subscribe(
+  //     (response) => {
+  //       console.log('Registration successful', response);
+  //       this.signupSuccess = true;
+  //       this.errorMessage = ''; 
+  //       this.errorMessage = "Registration successful";
+  //     }
+  //     ,
+  //   (error) => {
+  //     console.error('Registration error', error);
+  //     this.errorMessage ="User already exists";
+  //   }
+  // );
+  // }
 
   login() {
     this.blogService.loginUser(this.username, this.password).subscribe(
@@ -56,12 +92,17 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('username', username);
   
         this.router.navigate(['blogs/writeblog']);
-      },
-      (error) => {
-        console.error('Login failed', error);
+        
       }
-    );
+      ,
+    (error) => {
+      console.error('Login error', error);
+      this.errorMessage = "Invalid Credentials"; // Display the error message in your component
+    }
+  );
   }
+  
+  
   toggleSignup(): void {
     this.isSignup = !this.isSignup;
     this.errorMessage = '';

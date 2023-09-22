@@ -12,6 +12,8 @@ import { Blog } from '../blog';
 export class BlogDetailComponent implements OnInit {
   blog: Blog | null = null;
   tag!: string;
+  isTitleHovered = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +44,10 @@ export class BlogDetailComponent implements OnInit {
 
   filterByTag(tag: string): void {
     this.router.navigate(['/searchByTag'], { queryParams: { tag: tag } });
+  }
+
+  filterByAuthor(author: string): void {
+    this.router.navigate(['/author'], { queryParams: { author: author } });
   }
 }
 

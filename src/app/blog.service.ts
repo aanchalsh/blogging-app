@@ -49,6 +49,11 @@ export class BlogService {
     return this.http.get(`${this.baseUrl}/profile`, { params });
   }
 
+  searchAuthor(author: string): Observable<any> {
+    //const params = { author }; 
+    return this.http.get(`${this.baseUrl}/author/${author}`);
+  }
+
   addBlog(blog: Blog): Observable<any> { 
     return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog);
   }
@@ -59,16 +64,39 @@ export class BlogService {
   deleteBlog(postId: string): Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}/deleteblog/${postId}`);
   }
-  registerUser(user: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create-user`, user);
+  // registerUser(user: any): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/create-user`, user);
     
+    
+  // }
+  // loginUser(username: string, password: string): Observable<any> {
+  //   const loginRequest = { username, password };
+  //   this.isAuthenticatedSubject.next(true);
+  //   return this.http.post(`${this.baseUrl}/login`, loginRequest);
+    
+  // }
+  // registerUser(user: any): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/create-user`, user);
+  // }
+  registerUser(user: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/create-user`, user).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error);
+      })
+    );
   }
+  
   loginUser(username: string, password: string): Observable<any> {
     const loginRequest = { username, password };
     this.isAuthenticatedSubject.next(true);
-    return this.http.post(`${this.baseUrl}/login`, loginRequest);
-    
+    return this.http.post(`${this.baseUrl}/login`, loginRequest).pipe(
+      catchError((error: HttpErrorResponse) => {
+        // You can handle the error here and return it as part of the observable
+        return throwError(error);
+      })
+    );
   }
+  
   
   isAuthenticated(): boolean {
     const token = localStorage.getItem('jwtToken');

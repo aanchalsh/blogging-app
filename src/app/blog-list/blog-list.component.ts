@@ -19,13 +19,18 @@ export class BlogListComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const searchTerm = params['searchTerm'];
-      const selectedTag = params['tag']; // Extract the tag parameter
+      const selectedTag = params['tag']; 
+      const selectedAuthor = params['author'];
       if (searchTerm) {
         // If searchTerm is provided, search by searchTerm
         this.searchBlogs(searchTerm);
       } else if (selectedTag) {
         // If a tag is provided, filter by tag
         this.searchBlogsByTag(selectedTag);
+      }
+      else if (selectedTag) {
+        // If a tag is provided, filter by tag
+        this.searchByAuthor(selectedAuthor);
       }
     });
   }
@@ -50,6 +55,18 @@ export class BlogListComponent implements OnInit {
       (error: { message: any; }) => {
         this.errorMessage = `Error fetching blogs by tag: ${error.message}`;
         console.error('Error fetching blogs by tag:', error);
+      }
+    );
+  }
+  searchByAuthor(author: string): void {
+    this.blogService.searchAuthor(author).subscribe(
+      (blogs: Blog[]) => {
+        this.filteredBlogs = blogs;
+        this.errorMessage = '';
+      },
+      (error: { message: any; }) => {
+        this.errorMessage = `Error fetching blogs by author: ${error.message}`;
+        console.error('Error fetching blogs by author:', error);
       }
     );
   }

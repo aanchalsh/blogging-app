@@ -15,13 +15,16 @@ export class ProfileComponent implements OnInit {
   currentUser: any;
   displayusername:string = ""; 
   router: any;
+  
 
-  constructor(private blogService: BlogService,private route: ActivatedRoute) { }
+  constructor(private blogService: BlogService,private route: ActivatedRoute) {
+   }
 
   ngOnInit(): void {
     const author = this.route.snapshot.queryParamMap.get('author');
-    console.log(author)
+    //console.log(author)
     if (author!==null) {
+      this.author=author;
       this.blogService.searchByAuthor(author).subscribe(
         (data) => {
           console.log(data)

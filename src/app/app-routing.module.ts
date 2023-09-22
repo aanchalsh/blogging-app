@@ -87,6 +87,7 @@ const routes: Routes = [
     component: WriteBlogComponent,
     canActivate: [AuthGuard], data: { requiresAuth: true }
   },
+  { path: 'author', component: BlogListComponent },
   { path: 'blogs/search', component: BlogListComponent },
   { path: 'search', component:BlogListComponent },
   { path: 'blogs', component: BlogListComponent },
