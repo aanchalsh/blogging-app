@@ -1,0 +1,79 @@
+/* User Info Section */
+.user-info {
+    text-align: center;
+    width: 100%; /* Make the user info section full-width */
+    padding: 20px; /* Add padding for better spacing on small screens */
+    background-color: #fff; /* Add a white background */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    
+  }
+  
+  /* Add this CSS for the edit button overlay */
+.user-photo-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .user-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    max-width: 100%; /* Make the image responsive */
+    transition: transform 0.3s ease; /* Add a smooth transition effect */
+  }
+  
+  .user-photo-container:hover .edit-photo-button {
+    opacity: 1; /* Show the edit button on hover */
+    transform: translateY(-50%) translateX(-50%);
+  }
+  
+  .edit-photo-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    opacity: 0; /* Hide the edit button by default */
+    transition: opacity 0.3s ease; /* Add a smooth transition effect */
+  }
+  
+  .edit-photo-button i {
+    font-size: 18px;
+  }
+   
+  
+  .user-username {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .user-email {
+    color: #555;
+  }
+  
+  /* Adjust user info section for small screens */
+  @media (max-width: 768px) {
+    .user-info {
+      padding: 10px; /* Reduce padding for small screens */
+    }
+  
+    .user-photo {
+      width: 100px; /* Reduce image size for small screens */
+      height: 100px;
+    }
+  
+    .user-username {
+      font-size: 1.2rem; /* Reduce font size for small screens */
+    }
+  }
+  
+  /* User Posts Section */
+  /* (No changes for responsiveness in the user posts section) */
+  

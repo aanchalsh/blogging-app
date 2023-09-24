@@ -49,9 +49,13 @@ export class BlogService {
     return this.http.get(`${this.baseUrl}/profile`, { params });
   }
 
+  // searchAuthor(author: string): Observable<any> {
+  //   //const params = { author }; 
+  //   return this.http.get(`${this.baseUrl}/author/${author}`);
+  // }
   searchAuthor(author: string): Observable<any> {
-    //const params = { author }; 
-    return this.http.get(`${this.baseUrl}/author/${author}`);
+    const params = new HttpParams().set('author', author); 
+    return this.http.get<Blog[]>(`${this.baseUrl}/searchAuthor`, { params });
   }
 
   addBlog(blog: Blog): Observable<any> { 
@@ -64,37 +68,19 @@ export class BlogService {
   deleteBlog(postId: string): Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}/deleteblog/${postId}`);
   }
-  // registerUser(user: any): Observable<any> {
-  //   return this.http.post(`${this.baseUrl}/create-user`, user);
-    
-    
-  // }
-  // loginUser(username: string, password: string): Observable<any> {
-  //   const loginRequest = { username, password };
-  //   this.isAuthenticatedSubject.next(true);
-  //   return this.http.post(`${this.baseUrl}/login`, loginRequest);
-    
-  // }
+  
   // registerUser(user: any): Observable<any> {
   //   return this.http.post(`${this.baseUrl}/create-user`, user);
   // }
   registerUser(user: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create-user`, user).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return throwError(error);
-      })
-    );
+    return this.http.post(`${this.baseUrl}/create-user`, user)
   }
+  
   
   loginUser(username: string, password: string): Observable<any> {
     const loginRequest = { username, password };
     this.isAuthenticatedSubject.next(true);
-    return this.http.post(`${this.baseUrl}/login`, loginRequest).pipe(
-      catchError((error: HttpErrorResponse) => {
-        // You can handle the error here and return it as part of the observable
-        return throwError(error);
-      })
-    );
+    return this.http.post(`${this.baseUrl}/login`, loginRequest)
   }
   
   

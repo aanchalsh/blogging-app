@@ -14,6 +14,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditBlogComponent } from './edit-blog/edit-blog.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
+import { AuthorProfileComponent } from './author-profile/author-profile.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { RegistrationComponent } from './registration/registration.component';
     ProfileComponent,
     EditBlogComponent,
     RegistrationComponent,
+    AuthorProfileComponent,
     
   
   ],

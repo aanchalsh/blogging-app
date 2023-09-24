@@ -117,18 +117,12 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        // Check if a user with the same username already exists
         Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
         if (existingUser.isPresent()) {
-            // Handle the case where the user already exists, e.g., throw an exception or return null
-            // Here, we'll return null as an example
             return null;
         }
-
-        // Encode the user's password before saving it to the database
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Save the user to the database
         return userRepository.save(user);
     }
     public boolean existsByUsername(String username) {

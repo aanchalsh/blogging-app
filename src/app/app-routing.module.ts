@@ -64,6 +64,8 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { EditBlogComponent } from './edit-blog/edit-blog.component';
+import { AuthorProfileComponent } from './author-profile/author-profile.component';
+import { RegistrationComponent } from './registration/registration.component';
 const routes: Routes = [
   { path: '', redirectTo: 'blogs/posts', pathMatch: 'full' },
   { path: 'blogs/posts', component: HomeComponent },
@@ -75,19 +77,20 @@ const routes: Routes = [
   },
   { path: 'posts/:id', component: BlogDetailComponent },
   { path: 'searchByTag', component: BlogListComponent },
-  // { path: 'author', component: BlogListComponent },
+  { path: 'author', component: BlogListComponent },
   // { path: 'blog-list/:tag', component: BlogListComponent },
   { path: 'profile', component:ProfileComponent},
   { path: 'edit/:id',component:EditBlogComponent},
   { path: '', redirectTo: '/posts', pathMatch: 'full' },
   { path: 'posts', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  {path:'authorProfile',component: AuthorProfileComponent},
+  {path:'register',component:RegistrationComponent},
   {
     path: 'write-blog',
     component: WriteBlogComponent,
     canActivate: [AuthGuard], data: { requiresAuth: true }
   },
-  { path: 'author', component: BlogListComponent },
   { path: 'blogs/search', component: BlogListComponent },
   { path: 'search', component:BlogListComponent },
   { path: 'blogs', component: BlogListComponent },

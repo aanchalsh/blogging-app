@@ -114,11 +114,20 @@ public class BlogsController {
         List<Blogs> matchingBlogs = blogRepository.findByAuthorContaining(author);
         return matchingBlogs;
     }
-    @GetMapping("/author")
-    public List<Blogs> searchAuthor(@PathVariable String author) {
-        List<Blogs> matchingBlogs = blogRepository.findByAuthorContaining(author);
-        return matchingBlogs;
+    
+    @GetMapping("/searchAuthor")
+    public ResponseEntity<List<Blogs>> searchAuthor(@RequestParam("author") String author) {
+        try {
+            List<Blogs> blogsByAuthor = blogRepository.findByAuthorContaining(author);
+            if (blogsByAuthor.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(blogsByAuthor, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
     
 //    @GetMapping("/users")
 //    public List<User> getUser() {
@@ -136,7 +145,6 @@ public class BlogsController {
     ) {
         List<Blogs> matchingBlogs = new ArrayList<>();
         List<Blogs> allBlogs = blogRepository.findAll();
-        // Convert the searchTerm to lowercase for case-insensitive search
         String lowercaseSearchTerm = searchTerm.toLowerCase();
         for (Blogs blog : allBlogs) {
             String lowercaseAuthor = blog.getAuthor().toLowerCase();
@@ -144,7 +152,6 @@ public class BlogsController {
             List<String> lowercaseTags = blog.getTags().stream()
                     .map(String::toLowerCase)
                     .collect(Collectors.toList());
-            // Check if any of the fields (author, title, tags) contain the searchTerm
             if (lowercaseAuthor.contains(lowercaseSearchTerm)
                     || lowercaseTitle.contains(lowercaseSearchTerm)
                     || lowercaseTags.contains(lowercaseSearchTerm)) {

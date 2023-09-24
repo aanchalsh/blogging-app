@@ -6,7 +6,7 @@
           <h3 class="text-center">{{ isSignup ? 'Join our Community' : 'Welcome Back' }}</h3>
         </div>
         <div class="card-body">
-          <form *ngIf="!isSignup"  (ngSubmit)="login()">
+          <form   (ngSubmit)="login()">
             <div class="mb-3">
               <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
               <div class="input-group">
@@ -22,41 +22,14 @@
               </div>
             </div>
             <button type="submit" class="btn btn-primary btn-block rounded-pill" >Login</button>
-          </form>
-          <form *ngIf="isSignup" (submit)="registerUser()">
-            <div class="mb-3">
-              <label for="author" class="form-label">Author <span class="text-danger">*</span></label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                <input type="text" id="author" name="author" class="form-control rounded-pill" [(ngModel)]="user.name" required>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                <input type="text" id="username" name="username" class="form-control rounded-pill" [(ngModel)]="user.username" required>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                <input type="password" id="password" name="password" class="form-control rounded-pill" [(ngModel)]="user.password" required>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">Sign Up</button>
-          </form>
-          
-          
+          </form> 
           <button type="button" class="btn btn-link .btn-link-white border-white btn-link-white text-black"
             (click)="toggleSignup()">
-            {{ isSignup ? 'Back to Login' : 'Sign up here ' }}
+            Sign up here 
           </button>
-          <div *ngIf="signupSuccess" class="alert alert-success mt-3">
-            You are successfully registered! Please log in using your credentials.
-          </div>
-          <p class="text-danger mt-3">{{ errorMessage }}</p>
+          <div *ngIf="errorMessage" class="error-message text-danger mt-3">{{ errorMessage }}</div>
+          <div *ngIf="isSignup && successMessage" class="success-message">{{ successMessage }}</div>
+
         </div>
       </div>
     </div>

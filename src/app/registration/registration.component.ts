@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BlogService } from '../blog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -8,18 +9,31 @@ import { BlogService } from '../blog.service';
 })
 export class RegistrationComponent {
   user: any = {};
+  errorMessage: string = '';
+  successMessage: string="";
+  
 
-  constructor(private blogService: BlogService) { }
+  constructor(private blogService: BlogService,private router: Router) { }
 
   registerUser() {
+    if (this.user.password.length !== 8) {
+      this.errorMessage = 'Password must be exactly 8 characters long.';
+      return;
+    }
+  
     this.blogService.registerUser(this.user).subscribe(
-      response => {
-        // Handle successful registration here (e.g., show a success message).
-        console.log('Registration successful', response);
+      (response) => {
+        if (response && response.message === 'User created successfully') {
+          this.successMessage = 'User created successfully';
+          this.router.navigate(['login']);
+        }
       },
-      error => {
-        // Handle registration error (e.g., display an error message).
-        console.error('Registration error', error);
+      (error) => {
+        if (error.error && error.error.message) {
+          this.errorMessage = error.error.message;
+        } else {
+          this.errorMessage = 'An error occurred during registration.';
+        }
       }
     );
   }

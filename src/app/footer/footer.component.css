@@ -9,8 +9,8 @@ main {
     padding: 12px 20px;
     position: fixed;
 }
-footer{
+footer{ 
     margin-top: auto;
     flex-shrink: 0;
     margin-bottom :-150px;
-}
+} 

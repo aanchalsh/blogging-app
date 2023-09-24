@@ -13,6 +13,7 @@
     font-size: 1.5rem;
     padding: 0.5rem 0;
   }
+  
   .latest-blogs-title {
     font-size: 1.25rem;
     padding: 0.5rem 0;
@@ -48,14 +49,14 @@
  
 }
 .tag-button {
-  margin: 1px; /* Adjust this value to control the space between the tags */
+  margin: 1px; 
 }
 .custom-tags {
   display: flex;
   flex-wrap: wrap;
-  margin: -5px; /* Adjust this value to control the space between the tags */
+  margin: -5px; 
 }
 
 .custom-tags button {
-  margin: 5px; /* Adjust this value to control the space between the buttons */
-}
+  margin: 5px; 
+} 

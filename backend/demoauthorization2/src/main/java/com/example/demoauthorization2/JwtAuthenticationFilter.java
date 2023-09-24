@@ -44,6 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //Bearer 2352345235sdfrsfgsdfsdf
         logger.info(" Header :  {}", requestHeader);
         String username = null;
+        String email=null;
         String token = null;
         if (requestHeader != null && requestHeader.startsWith("Bearer")) {
             //looking good
@@ -51,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
 
                 username = this.jwtHelper.getUsernameFromToken(token);
+                
 
             } catch (IllegalArgumentException e) {
                 logger.info("Illegal Argument while fetching the username !!");

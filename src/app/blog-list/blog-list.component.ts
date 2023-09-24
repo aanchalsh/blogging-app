@@ -28,7 +28,7 @@ export class BlogListComponent implements OnInit {
         // If a tag is provided, filter by tag
         this.searchBlogsByTag(selectedTag);
       }
-      else if (selectedTag) {
+      else if (selectedAuthor) {
         // If a tag is provided, filter by tag
         this.searchByAuthor(selectedAuthor);
       }
@@ -59,6 +59,7 @@ export class BlogListComponent implements OnInit {
     );
   }
   searchByAuthor(author: string): void {
+    console.log(author)
     this.blogService.searchAuthor(author).subscribe(
       (blogs: Blog[]) => {
         this.filteredBlogs = blogs;
@@ -70,4 +71,5 @@ export class BlogListComponent implements OnInit {
       }
     );
   }
+  
 }

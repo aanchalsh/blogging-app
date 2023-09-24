@@ -29,7 +29,19 @@ export class WriteBlogComponent implements OnInit {
   {}
 
   ngOnInit(): void {
-    this.currentUser=localStorage.getItem('username')
+    const token = localStorage.getItem('token');
+    console.log(token);
+
+    if (token) {
+      try {
+        const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+        this.currentUser = tokenPayload.sub;
+      } catch (error) {
+        console.error('Error parsing token:', error);
+      }
+    }
+    //this.currentUser=localStorage.getItem('username')
+   
     this.blogForm = this.formBuilder.group({
       title: ['', Validators.required],
       author: [this.currentUser,Validators.required],

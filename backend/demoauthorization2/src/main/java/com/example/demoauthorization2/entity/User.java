@@ -20,7 +20,7 @@ import lombok.ToString;
 public class User implements UserDetails {
 	@Id
 	private String id;
-	private String name;
+	private String email;
 	private String username;
 	private String password;
 	public String getId() {
@@ -29,12 +29,7 @@ public class User implements UserDetails {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 	
 	public String getPassword() {
 		return password;
@@ -43,10 +38,16 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 	public String getUsername() {
-		return this.name;
+		return this.username;
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	@Override
@@ -78,5 +79,6 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	
 }
