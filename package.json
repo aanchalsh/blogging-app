@@ -18,11 +18,18 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "@ckeditor/ckeditor5-angular": "^7.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^39.0.2",
     "@elastic/elasticsearch": "^8.9.0",
     "@fortawesome/fontawesome-free": "^6.4.2",
+    "@kolkov/angular-editor": "^3.0.0-beta.0",
     "assert": "^2.1.0",
     "bootstrap": "^5.3.1",
+    "ckeditor4-angular": "^5.0.0",
+    "croppie": "^2.6.5",
+    "font-awesome": "^4.7.0",
     "ngx-cookie-service": "^16.0.1",
+    "ngx-image-cropper": "^7.0.2",
     "ngx-quill": "^22.0.0",
     "rxjs": "~7.8.0",
     "stream": "^0.0.2",
@@ -38,6 +45,7 @@
     "@angular-devkit/build-angular": "^16.2.0",
     "@angular/cli": "~16.2.0",
     "@angular/compiler-cli": "^16.2.0",
+    "@types/croppie": "^2.6.2",
     "@types/jasmine": "~4.3.0",
     "@types/jquery": "^3.5.17",
     "jasmine-core": "~4.6.0",
@@ -50,6 +58,4 @@
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
   }
-  
-  
 }

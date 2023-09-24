@@ -44,9 +44,12 @@
                     <span *ngFor="let tag of blog.tags" class="btn btn-outline-dark rounded-pill m-1 tag-button" (click)="filterByTag(tag)">{{ tag }}</span>
                   </div>
                 </div>
+                
                 <div class="card-body">
-                  <p class="card-text">{{ blog.content }}</p>
+                  <!-- Use [innerHtml] binding with the sanitized HTML -->
+                  <div [innerHtml]="sanitizeHtml(blog.content)"></div>
                 </div>
+      
               </div>
             </div>
           </div>

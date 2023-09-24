@@ -14,6 +14,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditBlogComponent } from './edit-blog/edit-blog.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -36,7 +42,11 @@ import { RegistrationComponent } from './registration/registration.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularEditorModule
+  
+  
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

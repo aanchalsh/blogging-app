@@ -99,11 +99,7 @@ public class BlogsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-//    @GetMapping("/searchByTag")
-//    public List<Blogs> searchByTag(@RequestParam String tag) {
-//        List<Blogs> matchingBlogs = blogRepository.findByTagsContaining(tag);
-//        return matchingBlogs;
-//    }
+
     @GetMapping("/tag/{tag}")
     public ResponseEntity<List<Blogs>> getBlogsByTag(@PathVariable String tag) {
         List<Blogs> blogs = blogRepository.findByTags(tag);
@@ -120,11 +116,7 @@ public class BlogsController {
         return matchingBlogs;
     }
     
-//    @GetMapping("/users")
-//    public List<User> getUser() {
-//    	System.out.println("getting users");
-//    	return this.userService.getUsers();
-//    }
+
     @GetMapping("/current-user")
     public String getLoggedInUser(Principal principal) {
     	return principal.getName();

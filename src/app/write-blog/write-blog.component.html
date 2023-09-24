@@ -1,3 +1,4 @@
+write-blog.component.html
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -14,17 +15,19 @@
 
             <div class="mb-3">
               <label for="author" class="form-label">Author <span class="text-danger">*</span></label>
-              <input type="text" id="author" class="form-control" formControlName="author" readonly>
+              <input type="text" id="author" class="form-control" formControlName="author" [readonly]="true">
             </div>
 
             <div class="mb-3">
               <label for="tags" class="form-label">Tags (comma separated) <span class="text-danger">*</span></label>
-              <input type="text" id="tags" class="form-control" formControlName="tags">
+              <input type="text" id="tags" class="form-control" formControlName="tags" required>
             </div>
 
             <div class="mb-3">
               <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
-              <textarea id="content" class="form-control" formControlName="content" rows="6" required></textarea>
+              
+              <angular-editor [placeholder]="'Enter text here...'" [config]="editorConfig" formControlName="content"></angular-editor>
+
               
               <div *ngIf="blogForm?.get('content')?.hasError('minlength')" class="text-danger">
                 Content must be at least 10 characters long.
@@ -33,7 +36,7 @@
 
             <div class="mb-3">
               <label for="imageUrl" class="form-label">Image URL <span class="text-danger">*</span></label>
-              <input type="text" id="imageUrl" class="form-control" formControlName="imageUrl">
+              <input type="text" id="imageUrl" class="form-control" formControlName="imageUrl" required>
              
               <div *ngIf="blogForm?.get('imageUrl')?.hasError('pattern')" class="text-danger">
                 Please provide image in the form of URL
