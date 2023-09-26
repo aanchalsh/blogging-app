@@ -1,0 +1,33 @@
+/* styles.css */
+
+/* Navbar styles */
+.navbar {
+  background-color: #000000;
+  padding: 15px;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  margin-right: 700px;
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+.navbar-nav .nav-link {
+  font-size: 1rem;
+ 
+  padding-left: 10px;
+ 
+
+}
+
+.navbar-nav .nav-link i {
+  margin-right: 20000px;
+}
+
+/* Search bar style */
+.search-bar {
+  width: 200px;
+}
