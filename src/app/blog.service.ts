@@ -58,9 +58,27 @@ export class BlogService {
     return this.http.get<Blog[]>(`${this.baseUrl}/searchAuthor`, { params });
   }
 
-  addBlog(blog: Blog): Observable<any> { 
-    return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog);
+  addBlog(formDataParam: FormData): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', formDataParam.get('file') as Blob);
+    formData.append('blog', JSON.stringify(formDataParam.get('blog')));
+  
+    const httpOptions = {
+      headers: new HttpHeaders({
+        // Define your headers here if needed
+        // For example, if you need an authorization token:
+        // 'Authorization': 'Bearer ' + yourAuthToken,
+      })
+    };
+  
+    return this.http.post(`${this.baseUrl}/writeblog`, formData, httpOptions).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error);
+      })
+    );
   }
+  
+  
 
   updateBlogPost(id: string, blog: Blog): Observable<Blog> {
     return this.http.put<Blog>(`${this.baseUrl}/editblog/${id}`, blog);

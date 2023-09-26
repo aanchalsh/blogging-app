@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../blog.service';
 import { Blog } from '../blog';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+
 
 @Component({
   selector: 'app-blog-detail',
@@ -18,6 +21,7 @@ export class BlogDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private sanitizer: DomSanitizer,
     private blogService: BlogService
   ) {
     this.route.params.subscribe((params) => {
@@ -49,6 +53,10 @@ export class BlogDetailComponent implements OnInit {
   filterByAuthor(author: string): void {
     this.router.navigate(['/authorProfile'], { queryParams: { author: author } });
   }
+  sanitizeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+  
 }
 
 
