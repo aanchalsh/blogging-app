@@ -14,12 +14,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditBlogComponent } from './edit-blog/edit-blog.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
+import { AuthorProfileComponent } from './author-profile/author-profile.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-
-
-
-
-
 
 @NgModule({
   declarations: [
@@ -34,6 +30,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     ProfileComponent,
     EditBlogComponent,
     RegistrationComponent,
+    AuthorProfileComponent,
     
   
   ],

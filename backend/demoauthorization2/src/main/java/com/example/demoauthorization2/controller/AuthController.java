@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,6 +47,8 @@ public class AuthController {
     private UserService userService;
 
 
+
+
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
 
@@ -78,51 +81,15 @@ public class AuthController {
     public String exceptionHandler() {
         return "Credentials Invalid !!";
     }
-//    @PostMapping("/create-user")
-//    public User createUser(@RequestBody User user) {
-//    	return userService.createUser(user);
-//    }
-//    public User createUser(User user) {
-//        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
-//        if (existingUser.isPresent()) {
-//            // Handle the case where the user already exists, e.g., throw an exception or return null
-//            // Here, we'll return null as an example
-//            return null;
-//        }
-//
-//        // Encode the user's password before saving it to the database
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//
-//        // Save the user to the database
-//        return userRepository.save(user);
-//    }
-//    @PostMapping("/create-user")
-//    public ResponseEntity<?> createUser(@RequestBody User user) {
-//        // Check if a user with the same username already exists
-//        if (userService.existsByUsername(user.getUsername())) {
-//            return ResponseEntity
-//                .status(HttpStatus.CONFLICT) // Return a 409 Conflict status code
-//                .body("User with the same username already exists");
-//        }
-//
-//        // If the username is unique, create the user
-//        User createdUser = userService.createUser(user);
-//
-//        if (createdUser != null) {
-//            // User created successfully, return a success response
-//            return ResponseEntity.ok("User created successfully");
-//        } else {
-//            // Handle the case where the user was not created (e.g., due to other validation)
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create user");
-//        }
-//    }
+
+
     @PostMapping("/create-user")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         // Check if a user with the same username already exists
         if (userService.existsByUsername(user.getUsername())) {
             return ResponseEntity
                 .status(HttpStatus.CONFLICT) // Return a 409 Conflict status code
-                .body("User with the same username already exists");
+                .body("{\"message\": \"User with the same username already exists\"}");
         }
 
         // If the username is unique, create the user
@@ -130,13 +97,14 @@ public class AuthController {
 
         if (createdUser != null) {
             // User created successfully, return a success response
-            return ResponseEntity.ok("User created successfully");
+            return ResponseEntity.ok().body("{\"message\": \"User created successfully\"}");
         } else {
             // Handle the case where the user was not created (e.g., due to other validation)
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST) // Return a 400 Bad Request status code
-                .body("Failed to create user");
+                .body("{\"message\": \"Failed to create user\"}");
         }
     }
+
 }
 

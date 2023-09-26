@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
 
   username: string="";
   password: string="";
+  successMessage: string="";
 
   constructor(
     private blogService: BlogService, 
@@ -29,84 +30,55 @@ export class LoginComponent implements OnInit {
     
   }
 
-  // registerUser() {
-  //   this.blogService.registerUser(this.user).subscribe(
-
-  //     response => {
-        
-  //       console.log('Registration successful', response);
-
-  //     },
-  //     error => {
-        
-  //       console.error('Registration error', error);
-  //     }
-  //   );
-  // }
+  
   registerUser() {
+    if (this.user.password.length !== 8) {
+      this.errorMessage = 'Password must be exactly 8 characters long.';
+      return;
+    }
+  
     this.blogService.registerUser(this.user).subscribe(
       (response) => {
-        console.log('Registration successful', response);
-        this.signupSuccess = true;
-        this.errorMessage = ''; 
+        if (response && response.message === 'User created successfully') {
+          this.successMessage = 'User created successfully';
+        }
       },
       (error) => {
-        console.error('Registration error', error);
-        this.errorMessage = error.error;
+        if (error.error && error.error.message) {
+          this.errorMessage = error.error.message;
+        } else {
+          this.errorMessage = 'An error occurred during registration.';
+        }
       }
     );
   }
   
-  // registerUser() {
-  //   // Check if the password length is exactly 8 characters
-  //   if (this.user.password.length !== 8) {
-  //     this.errorMessage = 'Password must be exactly 8 characters long.';
-  //     return;
-  //   }
-  
-    
-  //   this.blogService.registerUser(this.user).subscribe(
-  //     (response) => {
-  //       console.log('Registration successful', response);
-  //       this.signupSuccess = true;
-  //       this.errorMessage = ''; 
-  //       this.errorMessage = "Registration successful";
-  //     }
-  //     ,
-  //   (error) => {
-  //     console.error('Registration error', error);
-  //     this.errorMessage ="User already exists";
-  //   }
-  // );
-  // }
-
   login() {
     this.blogService.loginUser(this.username, this.password).subscribe(
       (response) => {
-        console.log('Login successful', response);
-  
-        const token = response.jwtToken;
-        const username = response.username;
-
-        localStorage.setItem('token', token);
-        localStorage.setItem('username', username);
-  
-        this.router.navigate(['blogs/writeblog']);
-        
+        if (response && response.jwtToken) {
+          const token = response.jwtToken;
+          const username = response.username;
+    
+          localStorage.setItem('token', token);
+          localStorage.setItem('username', username);
+    
+          this.router.navigate(['blogs/writeblog']);
+        }
+      },
+      (error) => {
+        if (error.error && error.error.message) {
+          this.errorMessage = error.error.message;
+        } else {
+          this.errorMessage = 'Invalid username or password';
+        }
       }
-      ,
-    (error) => {
-      console.error('Login error', error);
-      this.errorMessage = "Invalid Credentials"; // Display the error message in your component
-    }
-  );
+    );
   }
   
   
+  
   toggleSignup(): void {
-    this.isSignup = !this.isSignup;
-    this.errorMessage = '';
-    this.loginForm.reset();
-    this.signupForm.reset();
+    this.router.navigate(['register']);
   }
 }

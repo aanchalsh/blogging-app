@@ -1,123 +1,74 @@
-// write-blog.component.ts
-import { Component, OnInit,ViewChild,ElementRef} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Blog } from '../blog';
-import { BlogService } from '../blog.service';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import * as Croppie from 'croppie'
-
+import { BlogService } from '../blog.service';// Import your BlogService
 
 @Component({
   selector: 'app-write-blog',
   templateUrl: './write-blog.component.html',
-  styleUrls: ['./write-blog.component.css'],
+  styleUrls: ['./write-blog.component.css']
 })
 export class WriteBlogComponent implements OnInit {
-  blogForm!: FormGroup;
-  errorMessage: string = '';
-  currentUser: string | null | undefined;
-  imageChangedEvent: any = '';
-  croppie: Croppie | null=null;
-  
-  config:any = {
-    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
-  };
-public Editor=ClassicEditor;
+  blogForm: FormGroup;
+  croppedImage: string | ArrayBuffer | null = null;
+  errorMessage: string | null = null;
 
-  // editorConfig: AngularEditorConfig = {
-  //   editable: true,
-  //   spellcheck: true,
-  //   height: 'auto',
-  //   minHeight: '200px',
-  //   placeholder: 'Enter text here...',
-  //   showToolbar: true,
-  // };
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private blogService: BlogService // Inject your BlogService
+  ) {
+    this.blogForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      author: ['Your Author Name', Validators.required], // Change to your default author
+      tags: ['', Validators.required],
+      content: ['', [Validators.required, Validators.minLength(10)]],
+      file: [null, Validators.required] 
+    });
+  }
   editorConfig = {
     editable: true,
     spellcheck: true,
     height: 'auto',
-    minHeight: '200px',
+    minHeight: '150px',
     placeholder: 'Enter text here...',
-    image: {
-      toolbar: ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight', 'imageCrop'],
-    },
+    translate: 'no',
   };
-  @ViewChild('croppieElement')
-  croppieElement!: ElementRef;
   
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private blogService: BlogService
-  ) {}
 
   ngOnInit(): void {
-    this.currentUser = localStorage.getItem('username');
-    this.blogForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      author: [this.currentUser, Validators.required],
-      tags: ['', Validators.required],
-      content: ['', [Validators.required, Validators.minLength(10)]],
-      imageUrl: ['', [Validators.required, Validators.pattern('^(http|https)://.*$')]],
-    });
-    this.croppie = new Croppie(this.croppieElement.nativeElement, {
-      enableExif: true,
-      viewport: { width: 200, height: 200 },
-      boundary: { width: 300, height: 300 },
-    });
   }
 
   fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-    const input = event.target;
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        // Display the image in Croppie
-        if (this.croppie) {
-          this.croppie.bind({
-            url: e.target.result,
-          });
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-}
-openCroppingModal() {
-  if (this.croppie) {
-    this.croppie.result({ type: 'blob', size: 'original' }).then((result) => {
-      if (this.croppie) {
-        this.croppie.destroy();
-      }
-      this.blogForm.controls['imageUrl'].setValue(result);
-    });
-  }
-}
+    const file: File = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
 
-  
+    // Read the selected file as a Base64-encoded string
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.croppedImage = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   onSubmit(): void {
-    if (this.blogForm.valid) {
-        const blog: Blog = {
-          title: this.blogForm.value.title,
-          author: this.blogForm.value.author,
-          tags: this.blogForm.value.tags.split(',').map((tag: string) => tag.trim()),
-          content: this.blogForm.value.content,
-          date: new Date().toISOString(),
-          imageUrl: this.blogForm.value.imageUrl
-        };
+    if (this.blogForm.valid && this.croppedImage) {
+      // Create a FormData object to send the image as a file
+      const formData = new FormData();
+      formData.append('file', this.croppedImage as unknown as Blob);
+      formData.append('blog', JSON.stringify(this.blogForm.value));
 
-
-        this.blogService.addBlog(blog).subscribe(
-          (response) => {
-            console.log('Blog added successfully:', response);
-            this.router.navigate(['/posts',response.id]);
-          },
-          (error) => {
-            console.error('Error adding blog:', error);
-          }
-        );
-
-      }
+      this.blogService.addBlog(formData).subscribe(
+        (response) => {
+          console.log('Blog post created:', response);
+          // Handle success, e.g., redirect to the newly created blog post
+        },
+        (error) => {
+          console.error('Error creating blog post:', error);
+          this.errorMessage = 'Error creating the blog post.';
+          // Handle error
+        }
+      );
+    }
   }
 }

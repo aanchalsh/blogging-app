@@ -51,7 +51,7 @@ export class BlogDetailComponent implements OnInit {
   }
 
   filterByAuthor(author: string): void {
-    this.router.navigate(['/author'], { queryParams: { author: author } });
+    this.router.navigate(['/authorProfile'], { queryParams: { author: author } });
   }
   sanitizeHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
