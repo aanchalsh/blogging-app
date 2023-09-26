@@ -1,4 +1,4 @@
-package com.example.demoauthorization2;
+package com.example.demoauthorization2.jwt;
 
 import lombok.*;
 
@@ -6,6 +6,8 @@ import lombok.*;
 public class JwtRequest {
 	private String username;
 	private String password;
+	public JwtRequest() {
+	    }
 	public String getUsername() {
 		return username;
 	}

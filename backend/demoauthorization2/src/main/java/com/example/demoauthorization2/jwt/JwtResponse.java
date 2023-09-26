@@ -69,7 +69,7 @@
 //         }
 //     }
 // }
-package com.example.demoauthorization2;
+package com.example.demoauthorization2.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,11 +1,15 @@
 package com.example.demoauthorization2.entity;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +27,23 @@ public class User implements UserDetails {
 	private String email;
 	private String username;
 	private String password;
+	@DBRef
+	@JsonIgnore
+    private UserProfile userProfile;
+	public User(String id, String email, String username, String password, UserProfile userProfile) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.userProfile = userProfile;
+	}
+	public UserProfile getUserProfile() {
+		return userProfile;
+	}
+	public void setUserProfile(UserProfile userProfile) {
+		this.userProfile = userProfile;
+	}
 	public String getId() {
 		return id;
 	}
@@ -79,6 +100,11 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public String toLowerCase() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	
 }

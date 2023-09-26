@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demoauthorization2.JwtHelper;
-import com.example.demoauthorization2.JwtRequest;
-import com.example.demoauthorization2.JwtResponse;
 import com.example.demoauthorization2.entity.User;
+import com.example.demoauthorization2.jwt.JwtHelper;
+import com.example.demoauthorization2.jwt.JwtRequest;
+import com.example.demoauthorization2.jwt.JwtResponse;
 import com.example.demoauthorization2.sevice.UserService;
 
 @RestController

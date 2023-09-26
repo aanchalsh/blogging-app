@@ -2,6 +2,7 @@ package com.example.demoauthorization2.entity;
 
 import java.util.List;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="allblogs")
@@ -15,7 +16,13 @@ public class Blogs {
 	private String id;
 	private String title;
     private String author;
-    private String date;
+    public String getAuthor() {
+		return author;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	private String date;
     private String content;
     private List<String> tags;
     private String imageUrl;
@@ -31,12 +38,7 @@ public class Blogs {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+	
 	public String getDate() {
 		return date;
 	}
@@ -61,6 +63,8 @@ public class Blogs {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+	
+	
     
 
 }

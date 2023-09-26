@@ -1,4 +1,4 @@
-package com.example.demoauthorization2;
+package com.example.demoauthorization2.jwt;
 
 import java.io.IOException;
 
