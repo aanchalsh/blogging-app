@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../blog.service'; // Update this with the correct path
 import { Blog } from '../blog';
 import { ActivatedRoute } from '@angular/router';
+import { UserProfile } from '../userprofile';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ export class ProfileComponent implements OnInit {
   currentUser: any;
   displayusername:string = ""; 
   router: any;
+  userProfile: any;
   
 
   constructor(private blogService: BlogService,private route: ActivatedRoute) {
@@ -25,17 +27,19 @@ export class ProfileComponent implements OnInit {
     //console.log(author)
     if (author!==null) {
       this.author=author;
-      this.blogService.searchByAuthor(author).subscribe(
+      console.log(author);
+      this.blogService.getUserProfile(author).subscribe(
         (data) => {
           console.log(data)
-          this.filteredBlogs = data;
-          console.log(this.filteredBlogs)
+          this.userProfile = data;
+          console.log("receive request");
         },
         (error) => {
-          console.error('Error:', error);
+          console.error('Error fetching user profile:', error);
         }
       );
-    }
+
+     }
     
   }
   navigatetoEdit(blogId:string){
@@ -68,3 +72,6 @@ export class ProfileComponent implements OnInit {
 
   
 }
+
+
+

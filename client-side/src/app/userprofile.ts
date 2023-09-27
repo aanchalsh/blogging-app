@@ -1,11 +1,11 @@
 import { Blog } from "./blog";
+import { User } from "./user";
 
 export interface UserProfile {
-  email: string;
-  username: string;
-  userblogs: Blog[]; // Assuming you have a BlogPost interface
+  id: string;
+  user: User;
+  blogs: Blog[]; 
 }
-
   
 
   

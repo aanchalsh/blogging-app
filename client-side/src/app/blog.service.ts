@@ -44,7 +44,7 @@ export class BlogService {
     return this.http.get<Blog[]>(`${this.baseUrl}/tag/${tag}`);
   }
  
-  searchByAuthor(author: string): Observable<any> {
+  getUserProfile(author: string): Observable<any> {
     const params = { author }; 
     return this.http.get(`${this.baseUrl}/profile`, { params });
   }
@@ -57,9 +57,24 @@ export class BlogService {
     const params = new HttpParams().set('author', author); 
     return this.http.get<Blog[]>(`${this.baseUrl}/searchAuthor`, { params });
   }
-  addBlog(blog: Blog): Observable<any> { 
-    return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog);
+  // addBlog(blog: Blog): Observable<any> { 
+  //   return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog);
+  // }
+  addBlog(blog: Blog): Observable<any> {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    const options = {
+      headers: headers,
+    };
+    console.log(options)
+    console.log(blog)
+    return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog, options);
   }
+  
+  
 
   // addBlog(): Observable<any> {
   //   // const formData = new FormData();

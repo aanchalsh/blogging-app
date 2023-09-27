@@ -82,6 +82,7 @@ public class BlogsController {
 	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
+	
 
 
 	@GetMapping("/posts")
@@ -139,39 +140,40 @@ public class BlogsController {
 		return ResponseEntity.ok(blogs);
 	}
 	
-	@GetMapping("/profile")
-    public ResponseEntity<UserProfile> getUserProfile(Principal principal) {
-        try {
-            String username = principal.getName();
 
-            User user = userRepository.findByUsername(username);
+@GetMapping("/profile")
+public ResponseEntity<UserProfile> getUserProfile(@RequestParam(name = "author") String username) {
+    try {
+        User user = userRepository.findByUsername(username);
 
-            if (user != null) {
-                UserProfile userProfile = user.getUserProfile();
+        if (user != null) {
+            UserProfile userProfile = user.getUserProfile();
 
-                if (userProfile == null) {
-                    userProfile = new UserProfile();
-                    userProfile.setUser(user);
-                }
-
-                List<Blogs> userBlogs = blogRepository.findByAuthor(user.getUsername());
-
-                userProfile.setBlogs(userBlogs);
-
-                UserProfile savedUserProfile = userProfileRepository.save(userProfile);
-
-
-                user.setUserProfile(savedUserProfile);
-                userRepository.save(user);
-
-                return new ResponseEntity<>(savedUserProfile, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if (userProfile == null) {
+                userProfile = new UserProfile();
+                userProfile.setUser(user);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+            List<Blogs> userBlogs = blogRepository.findByAuthor(username);
+
+            userProfile.setBlogs(userBlogs);
+
+            UserProfile savedUserProfile = userProfileRepository.save(userProfile);
+
+            user.setUserProfile(savedUserProfile);
+            userRepository.save(user);
+
+            return new ResponseEntity<>(savedUserProfile, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+}
+
+
+
 
 
 
@@ -204,23 +206,27 @@ public class BlogsController {
 	    }
 	}
 
-
 	@GetMapping("/search")
 	public ResponseEntity<List<Blogs>> searchBlogs(@RequestParam(name = "searchTerm") String searchTerm) {
-		List<Blogs> matchingBlogs = new ArrayList<>();
-		List<Blogs> allBlogs = blogRepository.findAll();
-		String lowercaseSearchTerm = searchTerm.toLowerCase();
-		for (Blogs blog : allBlogs) {
-			String lowercaseAuthor = blog.getAuthor().toLowerCase();
-			String lowercaseTitle = blog.getTitle().toLowerCase();
-			List<String> lowercaseTags = blog.getTags().stream().map(String::toLowerCase).collect(Collectors.toList());
-			if (lowercaseAuthor.contains(lowercaseSearchTerm) || lowercaseTitle.contains(lowercaseSearchTerm)
-					|| lowercaseTags.contains(lowercaseSearchTerm)) {
-				matchingBlogs.add(blog);
-			}
-		}
-		return ResponseEntity.ok(matchingBlogs);
-	}
+    List<Blogs> matchingBlogs = new ArrayList<>();
+    List<Blogs> allBlogs = blogRepository.findAll();
+    String lowercaseSearchTerm = searchTerm.toLowerCase();
+    for (Blogs blog : allBlogs) {
+        String author = blog.getAuthor();
+        if (author != null) {
+            String lowercaseAuthor = author.toLowerCase();
+            String lowercaseTitle = blog.getTitle().toLowerCase();
+            List<String> lowercaseTags = blog.getTags().stream().map(String::toLowerCase).collect(Collectors.toList());
+            if (lowercaseAuthor.contains(lowercaseSearchTerm) || lowercaseTitle.contains(lowercaseSearchTerm)
+                    || lowercaseTags.contains(lowercaseSearchTerm)) {
+                matchingBlogs.add(blog);
+            }
+        }
+    }
+    return ResponseEntity.ok(matchingBlogs);
+}
+
+
 
 }
 
