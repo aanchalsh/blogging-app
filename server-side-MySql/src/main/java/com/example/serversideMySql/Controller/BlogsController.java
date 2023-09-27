@@ -1,4 +1,4 @@
-package com.example.serversideremote.Controller;
+package com.example.serversideMySql.Controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -22,15 +22,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.serversideMySql.Entity.Blogs;
+import com.example.serversideMySql.Entity.User;
+import com.example.serversideMySql.Entity.UserProfile;
+import com.example.serversideMySql.Repository.BlogsRepository;
+import com.example.serversideMySql.Repository.UserProfileRepository;
+import com.example.serversideMySql.Repository.UserRepository;
+import com.example.serversideMySql.Service.UserService;
 
-import com.example.serversideremote.Entity.Blogs;
-import com.example.serversideremote.Entity.User;
-import com.example.serversideremote.Entity.UserProfile;
-import com.example.serversideremote.Repository.BlogsRepository;
-import com.example.serversideremote.Repository.UserProfileRepository;
-import com.example.serversideremote.Repository.UserRepository;
-import com.example.serversideremote.Service.UserService;
-import com.mongodb.DBRef;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/blogs")
@@ -99,7 +98,7 @@ public class BlogsController {
 	}
 
 	@GetMapping("/posts/{id}")
-	public ResponseEntity<Blogs> getBlogPostById(@PathVariable("id") String id) {
+	public ResponseEntity<Blogs> getBlogPostById(@PathVariable("id") Long id) {
 		java.util.Optional<Blogs> blogData = blogRepository.findById(id);
 
 		if (blogData.isPresent()) {
@@ -109,97 +108,30 @@ public class BlogsController {
 		}
 	}
 
-	// @PutMapping("/editblog/{id}")
-	// public ResponseEntity<Blogs> updateBlogPost(@PathVariable("id") String id, @RequestBody Blogs blog) {
-	// 	java.util.Optional<Blogs> blogData = blogRepository.findById(id);
-
-	// 	if (blogData.isPresent()) {
-	// 		Blogs updatedBlog = blogData.get();
-	// 		updatedBlog.setTitle(blog.getTitle());
-	// 		updatedBlog.setContent(blog.getContent());
-
-	// 		return new ResponseEntity<>(blogRepository.save(updatedBlog), HttpStatus.OK);
-	// 	} else {
-	// 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	// 	}
-	// }
-	@PreAuthorize("isAuthenticated()")
 	@PutMapping("/editblog/{id}")
-	public ResponseEntity<Blogs> updateBlogPost(@PathVariable("id") String id, @RequestBody Blogs updatedBlog, Principal principal) {
-	    try {
-	        String username = principal.getName();
-	        User user = userRepository.findByUsername(username);
+	public ResponseEntity<Blogs> updateBlogPost(@PathVariable("id") Long id, @RequestBody Blogs blog) {
+		java.util.Optional<Blogs> blogData = blogRepository.findById(id);
 
-	        if (user != null) {
-	            Optional<Blogs> blogData = blogRepository.findById(id);
+		if (blogData.isPresent()) {
+			Blogs updatedBlog = blogData.get();
+			updatedBlog.setTitle(blog.getTitle());
+			updatedBlog.setContent(blog.getContent());
 
-	            if (blogData.isPresent()) {
-	                Blogs existingBlog = blogData.get();
-	                if (existingBlog.getAuthor().equals(username)) { // Ensure the author matches the logged-in user
-	                    existingBlog.setTitle(updatedBlog.getTitle());
-	                    existingBlog.setContent(updatedBlog.getContent());
-
-	                    return new ResponseEntity<>(blogRepository.save(existingBlog), HttpStatus.OK);
-	                } else {
-	                    return new ResponseEntity<>(HttpStatus.FORBIDDEN); // User doesn't have permission
-	                }
-	            } else {
-	                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Blog not found
-	            }
-	        } else {
-	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // User not found
-	        }
-	    } catch (Exception e) {
-	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
+			return new ResponseEntity<>(blogRepository.save(updatedBlog), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 
-	
-
-
-
-
-
-
-//	@DeleteMapping("/deleteblog/{id}")
-//	public ResponseEntity<HttpStatus> deleteBlogPost(@PathVariable("id") String id) {
-//		try {
-//			blogRepository.deleteById(id);
-//			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
-	
-	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping("/deleteblog/{id}")
-	public ResponseEntity<HttpStatus> deleteBlogPost(@PathVariable("id") String id, Principal principal) {
-	    try {
-	        String username = principal.getName();
-	        User user = userRepository.findByUsername(username);
-
-	        if (user != null) {
-	            Optional<Blogs> blogData = blogRepository.findById(id);
-
-	            if (blogData.isPresent()) {
-	                Blogs existingBlog = blogData.get();
-	                if (existingBlog.getAuthor().equals(username)) { // Ensure the author matches the logged-in user
-	                    blogRepository.deleteById(id);
-	                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	                } else {
-	                    return new ResponseEntity<>(HttpStatus.FORBIDDEN); // User doesn't have permission
-	                }
-	            } else {
-	                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Blog not found
-	            }
-	        } else {
-	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // User not found
-	        }
-	    } catch (Exception e) {
-	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
+	public ResponseEntity<HttpStatus> deleteBlogPost(@PathVariable("id") Long id) {
+		try {
+			blogRepository.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-
 
 	@GetMapping("/tag/{tag}")
 	public ResponseEntity<List<Blogs>> getBlogsByTag(@PathVariable String tag) {
@@ -296,4 +228,5 @@ public ResponseEntity<UserProfile> getUserProfile(@RequestParam(name = "author")
 
 
 }
+
 
