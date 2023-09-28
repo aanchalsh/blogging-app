@@ -1,59 +1,58 @@
- <div class="container mt-4">
+<div class="container mt-4">
   <div class="row">
     <div class="col-md-4">
       <div class="user-info">
         <div class="user-photo-container">
-          <img src="https://images.unsplash.com/photo-1663386770072-9dcafe528a49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80" class="user-photo" alt="User Photo">
+          <img
+            src="https://images.unsplash.com/photo-1663386770072-9dcafe528a49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+            class="user-photo" alt="User Photo" />
           <button class="edit-photo-button" data-mdb-toggle="modal" data-mdb-target="#editPhotoModal">
             <i class="fas fa-edit"></i>
           </button>
         </div>
-        <h3 class="user-username">{{ userProfile.user.username }}</h3>
-        <p class="user-email">{{ userProfile.user.email }}</p>
+        <h3 class="user-username">{{ userProfile?.user?.username }}</h3>
+        <p class="user-email">{{ userProfile?.user?.email }}</p>
       </div>
     </div>
 
     <div class="col-md-8">
       <div class="row">
-        <ng-container *ngIf="userProfile.blogs.length > 0; else noBlogsFound">
-          <div class="col-md-6 mb-4" *ngFor="let blog of userProfile.blogs">
-            <div class="card">
-              <img [src]="blog.imageUrl" class="card-img-top blog-image" alt="{{ blog.title }}" [routerLink]="['/posts', blog.id]">
-              <div class="card-body">
-                <h5 class="card-title">{{ blog.title }}</h5>
+        <ng-container *ngIf="userProfile?.blogs?.length > 0; else noBlogsFound">
+          <!-- <ng-container *ngIf="userProfile.blogs.length > 0; else noBlogsFound"> -->
+            <div class="col-md-6 mb-4" *ngFor="let blog of userProfile.blogs">
+              <div class="card">
+                <img [src]="blog.imageUrl" class="card-img-top blog-image" alt="{{ blog.title }}"
+                  [routerLink]="['/posts', blog.id]">
+                <div class="card-body">
+                  <h5 class="card-title">{{ blog.title }}</h5>
 
-                <div class="dropdown">
-                  <button
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Actions
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li>
-                      <a class="dropdown-item" [routerLink]="['/edit', blog.id]">Edit Blog</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" (click)="deleteBlog(blog.id)">Delete Blog</a>
-                    </li>
-                  </ul>
+                  <div class="dropdown">
+                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li>
+                        <a class="dropdown-item" [routerLink]="['/edit', blog.id]">Edit Blog</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" (click)="deleteBlog(blog.id)">Delete Blog</a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <a [routerLink]="['/posts', blog.id]" class="btn btn-primary bg-black text-white">Read More</a>
                 </div>
-
-                <a [routerLink]="['/posts', blog.id]" class="btn btn-primary bg-black text-white">Read More</a>
               </div>
             </div>
-          </div>
+          <!-- </ng-container> -->
+          <ng-template #noBlogsFound>
+            <div class="col text-center">
+              <p>No blogs to display for this user</p>
+            </div>
+          </ng-template>
         </ng-container>
-        <ng-template #noBlogsFound>
-          <div class="col text-center">
-            <p>No blogs to display for this user</p>
-          </div>
-        </ng-template>
       </div>
     </div>
   </div>
 </div>
-
