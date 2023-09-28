@@ -1,6 +1,5 @@
-
 import { Component, OnInit ,ViewChild ,ChangeDetectorRef} from '@angular/core';
-import { BlogService } from '../blog.service'; // Update this with the correct path
+import { BlogService } from '../blog.service';
 import { Blog } from '../blog';
 import { ActivatedRoute } from '@angular/router';
 import { UserProfile } from '../userprofile';
