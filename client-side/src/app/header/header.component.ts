@@ -32,15 +32,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser=localStorage.getItem('username');
-    // this.updateLoginStatus();
-    // this.currentUser = this.authService.getCurrentUser();
-    // this.displayUsername = this.currentUser ? this.currentUser.author : '';
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      // Token found, set authenticated to true
       this.isAuthenticated = true;
     } else {
-      // Token not found, set authenticated to false
       this.isAuthenticated = false;
     }
 

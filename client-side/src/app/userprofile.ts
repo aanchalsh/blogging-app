@@ -2,7 +2,7 @@ import { Blog } from "./blog";
 import { User } from "./user";
 
 export interface UserProfile {
-  id: string;
+  id: any;
   user: User;
   blogs: Blog[]; 
 }

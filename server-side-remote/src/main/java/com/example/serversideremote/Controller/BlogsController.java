@@ -99,7 +99,7 @@ public class BlogsController {
 	}
 
 	@GetMapping("/posts/{id}")
-	public ResponseEntity<Blogs> getBlogPostById(@PathVariable("id") String id) {
+	public ResponseEntity<Blogs> getBlogPostById(@PathVariable("id") Long id) {
 		java.util.Optional<Blogs> blogData = blogRepository.findById(id);
 
 		if (blogData.isPresent()) {
@@ -123,7 +123,7 @@ public class BlogsController {
 	// 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	// 	}
 	// }
-	@PreAuthorize("isAuthenticated()")
+
 	@PutMapping("/editblog/{id}")
 	public ResponseEntity<Blogs> updateBlogPost(@PathVariable("id") String id, @RequestBody Blogs updatedBlog, Principal principal) {
 	    try {
@@ -171,7 +171,6 @@ public class BlogsController {
 //		}
 //	}
 	
-	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping("/deleteblog/{id}")
 	public ResponseEntity<HttpStatus> deleteBlogPost(@PathVariable("id") String id, Principal principal) {
 	    try {

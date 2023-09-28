@@ -1,6 +1,7 @@
 package com.example.serversideremote.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -14,6 +15,7 @@ public interface BlogsRepository extends MongoRepository<Blogs,String> {
 	List<Blogs> findByTags(String tag);
 	List<Blogs> findByAuthor(String author);
 	List<Blogs> findByAuthorContaining(User user);
+	Optional<Blogs> findById(Long id);
 
 
 }

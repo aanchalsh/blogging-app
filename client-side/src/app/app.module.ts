@@ -12,9 +12,10 @@ import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditBlogComponent } from './edit-blog/edit-blog.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
 import { AuthorProfileComponent } from './author-profile/author-profile.component';
+import { TokenExpirationInterceptor } from './token-interceptor.service';
 //import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
@@ -40,7 +41,11 @@ import { AuthorProfileComponent } from './author-profile/author-profile.componen
     ReactiveFormsModule,
     HttpClientModule 
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenExpirationInterceptor,
+    multi: true,
+  },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

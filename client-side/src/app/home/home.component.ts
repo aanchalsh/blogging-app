@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit{
 
   constructor(private router:Router,private blogService: BlogService,) {}
   
-  navigateToBlogDetail(blogId: string) {
+  navigateToBlogDetail(blogId: any) {
     this.router.navigate(['/posts', blogId]);
   
     console.log(blogId);

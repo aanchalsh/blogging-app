@@ -1,11 +1,22 @@
-/* User Info Section */
-.user-info {
+
+/* .user-info {
     text-align: center;
-    width: 100%; /* Make the user info section full-width */
-    padding: 20px; /* Add padding for better spacing on small screens */
-    background-color: #fff; /* Add a white background */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    width: 100%; 
+    padding: 20px; 
+    background-color: #fff; 
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); 
     
+  } */
+
+  .user-info {
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 20px; /* Adjust the top distance as needed */
+    z-index: 1; /* Ensure the user info stays on top of other elements */
   }
   
   /* Add this CSS for the edit button overlay */
@@ -56,6 +67,12 @@
   
   .user-email {
     color: #555;
+  }
+
+  .blog-image {
+    width: 100%; /* Set the desired width */
+    height: 150px; /* Set the desired height */
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
   }
   
   /* Adjust user info section for small screens */

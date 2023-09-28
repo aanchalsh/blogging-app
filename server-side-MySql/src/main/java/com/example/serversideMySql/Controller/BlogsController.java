@@ -51,8 +51,9 @@ public class BlogsController {
 	}
 	@PreAuthorize("isAuthenticated()")
 
+
 	@PostMapping("/writeblog")
-	public ResponseEntity<UserProfile> createBlogPost(@RequestBody Blogs blog, Principal principal) {
+	public ResponseEntity<Blogs> createBlogPost(@RequestBody Blogs blog, Principal principal) {
 	    try {
 	        String username = principal.getName();
 	        User user = userRepository.findByUsername(username);
@@ -73,29 +74,51 @@ public class BlogsController {
 	            user.setUserProfile(savedUserProfile);
 	            userRepository.save(user);
 
-	            return new ResponseEntity<>(savedUserProfile, HttpStatus.CREATED);
+	            // Get the ID of the saved blog post
+	            Long id = savedBlog.getId();
+
+	            // Add the ID field to the response manually
+	            savedBlog.setId(id);
+
+	            // Return the saved blog with its ID in the response
+	            return new ResponseEntity<>(savedBlog, HttpStatus.CREATED);
 	        } else {
-	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	        }
 	    } catch (Exception e) {
 	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
-	
 
 
+
+
+
+//	@GetMapping("/posts")
+//	public ResponseEntity<List<Blogs>> getAllBlogPosts() {
+//		try {
+//			List<Blogs> blogs = blogRepository.findAll();
+//			if (blogs.isEmpty()) {
+//				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//			}
+//			return new ResponseEntity<>(blogs, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 	@GetMapping("/posts")
 	public ResponseEntity<List<Blogs>> getAllBlogPosts() {
-		try {
-			List<Blogs> blogs = blogRepository.findAll();
-			if (blogs.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<>(blogs, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	    try {
+	        List<Blogs> blogs = blogRepository.findAll();
+	        if (blogs.isEmpty()) {
+	            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	        }
+	        return new ResponseEntity<>(blogs, HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
+
 
 	@GetMapping("/posts/{id}")
 	public ResponseEntity<Blogs> getBlogPostById(@PathVariable("id") Long id) {

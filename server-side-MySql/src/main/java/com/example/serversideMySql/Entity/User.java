@@ -20,7 +20,7 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     @Id
-    @JsonIgnore
+    
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Use GenerationType.IDENTITY for MySQL
     private Long id;
 

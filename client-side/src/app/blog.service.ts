@@ -49,17 +49,11 @@ export class BlogService {
     return this.http.get(`${this.baseUrl}/profile`, { params });
   }
 
-  // searchAuthor(author: string): Observable<any> {
-  //   //const params = { author }; 
-  //   return this.http.get(`${this.baseUrl}/author/${author}`);
-  // }
   searchAuthor(author: string): Observable<any> {
     const params = new HttpParams().set('author', author); 
     return this.http.get<Blog[]>(`${this.baseUrl}/searchAuthor`, { params });
   }
-  // addBlog(blog: Blog): Observable<any> { 
-  //   return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog);
-  // }
+
   addBlog(blog: Blog): Observable<any> {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders();
@@ -73,52 +67,43 @@ export class BlogService {
     console.log(blog)
     return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog, options);
   }
-  
-  
-
-  // addBlog(): Observable<any> {
-  //   // const formData = new FormData();
-  //   // formData.append('file', formDataParam.get('file') as Blob);
-  //   formData.append('blog', JSON.stringify(formDataParam.get('blog')));
-  
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       // Define your headers here if needed
-  //       // For example, if you need an authorization token:
-  //       // 'Authorization': 'Bearer ' + yourAuthToken,
-  //     })
-  //   };
-  
-  //   return this.http.post(`${this.baseUrl}/writeblog`, formData, httpOptions).pipe(
-  //     catchError((error: HttpErrorResponse) => {
-  //       return throwError(error);
-  //     })
-  //   );
-  // }
-  
-  
 
   updateBlogPost(id: string, blog: Blog): Observable<Blog> {
-    return this.http.put<Blog>(`${this.baseUrl}/editblog/${id}`, blog);
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    const options = {
+      headers: headers,
+    };
+    console.log(options)
+    console.log(blog)
+    return this.http.put<Blog>(`${this.baseUrl}/editblog/${id}`, blog,options);
   }
   deleteBlog(postId: string): Observable<void>{
-    return this.http.delete<void>(`${this.baseUrl}/deleteblog/${postId}`);
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    const options = {
+      headers: headers,
+    };
+    console.log(options)
+    
+    return this.http.delete<void>(`${this.baseUrl}/deleteblog/${postId}`,options);
   }
   
-  // registerUser(user: any): Observable<any> {
-  //   return this.http.post(`${this.baseUrl}/create-user`, user);
-  // }
   registerUser(user: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/create-user`, user)
   }
-  
   
   loginUser(username: string, password: string): Observable<any> {
     const loginRequest = { username, password };
     this.isAuthenticatedSubject.next(true);
     return this.http.post(`${this.baseUrl}/login`, loginRequest)
   }
-  
   
   isAuthenticated(): boolean {
     const token = localStorage.getItem('jwtToken');
