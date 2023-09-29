@@ -1,6 +1,5 @@
-
-import { Component, OnInit } from '@angular/core';
-import { BlogService } from '../blog.service'; // Update this with the correct path
+import { Component, OnInit ,ViewChild ,ChangeDetectorRef} from '@angular/core';
+import { BlogService } from '../blog.service';
 import { Blog } from '../blog';
 import { ActivatedRoute } from '@angular/router';
 import { UserProfile } from '../userprofile';
@@ -16,24 +15,22 @@ export class ProfileComponent implements OnInit {
   currentUser: any;
   displayusername:string = ""; 
   router: any;
-  userProfile: any;
+  userProfile: UserProfile|any;
   
 
-  constructor(private blogService: BlogService,private route: ActivatedRoute) {
+  constructor(private blogService: BlogService,private route: ActivatedRoute, private cdr: ChangeDetectorRef) {
    }
-
+   @ViewChild('noBlogsFound')
+   noBlogsFound!: any;
+   
   ngOnInit(): void {
     const author = this.route.snapshot.queryParamMap.get('author');
-    //console.log(author)
     if (author!==null) {
       this.author=author;
-      console.log(author);
       this.blogService.getUserProfile(author).subscribe(
         (data) => {
-          console.log(data)
           this.userProfile = data;
-          console.log(this.userProfile.blogs)
-          console.log("receive request");
+          this.cdr.detectChanges();
         },
         (error) => {
           console.error('Error fetching user profile:', error);
