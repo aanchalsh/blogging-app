@@ -1,0 +1,30 @@
+<div class="container mt-4">
+    <h2>User Management</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Can Write Blog</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <input type="checkbox" [(ngModel)]="user.canWriteBlog" (change)="toggleCanWriteBlog(user)">
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="toggleCanWriteBlog(user)">
+              {{ user.canWriteBlog ? 'Disable' : 'Enable' }} Writing
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

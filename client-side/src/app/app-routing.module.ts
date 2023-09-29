@@ -13,6 +13,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AdminFunctionComponent } from './admin-function/admin-function.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 const routes: Routes = [
   { path: '', redirectTo: 'blogs/posts', pathMatch: 'full' },
   { path: 'blogs/posts', component: HomeComponent },
@@ -38,6 +40,8 @@ const routes: Routes = [
     component: WriteBlogComponent,
     canActivate: [AuthGuard], data: { requiresAuth: true }
   },
+  {path:"admin-function",component:AdminFunctionComponent},
+  {path:"admin-login",component:AdminLoginComponent,canActivate: [AuthGuard], data: { requiresAuth: true }},
   { path: 'blogs/search', component: BlogListComponent },
   { path: 'search', component:BlogListComponent },
   // { path: 'blogs', component: BlogListComponent },
