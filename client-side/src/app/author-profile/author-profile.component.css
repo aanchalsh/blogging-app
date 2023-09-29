@@ -1,0 +1,6 @@
+.blog-image {
+    width: 100%; /* Set the desired width */
+    height: 150px; /* Set the desired height */
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+  }
+  

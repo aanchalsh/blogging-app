@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
         (data) => {
           console.log(data)
           this.userProfile = data;
+          console.log(this.userProfile.blogs)
           console.log("receive request");
         },
         (error) => {

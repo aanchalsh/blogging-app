@@ -63,8 +63,7 @@ export class BlogService {
     const options = {
       headers: headers,
     };
-    console.log(options)
-    console.log(blog)
+    
     return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog, options);
   }
 

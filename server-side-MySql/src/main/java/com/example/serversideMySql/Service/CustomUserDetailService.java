@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.serversideMySql.Entity.User;
 import com.example.serversideMySql.Repository.UserRepository;
+import com.example.serversideMySql.Service.CustomUserDetails;
 
 
 @Service
@@ -24,7 +25,7 @@ public class CustomUserDetailService implements UserDetailsService {
         }
 
         // Return the user as UserDetails
-        return user;
+        return new CustomUserDetails(user);
     }
 }
 

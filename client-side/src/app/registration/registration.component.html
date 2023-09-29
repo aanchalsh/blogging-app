@@ -9,10 +9,10 @@
             
             <form  (submit)="registerUser()">
               <div class="mb-3">
-                <label for="author" class="form-label">Email <span class="text-danger">*</span></label>
+                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
-                  <input type="text" id="author" name="author" class="form-control rounded-pill" [(ngModel)]="user.name" required>
+                  <input type="text" id="author" name="author" class="form-control rounded-pill" [(ngModel)]="user.email" required>
                 </div>
               </div>
               <div class="mb-3">
