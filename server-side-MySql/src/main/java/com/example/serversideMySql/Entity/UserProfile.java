@@ -88,7 +88,7 @@ public class UserProfile {
 
     @OneToOne
     @JsonBackReference
-    @JoinColumn(name = "user_id") // Corrected: Use "user_id" as the foreign key column name
+    @JoinColumn(name = "user_id") 
     private User user;
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

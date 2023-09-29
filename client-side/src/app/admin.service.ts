@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,16 +18,32 @@ export class AdminService {
 
   // Get All Users (Excluding Admin)
   getAllUsers(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/users`);
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    const options = {
+      headers: headers,
+    };
+    return this.http.get<any>(`${this.baseUrl}/users`,options);
   }
 
   // Update User's "Can Write Blog" Permission
-  updateCanWriteBlog(userId: number, canWriteBlog: boolean): Observable<any> {
+  updateCanWriteBlog(userId: any, canWriteBlog: boolean): Observable<any> {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    const options = {
+      headers: headers,
+    };
     const params = new HttpParams()
       .set('userId', userId.toString())
       .set('canWriteBlog', canWriteBlog.toString());
 
-    return this.http.post(`${this.baseUrl}/update-can-write-blog`, params);
+    return this.http.post(`${this.baseUrl}/update-can-write-blog`, params,options);
   }
 }
 

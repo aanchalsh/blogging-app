@@ -50,7 +50,7 @@ public class BlogsController {
 	public void UserController(UserService userService) {
 		this.userService = userService;
 	}
-	@PreAuthorize("isAuthenticated()")
+	//@PreAuthorize("isAuthenticated()")
 
 //	@PostMapping("/writeblog")
 //	public ResponseEntity<UserProfile> createBlogPost(@RequestBody Blogs blog, Principal principal) {
@@ -82,6 +82,7 @@ public class BlogsController {
 //	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 //	    }
 //	}
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/writeblog")
     public ResponseEntity<UserProfile> createBlogPost(@RequestBody Blogs blog, Principal principal) {
         try {
@@ -113,6 +114,7 @@ public class BlogsController {
 	
 
 
+	
 	@GetMapping("/posts")
 	public ResponseEntity<List<Blogs>> getAllBlogPosts() {
 		try {
@@ -152,6 +154,7 @@ public class BlogsController {
 	// 	}
 	// }
 
+	@PreAuthorize("hasRole('USER')")
 	@PutMapping("/editblog/{id}")
 	public ResponseEntity<Blogs> updateBlogPost(@PathVariable("id") String id, @RequestBody Blogs updatedBlog, Principal principal) {
 	    try {
@@ -198,7 +201,7 @@ public class BlogsController {
 //			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 //		}
 //	}
-	
+	@PreAuthorize("hasRole('USER')")
 	@DeleteMapping("/deleteblog/{id}")
 	public ResponseEntity<HttpStatus> deleteBlogPost(@PathVariable("id") String id, Principal principal) {
 	    try {
@@ -234,7 +237,7 @@ public class BlogsController {
 		return ResponseEntity.ok(blogs);
 	}
 	
-
+	@PreAuthorize("hasRole('USER')")
 @GetMapping("/profile")
 public ResponseEntity<UserProfile> getUserProfile(@RequestParam(name = "author") String username) {
     try {

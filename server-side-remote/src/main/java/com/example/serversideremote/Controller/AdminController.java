@@ -131,7 +131,7 @@ public class AdminController {
         user.setCanWriteBlog(canWriteBlog);
         userRepository.save(user);
 
-        return ResponseEntity.ok("canWriteBlog updated successfully");
+        return ResponseEntity.ok("{\"message\": \"canWriteBlog updated successfully\"}");
     }
 
     

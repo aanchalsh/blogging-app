@@ -29,16 +29,22 @@ export class AdminFunctionComponent implements OnInit {
     );
   }
 
+  
   toggleCanWriteBlog(user: any) {
-    // Toggle the 'canWriteBlog' permission for the selected user
-    this.adminService.updateCanWriteBlog(user.id, !user.canWriteBlog).subscribe(
+    // Invert the user's permission locally
+    user.canWriteBlog = !user.canWriteBlog;
+
+    // Update the user's permission on the server
+    this.adminService.updateCanWriteBlog(user.id, user.canWriteBlog).subscribe(
       () => {
-        // Update the local user object with the new permission
-        user.canWriteBlog = !user.canWriteBlog;
+        // The update was successful
       },
       (error) => {
         console.error('Error updating user:', error);
+        // If there's an error, revert the local state to its previous value
+        user.canWriteBlog = !user.canWriteBlog;
       }
     );
   }
+  
 }
