@@ -10,10 +10,10 @@ import { User } from './user';
   providedIn: 'root'
 })
 export class BlogService {
-  getBlogsByAuthor 
-    (displayusername: string) {
-      throw new Error('Method not implemented.');
-  }
+  // getBlogsByAuthor 
+  //   (displayusername: string) {
+  //     throw new Error('Method not implemented.');
+  // }
   private localStorageKey = 'blogs';
   private recentPhotos: string[] = [];
   isAuthenticatedSubject = new Subject<boolean>();
@@ -63,8 +63,7 @@ export class BlogService {
     const options = {
       headers: headers,
     };
-    console.log(options)
-    console.log(blog)
+    
     return this.http.post<Blog>(`${this.baseUrl}/writeblog`, blog, options);
   }
 

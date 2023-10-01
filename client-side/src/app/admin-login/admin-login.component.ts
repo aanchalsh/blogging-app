@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BlogService } from '../blog.service';
-import { User } from '../user';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-admin-login',
+  templateUrl: './admin-login.component.html',
+  styleUrls: ['./admin-login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class AdminLoginComponent implements OnInit {
   loginForm!: FormGroup;
   signupForm!: FormGroup;
   isSignup: boolean = false;
@@ -29,29 +28,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     
   }
-
-  
-  // registerUser() {
-  //   if (this.user.password.length !== 8) {
-  //     this.errorMessage = 'Password must be exactly 8 characters long.';
-  //     return;
-  //   }
-  
-  //   this.blogService.registerUser(this.user).subscribe(
-  //     (response) => {
-  //       if (response && response.message === 'User created successfully') {
-  //         this.successMessage = 'User created successfully';
-  //       }
-  //     },
-  //     (error) => {
-  //       if (error.error && error.error.message) {
-  //         this.errorMessage = error.error.message;
-  //       } else {
-  //         this.errorMessage = 'An error occurred during registration.';
-  //       }
-  //     }
-  //   );
-  // }
   
   login() {
     this.blogService.loginUser(this.username, this.password).subscribe(
@@ -63,7 +39,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', token);
           localStorage.setItem('username', username);
     
-          this.router.navigate(['blogs/writeblog']);
+          this.router.navigate(['admin-function']);
         }
       },
       (error) => {

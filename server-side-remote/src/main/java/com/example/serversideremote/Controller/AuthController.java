@@ -66,18 +66,32 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+//    private void doAuthenticate(String username, String password) {
+//
+//        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
+//        try {
+//            manager.authenticate(authentication);
+//
+//
+//        } catch (BadCredentialsException e) {
+//            throw new BadCredentialsException(" Invalid Username or Password  !!");
+//        }
+//
+//    }
+    
     private void doAuthenticate(String username, String password) {
-
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
         try {
-            manager.authenticate(authentication);
-
-
+            Authentication result = manager.authenticate(authentication);
+            // Authentication successful, you can log success if needed
+            logger.info("Authentication successful for user: " + username);
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException(" Invalid Username or Password  !!");
+            // Authentication failed, log the error
+            logger.error("Authentication failed for user: " + username, e);
+            throw new BadCredentialsException("Invalid Username or Password !!");
         }
-
     }
+
 
     @ExceptionHandler(BadCredentialsException.class)
     public String exceptionHandler() {

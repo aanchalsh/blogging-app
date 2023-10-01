@@ -1,6 +1,8 @@
 package com.example.serversideMySql.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.serversideMySql.Entity.User;
 import com.example.serversideMySql.Repository.UserRepository;
+
 
 @Service
 public class UserService {
@@ -31,6 +34,8 @@ public class UserService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Collections.singleton(UserRole.ROLE_USER));
+        
 
         // Save the user to the database
         return userRepository.save(user);
@@ -38,6 +43,9 @@ public class UserService {
 
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
+    }
+    public Optional<User> findUserWithBlogsByUsername(String username) {
+        return userRepository.findByUsernameWithBlogs(username);
     }
 }
 

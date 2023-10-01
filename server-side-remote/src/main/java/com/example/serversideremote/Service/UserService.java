@@ -1,11 +1,13 @@
 package com.example.serversideremote.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.serversideremote.UserRole;
 import com.example.serversideremote.Entity.User;
 import com.example.serversideremote.Repository.UserRepository;
 
@@ -27,10 +29,11 @@ public class UserService {
         if (existingUser != null) {
             // Handle the case where the user already exists, e.g., throw an exception or return null
             // Here, we'll return null as an example
-            return null;
+            return null; 
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Collections.singleton(UserRole.ROLE_USER));
 
         // Save the user to the database
         return userRepository.save(user);

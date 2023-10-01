@@ -30,7 +30,6 @@ import com.example.serversideMySql.Repository.UserProfileRepository;
 import com.example.serversideMySql.Repository.UserRepository;
 import com.example.serversideMySql.Service.UserService;
 
-
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/blogs")
 @RequestMapping("/blogs")
@@ -43,47 +42,77 @@ public class BlogsController {
 	private UserRepository userRepository;
 	@Autowired
 	private UserProfileRepository userProfileRepository;
-	
 
 	@Autowired
 	public void UserController(UserService userService) {
 		this.userService = userService;
 	}
+
 	@PreAuthorize("isAuthenticated()")
-
-
+//	@PostMapping("/writeblog")
+//	public ResponseEntity<Blogs> createBlogPost(@RequestBody Blogs blog, Principal principal) {
+//		try {
+//			String username = principal.getName();
+//			User user = userRepository.findByUsername(username);
+//
+//			if (user != null && user.isCanWriteBlog()) {
+//				UserProfile userProfile = user.getUserProfile();
+//
+//				if (userProfile == null) {
+//					userProfile = new UserProfile();
+//					userProfile.setUser(user);
+//				}
+//
+//				// Set the user profile on the blog
+//				blog.setUserProfile(userProfile);
+//
+//				Blogs savedBlog = blogRepository.save(blog);
+//
+//				// Add the blog to the user profile's list of blogs
+//				userProfile.getBlogs().add(savedBlog);
+//
+//				// Save the user profile (this will cascade to the blog)
+//				userProfileRepository.save(userProfile);
+//
+//				return new ResponseEntity<>(savedBlog, HttpStatus.CREATED);
+//			} else {
+//				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//			}
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 	@PostMapping("/writeblog")
 	public ResponseEntity<Blogs> createBlogPost(@RequestBody Blogs blog, Principal principal) {
 	    try {
 	        String username = principal.getName();
 	        User user = userRepository.findByUsername(username);
-	        System.out.print(user);
 
-	        if (user != null) {
+	        if (user != null && user.isCanWriteBlog()) {
+	            // Check if the user already has a user profile
 	            UserProfile userProfile = user.getUserProfile();
-	            System.out.print(userProfile);
 
 	            if (userProfile == null) {
+	                // Create a new user profile if it doesn't exist
 	                userProfile = new UserProfile();
 	                userProfile.setUser(user);
 	            }
+
+	            // Set the user profile on the blog
+	            blog.setUserProfile(userProfile);
+
+	            // Save the blog post
 	            Blogs savedBlog = blogRepository.save(blog);
-	            System.out.print(savedBlog);
+
+	            // Add the blog to the user profile's list of blogs
 	            userProfile.getBlogs().add(savedBlog);
-	            UserProfile savedUserProfile = userProfileRepository.save(userProfile);
-	            user.setUserProfile(savedUserProfile);
-	            userRepository.save(user);
 
-	            // Get the ID of the saved blog post
-	            Long id = savedBlog.getId();
+	            // Save the user profile (this will cascade to the blog)
+	            userProfileRepository.save(userProfile);
 
-	            // Add the ID field to the response manually
-	            savedBlog.setId(id);
-
-	            // Return the saved blog with its ID in the response
 	            return new ResponseEntity<>(savedBlog, HttpStatus.CREATED);
 	        } else {
-	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 	        }
 	    } catch (Exception e) {
 	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -91,34 +120,18 @@ public class BlogsController {
 	}
 
 
-
-
-
-//	@GetMapping("/posts")
-//	public ResponseEntity<List<Blogs>> getAllBlogPosts() {
-//		try {
-//			List<Blogs> blogs = blogRepository.findAll();
-//			if (blogs.isEmpty()) {
-//				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//			}
-//			return new ResponseEntity<>(blogs, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
 	@GetMapping("/posts")
 	public ResponseEntity<List<Blogs>> getAllBlogPosts() {
-	    try {
-	        List<Blogs> blogs = blogRepository.findAll();
-	        if (blogs.isEmpty()) {
-	            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	        }
-	        return new ResponseEntity<>(blogs, HttpStatus.OK);
-	    } catch (Exception e) {
-	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
+		try {
+			List<Blogs> blogs = blogRepository.findAll();
+			if (blogs.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(blogs, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-
 
 	@GetMapping("/posts/{id}")
 	public ResponseEntity<Blogs> getBlogPostById(@PathVariable("id") Long id) {
@@ -161,40 +174,71 @@ public class BlogsController {
 		List<Blogs> blogs = blogRepository.findByTags(tag);
 		return ResponseEntity.ok(blogs);
 	}
-	
 
-@GetMapping("/profile")
-public ResponseEntity<UserProfile> getUserProfile(@RequestParam(name = "author") String username) {
-    try {
-        User user = userRepository.findByUsername(username);
+	@GetMapping("/profile")
+	public ResponseEntity<UserProfile> getUserProfile(@RequestParam(name = "author") String username) {
+		try {
+			System.out.print(username);
+			User user = userRepository.findByUsername(username);
+			System.out.print(user + "userretieved");
 
-        if (user != null) {
-            UserProfile userProfile = user.getUserProfile();
+			if (user != null) {
+				UserProfile userProfile = user.getUserProfile();
 
-            if (userProfile == null) {
-                userProfile = new UserProfile();
-                userProfile.setUser(user);
-            }
+				if (userProfile == null) {
+					userProfile = new UserProfile();
+					userProfile.setUser(user);
+				}
 
-            List<Blogs> userBlogs = blogRepository.findByAuthor(username);
+				List<Blogs> userBlogs = blogRepository.findByAuthor(username);
 
-            userProfile.setBlogs(userBlogs);
+				userProfile.setBlogs(userBlogs);
+				System.out.print(userBlogs);
 
-            UserProfile savedUserProfile = userProfileRepository.save(userProfile);
+				UserProfile savedUserProfile = userProfileRepository.save(userProfile);
 
-            user.setUserProfile(savedUserProfile);
-            userRepository.save(user);
+				user.setUserProfile(savedUserProfile);
+				System.out.print(savedUserProfile);
+				userRepository.save(user);
 
-            return new ResponseEntity<>(savedUserProfile, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    } catch (Exception e) {
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-}
-
-
+				return new ResponseEntity<>(savedUserProfile, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+//	@GetMapping("/profile")
+//	public ResponseEntity<UserProfile> getUserProfile(@RequestParam(name = "author") String username) {
+//	    try {
+//	        User user = userRepository.findByUsername(username);
+//
+//	        if (user != null) {
+//	            // Check if the user has a user profile
+//	            UserProfile userProfile = user.getUserProfile();
+//
+//	            if (userProfile == null) {
+//	                userProfile = new UserProfile();
+//	                userProfile.setUser(user);
+//	            }
+//
+//	            List<Blogs> userBlogs = blogRepository.findByAuthor(username);
+//
+//	            // Set the user's blogs in the user profile
+//	            userProfile.setBlogs(userBlogs);
+//
+//	            // Save the user profile (this will cascade to the blogs)
+//	            userProfileRepository.save(userProfile);
+//
+//	            return new ResponseEntity<>(userProfile, HttpStatus.OK);
+//	        } else {
+//	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//	        }
+//	    } catch (Exception e) {
+//	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//	    }
+//	}
 
 
 
@@ -212,44 +256,39 @@ public ResponseEntity<UserProfile> getUserProfile(@RequestParam(name = "author")
 		}
 	}
 
-
-	
 	@GetMapping("/current-user")
 	public String getLoggedInUser(Principal principal) {
-	    if (principal != null) {
-	        String username = principal.getName();
-	        // Log the username for debugging purposes
-	        System.out.println("Current username: " + username);
-	        return username;
-	    } else {
-	        // Log if the principal is null (not authenticated)
-	        System.out.println("User not authenticated");
-	        return "User not authenticated";
-	    }
+		if (principal != null) {
+			String username = principal.getName();
+			// Log the username for debugging purposes
+			System.out.println("Current username: " + username);
+			return username;
+		} else {
+			// Log if the principal is null (not authenticated)
+			System.out.println("User not authenticated");
+			return "User not authenticated";
+		}
 	}
 
 	@GetMapping("/search")
 	public ResponseEntity<List<Blogs>> searchBlogs(@RequestParam(name = "searchTerm") String searchTerm) {
-    List<Blogs> matchingBlogs = new ArrayList<>();
-    List<Blogs> allBlogs = blogRepository.findAll();
-    String lowercaseSearchTerm = searchTerm.toLowerCase();
-    for (Blogs blog : allBlogs) {
-        String author = blog.getAuthor();
-        if (author != null) {
-            String lowercaseAuthor = author.toLowerCase();
-            String lowercaseTitle = blog.getTitle().toLowerCase();
-            List<String> lowercaseTags = blog.getTags().stream().map(String::toLowerCase).collect(Collectors.toList());
-            if (lowercaseAuthor.contains(lowercaseSearchTerm) || lowercaseTitle.contains(lowercaseSearchTerm)
-                    || lowercaseTags.contains(lowercaseSearchTerm)) {
-                matchingBlogs.add(blog);
-            }
-        }
-    }
-    return ResponseEntity.ok(matchingBlogs);
+		List<Blogs> matchingBlogs = new ArrayList<>();
+		List<Blogs> allBlogs = blogRepository.findAll();
+		String lowercaseSearchTerm = searchTerm.toLowerCase();
+		for (Blogs blog : allBlogs) {
+			String author = blog.getAuthor();
+			if (author != null) {
+				String lowercaseAuthor = author.toLowerCase();
+				String lowercaseTitle = blog.getTitle().toLowerCase();
+				List<String> lowercaseTags = blog.getTags().stream().map(String::toLowerCase)
+						.collect(Collectors.toList());
+				if (lowercaseAuthor.contains(lowercaseSearchTerm) || lowercaseTitle.contains(lowercaseSearchTerm)
+						|| lowercaseTags.contains(lowercaseSearchTerm)) {
+					matchingBlogs.add(blog);
+				}
+			}
+		}
+		return ResponseEntity.ok(matchingBlogs);
+	}
+
 }
-
-
-
-}
-
-

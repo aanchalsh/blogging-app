@@ -3,6 +3,7 @@ package com.example.serversideMySql.Entity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.serversideMySql.Service.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -14,26 +15,24 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "users") // Specify the table name for MySQL
+@Table(name = "users") 
 public class User implements UserDetails {
 
     @Id
-    
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Use GenerationType.IDENTITY for MySQL
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
-
     private String email;
     private String username;
     private String password;
+    private Set<UserRole> roles = new HashSet<>();
+    private boolean canWriteBlog=true;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserProfile userProfile;
-
-    // Constructors, getters, setters, and other methods...
-
-    // Define relationships for MySQL, if needed...
 
     public Long getId() {
         return id;
@@ -104,4 +103,18 @@ public class User implements UserDetails {
         // Implement if needed...
         return true;
     }
+    public boolean isCanWriteBlog() {
+		return canWriteBlog;
+	}
+	public void setCanWriteBlog(boolean canWriteBlog) {
+		this.canWriteBlog = canWriteBlog;
+	}
+
+	public Set<UserRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<UserRole> roles) {
+		this.roles = roles;
+	}	
 }

@@ -63,10 +63,12 @@ package com.example.serversideMySql.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -85,10 +87,12 @@ public class UserProfile {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "user_id") // Corrected: Use "user_id" as the foreign key column name
+    @JsonBackReference
+    @JoinColumn(name = "user_id") 
     private User user;
 
-    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    
     private List<Blogs> blogs = new ArrayList<>();
 
     // Constructors, getters, setters, and other methods...

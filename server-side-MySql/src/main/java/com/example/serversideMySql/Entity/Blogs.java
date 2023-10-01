@@ -234,7 +234,9 @@ package com.example.serversideMySql.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -268,14 +270,9 @@ public class Blogs {
     private String imageUrl;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_profile_id")
+    @JsonBackReference
     private UserProfile userProfile;
 
-
-    @Override
-	public String toString() {
-		return "Blogs [id=" + id + ", title=" + title + ", author=" + author + ", date=" + date + ", content=" + content
-				+ ", tags=" + tags + ", imageUrl=" + imageUrl + ", userProfile=" + userProfile + "]";
-	}
 
 	public UserProfile getUserProfile() {
 		return userProfile;

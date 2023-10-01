@@ -2,6 +2,7 @@ package com.example.serversideremote.Entity;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.serversideremote.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -27,17 +29,12 @@ public class User implements UserDetails {
 	private String email;
 	private String username;
 	private String password;
+	private Set<UserRole> roles;
+	private boolean canWriteBlog=true;
 	@DBRef
 	@JsonIgnore
     private UserProfile userProfile;
-	public User(String id, String email, String username, String password, UserProfile userProfile) {
-		super();
-		this.id = id;
-		this.email = email;
-		this.username = username;
-		this.password = password;
-		this.userProfile = userProfile;
-	}
+	
 	public UserProfile getUserProfile() {
 		return userProfile;
 	}
@@ -103,5 +100,17 @@ public class User implements UserDetails {
 	public String toLowerCase() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public Set<UserRole> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<UserRole> roles) {
+		this.roles = roles;
+	}
+	public boolean isCanWriteBlog() {
+		return canWriteBlog;
+	}
+	public void setCanWriteBlog(boolean canWriteBlog) {
+		this.canWriteBlog = canWriteBlog;
 	}	
 }

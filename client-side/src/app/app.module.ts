@@ -16,6 +16,8 @@ import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
 import { AuthorProfileComponent } from './author-profile/author-profile.component';
 import { TokenExpirationInterceptor } from './token-interceptor.service';
+import { AdminFunctionComponent } from './admin-function/admin-function.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 //import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
@@ -32,7 +34,9 @@ import { TokenExpirationInterceptor } from './token-interceptor.service';
     ProfileComponent,
     EditBlogComponent,
     RegistrationComponent,
-    AuthorProfileComponent
+    AuthorProfileComponent,
+    AdminFunctionComponent,
+    AdminLoginComponent
   ],
   imports: [
     BrowserModule,

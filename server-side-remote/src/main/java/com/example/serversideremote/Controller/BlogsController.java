@@ -50,41 +50,71 @@ public class BlogsController {
 	public void UserController(UserService userService) {
 		this.userService = userService;
 	}
-	@PreAuthorize("isAuthenticated()")
+	//@PreAuthorize("isAuthenticated()")
 
+//	@PostMapping("/writeblog")
+//	public ResponseEntity<UserProfile> createBlogPost(@RequestBody Blogs blog, Principal principal) {
+//	    try {
+//	        String username = principal.getName();
+//	        User user = userRepository.findByUsername(username);
+//	        System.out.print(user);
+//
+//	        if (user != null ) {
+//	            UserProfile userProfile = user.getUserProfile();
+//	            System.out.print(userProfile);
+//
+//	            if (userProfile == null) {
+//	                userProfile = new UserProfile();
+//	                userProfile.setUser(user);
+//	            }
+//	            Blogs savedBlog = blogRepository.save(blog);
+//	            System.out.print(savedBlog);
+//	            userProfile.getBlogs().add(savedBlog);
+//	            UserProfile savedUserProfile = userProfileRepository.save(userProfile);
+//	            user.setUserProfile(savedUserProfile);
+//	            userRepository.save(user);
+//
+//	            return new ResponseEntity<>(savedUserProfile, HttpStatus.CREATED);
+//	        } else {
+//	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+//	        }
+//	    } catch (Exception e) {
+//	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//	    }
+//	}
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/writeblog")
-	public ResponseEntity<UserProfile> createBlogPost(@RequestBody Blogs blog, Principal principal) {
-	    try {
-	        String username = principal.getName();
-	        User user = userRepository.findByUsername(username);
-	        System.out.print(user);
+    public ResponseEntity<UserProfile> createBlogPost(@RequestBody Blogs blog, Principal principal) {
+        try {
+            String username = principal.getName();
+            User user = userRepository.findByUsername(username);
 
-	        if (user != null) {
-	            UserProfile userProfile = user.getUserProfile();
-	            System.out.print(userProfile);
+            if (user != null && user.isCanWriteBlog()) {
+                UserProfile userProfile = user.getUserProfile();
 
-	            if (userProfile == null) {
-	                userProfile = new UserProfile();
-	                userProfile.setUser(user);
-	            }
-	            Blogs savedBlog = blogRepository.save(blog);
-	            System.out.print(savedBlog);
-	            userProfile.getBlogs().add(savedBlog);
-	            UserProfile savedUserProfile = userProfileRepository.save(userProfile);
-	            user.setUserProfile(savedUserProfile);
-	            userRepository.save(user);
+                if (userProfile == null) {
+                    userProfile = new UserProfile();
+                    userProfile.setUser(user);
+                }
 
-	            return new ResponseEntity<>(savedUserProfile, HttpStatus.CREATED);
-	        } else {
-	            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
-	        }
-	    } catch (Exception e) {
-	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	}
+                Blogs savedBlog = blogRepository.save(blog);
+                userProfile.getBlogs().add(savedBlog);
+                UserProfile savedUserProfile = userProfileRepository.save(userProfile);
+                user.setUserProfile(savedUserProfile);
+                userRepository.save(user);
+
+                return new ResponseEntity<>(savedUserProfile, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 	
 
 
+	
 	@GetMapping("/posts")
 	public ResponseEntity<List<Blogs>> getAllBlogPosts() {
 		try {
@@ -124,6 +154,7 @@ public class BlogsController {
 	// 	}
 	// }
 
+	@PreAuthorize("hasRole('USER')")
 	@PutMapping("/editblog/{id}")
 	public ResponseEntity<Blogs> updateBlogPost(@PathVariable("id") String id, @RequestBody Blogs updatedBlog, Principal principal) {
 	    try {
@@ -170,7 +201,7 @@ public class BlogsController {
 //			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 //		}
 //	}
-	
+	@PreAuthorize("hasRole('USER')")
 	@DeleteMapping("/deleteblog/{id}")
 	public ResponseEntity<HttpStatus> deleteBlogPost(@PathVariable("id") String id, Principal principal) {
 	    try {
@@ -206,7 +237,7 @@ public class BlogsController {
 		return ResponseEntity.ok(blogs);
 	}
 	
-
+	@PreAuthorize("hasRole('USER')")
 @GetMapping("/profile")
 public ResponseEntity<UserProfile> getUserProfile(@RequestParam(name = "author") String username) {
     try {
@@ -291,6 +322,7 @@ public ResponseEntity<UserProfile> getUserProfile(@RequestParam(name = "author")
     }
     return ResponseEntity.ok(matchingBlogs);
 }
+	
 
 
 
