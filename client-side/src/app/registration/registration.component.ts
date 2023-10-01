@@ -16,8 +16,8 @@ export class RegistrationComponent {
   constructor(private blogService: BlogService,private router: Router) { }
 
   registerUser() {
-    if (this.user.password.length !== 8) {
-      this.errorMessage = 'Password must be exactly 8 characters long.';
+    if (this.user.password.length < 8) {
+      this.errorMessage = 'Password must be atleast 8 characters long.';
       return;
     }
   

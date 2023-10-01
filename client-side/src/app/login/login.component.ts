@@ -32,8 +32,8 @@ export class LoginComponent implements OnInit {
 
   
   registerUser() {
-    if (this.user.password.length !== 8) {
-      this.errorMessage = 'Password must be exactly 8 characters long.';
+    if (this.user.password.length < 8) {
+      this.errorMessage = 'Password must be atleast 8 characters long.';
       return;
     }
   
