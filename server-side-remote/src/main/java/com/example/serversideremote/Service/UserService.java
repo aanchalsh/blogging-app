@@ -24,18 +24,14 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        // Check if a user with the same username already exists
         User existingUser = userRepository.findByUsername(user.getUsername());
         if (existingUser != null) {
-            // Handle the case where the user already exists, e.g., throw an exception or return null
-            // Here, we'll return null as an example
             return null; 
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singleton(UserRole.ROLE_USER));
 
-        // Save the user to the database
         return userRepository.save(user);
     }
 

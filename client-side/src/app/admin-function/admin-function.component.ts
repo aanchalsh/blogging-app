@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
+import { Router } from '@angular/router';
  
 
 
@@ -10,11 +11,11 @@ import { AdminService } from '../admin.service';
 })
 export class AdminFunctionComponent implements OnInit {
   users: any;
+  
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService,private router: Router) { }
 
   ngOnInit(): void {
-    // Load all users (excluding admin) on component initialization
     this.loadAllUsers();
   }
 
@@ -29,22 +30,26 @@ export class AdminFunctionComponent implements OnInit {
     );
   }
 
-  
   toggleCanWriteBlog(user: any) {
-    // Invert the user's permission locally
     user.canWriteBlog = !user.canWriteBlog;
 
-    // Update the user's permission on the server
     this.adminService.updateCanWriteBlog(user.id, user.canWriteBlog).subscribe(
       () => {
-        // The update was successful
       },
       (error) => {
         console.error('Error updating user:', error);
-        // If there's an error, revert the local state to its previous value
         user.canWriteBlog = !user.canWriteBlog;
       }
     );
+  }
+
+  logout() {
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+
+
+    this.router.navigate(['admin-login']);
   }
   
 }

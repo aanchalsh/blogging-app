@@ -4,7 +4,7 @@
       <div class="user-info">
         <div class="user-photo-container">
           <img
-            src="https://images.unsplash.com/photo-1663386770072-9dcafe528a49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+            src="https://w7.pngwing.com/pngs/262/672/png-transparent-user-profile-aurangabad-computer-icons-great-value-blue-service-logo-thumbnail.png"
             class="user-photo" alt="User Photo" />
           <button class="edit-photo-button" data-mdb-toggle="modal" data-mdb-target="#editPhotoModal">
             <i class="fas fa-edit"></i>
@@ -19,7 +19,7 @@
     <div class="col-md-8">
       <div class="row">
         <ng-container *ngIf="userProfile?.blogs?.length > 0; else noBlogsFound">
-          <!-- <ng-container *ngIf="userProfile.blogs.length > 0; else noBlogsFound"> -->
+          
             <div class="col-md-6 mb-4" *ngFor="let blog of userProfile.blogs">
               <div class="card">
                 <img [src]="blog.imageUrl" class="card-img-top blog-image" alt="{{ blog.title }}"

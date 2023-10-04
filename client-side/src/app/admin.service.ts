@@ -7,16 +7,14 @@ import { Observable } from 'rxjs';
 })
 export class AdminService {
 
-  private baseUrl = 'http://localhost:8080/blogs'; // Update the URL to match your Spring Boot backend
+  private baseUrl = 'http://localhost:8080/blogs'; 
 
   constructor(private http: HttpClient) { }
 
-  // Initialize Admin User
   initializeAdmin(): Observable<any> {
     return this.http.post(`${this.baseUrl}/initialize-admin`, null);
   }
 
-  // Get All Users (Excluding Admin)
   getAllUsers(): Observable<any> {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders();
@@ -29,7 +27,6 @@ export class AdminService {
     return this.http.get<any>(`${this.baseUrl}/users`,options);
   }
 
-  // Update User's "Can Write Blog" Permission
   updateCanWriteBlog(userId: any, canWriteBlog: boolean): Observable<any> {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders();

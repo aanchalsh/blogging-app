@@ -10,7 +10,8 @@ import { Blog } from '../blog';
   styleUrls: ['./edit-blog.component.css']
 })
 export class EditBlogComponent implements OnInit {
-  blogForm: FormGroup; // Define a FormGroup for the form
+  
+  blogForm: FormGroup; 
   blog: Blog = {
     title: '',
     author: '',
@@ -23,7 +24,7 @@ export class EditBlogComponent implements OnInit {
   errorMessage: string = '';
 
   constructor(
-    private formBuilder: FormBuilder, // Inject the FormBuilder
+    private formBuilder: FormBuilder, 
     private route: ActivatedRoute,
     private router: Router,
     private blogService: BlogService
@@ -33,11 +34,12 @@ export class EditBlogComponent implements OnInit {
       author: ['', Validators.required],
       tags: ['', Validators.required],
       content: ['', Validators.required],
-      imageUrl: ['', [Validators.required, Validators.pattern('(http|https)://.+')]] // Validate URL pattern
+      imageUrl: ['', [Validators.required, Validators.pattern('(http|https)://.+')]] 
     });
   }
 
   ngOnInit(): void {
+    const username = localStorage.getItem('username');
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
       this.blogService.getPostsById(this.id).subscribe(

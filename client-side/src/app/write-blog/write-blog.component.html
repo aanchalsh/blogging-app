@@ -1,4 +1,6 @@
-   <div class="container">
+<div class="container">
+    <div [ngClass]="{'overlay': !canWriteBlog}">
+    <div class="row justify-content-center">
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card mt-5">
@@ -10,33 +12,33 @@
               <div class="mb-3">
                 <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
                 <input type="text" id="title" class="form-control" formControlName="title" required>
-                <div *ngIf="blogForm?.get('title')?.hasError('required')" class="text-danger">
+                <!-- <div *ngIf="blogForm?.get('title')?.hasError('required')" class="text-danger">
                   Title is required.
-                </div>
+                </div> -->
   
               </div>
               <div class="mb-3">
                 <label for="author" class="form-label">Author <span class="text-danger">*</span></label>
                 <input type="text" id="author" class="form-control" formControlName="author" readonly>
-                <div *ngIf="blogForm?.get('author')?.hasError('required')" class="text-danger">
+                <!-- <div *ngIf="blogForm?.get('author')?.hasError('required')" class="text-danger">
                   Author is required.
-                </div>
+                </div> -->
   
               </div>
               <div class="mb-3">
                 <label for="tags" class="form-label">Tags (comma separated) <span class="text-danger">*</span></label>
                 <input type="text" id="tags" class="form-control" formControlName="tags">
-                <div *ngIf="blogForm?.get('tags')?.hasError('required')" class="text-danger">
+                <!-- <div *ngIf="blogForm?.get('tags')?.hasError('required')" class="text-danger">
                   Tag(s) is required.
-                </div>
+                </div> -->
   
               </div>
               <div class="mb-3">
                 <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
                 <textarea id="content" class="form-control" formControlName="content" rows="6" required></textarea>
-                <div *ngIf="blogForm?.get('content')?.hasError('required')" class="text-danger">
+                <!-- <div *ngIf="blogForm?.get('content')?.hasError('required')" class="text-danger">
                   Content is required.
-                </div>
+                </div> -->
   
                 <div *ngIf="blogForm?.get('content')?.hasError('minlength')" class="text-danger">
                   Content must be at least 10 characters long.
@@ -45,9 +47,9 @@
               <div class="mb-3">
                 <label for="imageUrl" class="form-label">Image URL <span class="text-danger">*</span></label>
                 <input type="text" id="imageUrl" class="form-control" formControlName="imageUrl">
-                <div *ngIf="blogForm?.get('imageUrl')?.hasError('required')" class="text-danger">
+                <!-- <div *ngIf="blogForm?.get('imageUrl')?.hasError('required')" class="text-danger">
                   ImageUrl is required.
-                </div>
+                </div> -->
   
                 <div *ngIf="blogForm?.get('imageUrl')?.hasError('pattern')" class="text-danger">
                   Please provide image in the form of URL
@@ -62,4 +64,7 @@
         </div>
       </div>
     </div>
-  </div>
+    </div>
+    </div>
+  </div> 
+  

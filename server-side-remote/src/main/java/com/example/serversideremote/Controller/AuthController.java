@@ -66,27 +66,15 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    private void doAuthenticate(String username, String password) {
-//
-//        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
-//        try {
-//            manager.authenticate(authentication);
-//
-//
-//        } catch (BadCredentialsException e) {
-//            throw new BadCredentialsException(" Invalid Username or Password  !!");
-//        }
-//
-//    }
     
     private void doAuthenticate(String username, String password) {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
         try {
             Authentication result = manager.authenticate(authentication);
-            // Authentication successful, you can log success if needed
+            
             logger.info("Authentication successful for user: " + username);
         } catch (BadCredentialsException e) {
-            // Authentication failed, log the error
+            
             logger.error("Authentication failed for user: " + username, e);
             throw new BadCredentialsException("Invalid Username or Password !!");
         }
@@ -101,23 +89,23 @@ public class AuthController {
 
     @PostMapping("/create-user")
     public ResponseEntity<?> createUser(@RequestBody User user) {
-        // Check if a user with the same username already exists
+        
         if (userService.existsByUsername(user.getUsername())) {
             return ResponseEntity
-                .status(HttpStatus.CONFLICT) // Return a 409 Conflict status code
+                .status(HttpStatus.CONFLICT)
                 .body("{\"message\": \"User with the same username already exists\"}");
         }
 
-        // If the username is unique, create the user
+    
         User createdUser = userService.createUser(user);
 
         if (createdUser != null) {
-            // User created successfully, return a success response
+            
             return ResponseEntity.ok().body("{\"message\": \"User created successfully\"}");
         } else {
-            // Handle the case where the user was not created (e.g., due to other validation)
+            
             return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST) // Return a 400 Bad Request status code
+                .status(HttpStatus.BAD_REQUEST) 
                 .body("{\"message\": \"Failed to create user\"}");
         }
     }

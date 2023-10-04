@@ -21,7 +21,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Builder
+
 @Document(collection="users")
 public class User implements UserDetails {
 	@Id

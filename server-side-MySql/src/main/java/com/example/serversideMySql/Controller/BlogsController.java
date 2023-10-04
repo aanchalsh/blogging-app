@@ -89,25 +89,25 @@ public class BlogsController {
 	        User user = userRepository.findByUsername(username);
 
 	        if (user != null && user.isCanWriteBlog()) {
-	            // Check if the user already has a user profile
+	            
 	            UserProfile userProfile = user.getUserProfile();
 
 	            if (userProfile == null) {
-	                // Create a new user profile if it doesn't exist
+	                
 	                userProfile = new UserProfile();
 	                userProfile.setUser(user);
 	            }
 
-	            // Set the user profile on the blog
+	           
 	            blog.setUserProfile(userProfile);
 
-	            // Save the blog post
+	            
 	            Blogs savedBlog = blogRepository.save(blog);
 
-	            // Add the blog to the user profile's list of blogs
+	            
 	            userProfile.getBlogs().add(savedBlog);
 
-	            // Save the user profile (this will cascade to the blog)
+	            
 	            userProfileRepository.save(userProfile);
 
 	            return new ResponseEntity<>(savedBlog, HttpStatus.CREATED);
@@ -264,7 +264,7 @@ public class BlogsController {
 			System.out.println("Current username: " + username);
 			return username;
 		} else {
-			// Log if the principal is null (not authenticated)
+			
 			System.out.println("User not authenticated");
 			return "User not authenticated";
 		}

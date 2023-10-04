@@ -3,7 +3,7 @@ package com.example.serversideMySql.JWT;
 
 import lombok.*;
 
-@Builder
+
 public class JwtRequest {
 	private String username;
 	private String password;
